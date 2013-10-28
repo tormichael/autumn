@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Main-Class: autumn.Start
+Class-Path: JCommonTools.jar
+Class-Path: cardme-0.3.6.jar
+Class-Path: commons-codec-1.5.jar
+Class-Path: jcalendar-1.4.jar
+
