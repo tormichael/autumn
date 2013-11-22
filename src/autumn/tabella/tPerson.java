@@ -9,8 +9,8 @@ import java.util.GregorianCalendar;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
-import sun.util.calendar.CalendarDate;
-import sun.util.calendar.BaseCalendar.Date;
+//import sun.util.calendar.CalendarDate;
+//import sun.util.calendar.BaseCalendar.Date;
 import JCommonTools.CC;
 
 public class tPerson extends tObj 
