@@ -1,6 +1,10 @@
 package autumn.tabella;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 public class tDoc 
 {
@@ -12,5 +16,14 @@ public class tDoc
 	public String Type;
 	public String Note;
 	public int NN;
+	
+    @XmlElementWrapper (name = "DocImgColl")
+    @XmlElement (name = "tBin")
+	public ArrayList<tBin> ImgColl;
+	
+	public tDoc() 
+	{
+		ImgColl = new ArrayList<tBin>();
+	}
 
 }

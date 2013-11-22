@@ -4,11 +4,35 @@ import JCommonTools.CC;
 
 public class tVTN 
 {
-	public String Value;
-	public String Type;
-	public String Note;
-	public int NN;
+	private String Value;
+	private String Type;
+	private String Note;
+	private int NN;
 
+	public String getValue() {
+		return Value;
+	}
+	public void setValue(String value) {
+		Value = value;
+	}
+	public String getType() {
+		return Type;
+	}
+	public void setType(String type) {
+		Type = type;
+	}
+	public String getNote() {
+		return Note;
+	}
+	public void setNote(String note) {
+		Note = note;
+	}
+	public int getNN() {
+		return NN;
+	}
+	public void setNN(int nN) {
+		NN = nN;
+	}
 	public tVTN(String aVal, String aType, String aNote, int aNN)
 	{
 		Value = aVal;

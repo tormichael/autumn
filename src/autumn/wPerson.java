@@ -64,9 +64,9 @@ import net.sourceforge.cardme.vcard.features.NameFeature;
 import JCommonTools.CC;
 import JCommonTools.GBC;
 
-public class wPerson extends JFrame {
-
-	private ResourceBundle 	_bnd;
+public class wPerson extends JFrame 
+{
+	private Autumn			_aut;
 	private VCardImpl 		_vcard;
 	private JLabel 			_sbiMain;
 	private JTextField 		_txtFirstName;
@@ -88,16 +88,16 @@ public class wPerson extends JFrame {
 	}
 	
 	
-	public wPerson(){
-		
+	public wPerson(Autumn aut)
+	{
+		_aut = aut;
 		Dimension szScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(szScreen.width/2, szScreen.height/2);
 		setLocation((int)(szScreen.width/2*Math.random()), (int)(szScreen.height/3*Math.random()));
 
-		_bnd = ResourceBundle.getBundle(Start.FN_RESOURCE_TEXT, Locale.getDefault());
 		
-		this.setTitle(_bnd.getString("Titles.wPerson"));
-		this.setIconImage(CreateIcon("automn2.png", Start.TOOL_BAR_ICON_SIZE).getImage());
+		this.setTitle(_aut.getString("Titles.wPerson"));
+		this.setIconImage(CreateIcon("automn2.png", Autumn.TOOL_BAR_ICON_SIZE).getImage());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -111,43 +111,43 @@ public class wPerson extends JFrame {
 		JMenuBar mnuBar = new JMenuBar();
 		setJMenuBar(mnuBar);
 
-		JMenu mnuFile= new JMenu(_bnd.getString("Menu.Person.File"));
+		JMenu mnuFile= new JMenu(_aut.getString("Menu.Person.File"));
 		mnuBar.add(mnuFile);
 		
 		//JMenuItem mnuFileCreate = new JMenuItem(actCreate);
-		//mnuFileCreate.setText( _bnd.getString("Menu.Person.File.Create"));
+		//mnuFileCreate.setText( _aut.getString("Menu.Person.File.Create"));
 		//mnuFile.add(mnuFileCreate);
 
 		JMenuItem mnuFileLoad = new JMenuItem(actLoad);
-		mnuFileLoad.setText( _bnd.getString("Menu.Person.File.Load"));
+		mnuFileLoad.setText( _aut.getString("Menu.Person.File.Load"));
 		mnuFile.add(mnuFileLoad);
 
 		mnuFile.addSeparator();
 		
 		JMenuItem mnuFileSave = new JMenuItem(actSave);
-		mnuFileSave.setText( _bnd.getString("Menu.Person.File.Save"));
+		mnuFileSave.setText( _aut.getString("Menu.Person.File.Save"));
 		mnuFile.add(mnuFileSave);
 		
 		JMenuItem mnuFileSaveAs = new JMenuItem();//actSave);
-		mnuFileSaveAs.setText( _bnd.getString("Menu.Person.File.SaveAs"));
+		mnuFileSaveAs.setText( _aut.getString("Menu.Person.File.SaveAs"));
 		mnuFile.add(mnuFileSaveAs);
 		
 		mnuFile.addSeparator();
 
 		JMenuItem mnuFilePrint = new JMenuItem();//actSave);
-		mnuFilePrint.setText( _bnd.getString("Menu.Person.File.Print"));
+		mnuFilePrint.setText( _aut.getString("Menu.Person.File.Print"));
 		mnuFile.add(mnuFilePrint);
 		
 		mnuFile.addSeparator();
 		
 		JMenuItem mnuFileProperties = new JMenuItem();//actSave);
-		mnuFileProperties.setText( _bnd.getString("Menu.Person.File.Properties"));
+		mnuFileProperties.setText( _aut.getString("Menu.Person.File.Properties"));
 		mnuFile.add(mnuFileProperties);
 		
 		mnuFile.addSeparator();
 
 		JMenuItem mnuFileExit = new JMenuItem(actExit);
-		mnuFileExit.setText( _bnd.getString("Menu.Person.File.Exit"));
+		mnuFileExit.setText( _aut.getString("Menu.Person.File.Exit"));
 		mnuFile.add(mnuFileExit);
 
 		/**
@@ -159,12 +159,12 @@ public class wPerson extends JFrame {
 		//actCreate.putValue(Action.SMALL_ICON, CreateIcon("new.png", Start.TOOL_BAR_ICON_SIZE));
 		//bar.add(actCreate);
 
-		actLoad.putValue(Action.SMALL_ICON, CreateIcon("open.png", Start.TOOL_BAR_ICON_SIZE));
-		actLoad.putValue(Action.SHORT_DESCRIPTION , _bnd.getString("ToolsBar.ShortDescription.FileLoad"));
+		actLoad.putValue(Action.SMALL_ICON, CreateIcon("open.png", Autumn.TOOL_BAR_ICON_SIZE));
+		actLoad.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.FileLoad"));
 		bar.add(actLoad);
 		
-		actSave.putValue(Action.SMALL_ICON, CreateIcon("save.png", Start.TOOL_BAR_ICON_SIZE));
-		actSave.putValue(Action.SHORT_DESCRIPTION , _bnd.getString("ToolsBar.ShortDescription.FileSave"));
+		actSave.putValue(Action.SMALL_ICON, CreateIcon("save.png", Autumn.TOOL_BAR_ICON_SIZE));
+		actSave.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.FileSave"));
 		bar.add(actSave);
 		
 		/**
@@ -175,7 +175,7 @@ public class wPerson extends JFrame {
 
 		// Tab page 1 (Main)
 		JPanel pnlMain = new JPanel();
-		tpPerson.addTab(_bnd.getString("TabPanel.Person.Main"), pnlMain);
+		tpPerson.addTab(_aut.getString("TabPanel.Person.Main"), pnlMain);
 		
 		GridBagLayout gbl = new GridBagLayout();
 		GBC gbc = new GBC(0,0);
@@ -185,28 +185,28 @@ public class wPerson extends JFrame {
 		pnlMain.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// first row
-		JLabel lblLastName = new JLabel(_bnd.getString("Label.Person.LastName"));
+		JLabel lblLastName = new JLabel(_aut.getString("Label.Person.LastName"));
 		gbl.setConstraints(lblLastName, gbc.setGridXY(0,0).setGridSpan(1, 1).setWeight(0.0, 0.0));
 		pnlMain.add(lblLastName);
 		_txtLastName = new JTextField(); 
 		gbl.setConstraints(_txtLastName, gbc.setGridXY(1,0).setGridSpan(1, 1).setWeight(0.3, 0.0));
 		pnlMain.add(_txtLastName);
 		// second row
-		JLabel lblFirstName = new JLabel(_bnd.getString("Label.Person.FirstName"));
+		JLabel lblFirstName = new JLabel(_aut.getString("Label.Person.FirstName"));
 		gbl.setConstraints(lblFirstName, gbc.setGridXY(0,1).setGridSpan(1, 1).setWeight(0.0, 0.0));
 		pnlMain.add(lblFirstName);
 		_txtFirstName = new JTextField(); 
 		gbl.setConstraints(_txtFirstName, gbc.setGridXY(1,1).setGridSpan(1, 1).setWeight(0.3, 0.0));
 		pnlMain.add(_txtFirstName);
 		// third row
-		JLabel lblPatronymicName = new JLabel(_bnd.getString("Label.Person.PatronymicName"));
+		JLabel lblPatronymicName = new JLabel(_aut.getString("Label.Person.PatronymicName"));
 		gbl.setConstraints(lblPatronymicName, gbc.setGridXY(0,2).setGridSpan(1, 1).setWeight(0.0, 0.0));
 		pnlMain.add(lblPatronymicName);
 		_txtPatronymicName = new JTextField(); 
 		gbl.setConstraints(_txtPatronymicName, gbc.setGridXY(1,2).setGridSpan(1, 1).setWeight(0.3, 0.0));
 		pnlMain.add(_txtPatronymicName);
 		// fourth row
-		JLabel lblBirthday = new JLabel(_bnd.getString("Label.Person.Birthday"));
+		JLabel lblBirthday = new JLabel(_aut.getString("Label.Person.Birthday"));
 		gbl.setConstraints(lblBirthday, gbc.setGridXY(0,3).setGridSpan(1, 1).setWeight(0.0, 0.0));
 		pnlMain.add(lblBirthday);
 		_dtBirthday = new JDateChooser();
@@ -227,7 +227,7 @@ public class wPerson extends JFrame {
 			}
 		});
 
-		_tmPhone = new PhoneTableModel(_bnd);
+		_tmPhone = new PhoneTableModel(_aut);
 		_tabConnection = new JTable(_tmPhone);
 		JScrollPane sp = new JScrollPane(_tabConnection);
 		gbl.setConstraints(sp, gbc.setGridXY(0,4).setGridSpan(2, 1).setWeight(0.3, 0.7).setFill(GBC.BOTH));
@@ -243,7 +243,7 @@ public class wPerson extends JFrame {
 		
 
 		JPanel pnlOptional = new JPanel();
-		tpPerson.addTab(_bnd.getString("TabPanel.Person.Optional"), pnlOptional);
+		tpPerson.addTab(_aut.getString("TabPanel.Person.Optional"), pnlOptional);
 		
 		/**
 		 * S T A T U S   B A R
@@ -265,7 +265,7 @@ public class wPerson extends JFrame {
 	
 	public static ImageIcon CreateIcon(String aFName, int aSize)
 	{
-		URL url = wPerson.class.getResource(Start.FD_RESOURCE_ICONS+aFName);
+		URL url = wPerson.class.getResource(Autumn.FD_RESOURCE_ICONS+aFName);
 		ImageIcon ico = new ImageIcon(url);
 		return new ImageIcon(ico.getImage().getScaledInstance(aSize, aSize, Image.SCALE_SMOOTH));
 	}
@@ -315,11 +315,11 @@ public class wPerson extends JFrame {
 					NameFeature name = _vcard.getName(); 
 					name.setCharset("UTF-8");
 					//name.setEncodingType(EncodingType.)
-					name.setGivenName(String2UTF8(_txtFirstName.getText()));
-					name.setFamilyName(String2UTF8(_txtLastName.getText()));
+					name.setGivenName(Autumn.String2UTF8(_txtFirstName.getText()));
+					name.setFamilyName(Autumn.String2UTF8(_txtLastName.getText()));
 					name.clearAdditionalNames();
 					if (_txtLastName.getText().length() > 0){
-						name.addAdditionalName(String2UTF8(_txtPatronymicName.getText()));
+						name.addAdditionalName(Autumn.String2UTF8(_txtPatronymicName.getText()));
 					}
 					
 					//if (_vcard.hasErrors())
@@ -376,7 +376,7 @@ public class wPerson extends JFrame {
 		}
 		catch (IOException ioe)
 		{
-			System.err.print(_bnd.getString("Text.Error.NotParseVCardFile")+aFileName);
+			System.err.print(_aut.getString("Text.Error.NotParseVCardFile")+aFileName);
 			ioe.printStackTrace();
 		}
 	
@@ -415,16 +415,16 @@ public class wPerson extends JFrame {
 			String title= _txtFirstName.getText()+ " " + _txtPatronymicName.getText() + " " + _txtLastName.getText();
 			if (title.trim().length() > 0)
 				this.setTitle(
-						_bnd.getString("Titles.wPerson")+ " - " 
+						_aut.getString("Titles.wPerson")+ " - " 
 						+ title
 				);
 			else if (_vcard.getDisplayableNameFeature() != null)
 				this.setTitle(
-						_bnd.getString("Titles.wPerson")+ " - "
+						_aut.getString("Titles.wPerson")+ " - "
 						+ _vcard.getDisplayableNameFeature().getName()
 				);
 			else
-				this.setTitle(_bnd.getString("Titles.wPerson")+ " - ");
+				this.setTitle(_aut.getString("Titles.wPerson")+ " - ");
 			
 		}
 		
@@ -450,52 +450,7 @@ public class wPerson extends JFrame {
 		return ret;
 	}
 	
-	public static String StringFromUTF8(String aTxt){
-		
-		String ret = aTxt;
-		
-		if (aTxt != null && aTxt.length() > 0){
-			
-			try
-			{
-				ret = new String(aTxt.getBytes(), "UTF-8");
-			}
-			catch (UnsupportedEncodingException ex)
-			{
-				ex.printStackTrace();
-			}
-		}
-		return ret;
-	}
-	public static String String2UTF8(String aTxt){
-		
-		String ret = aTxt;
-
-		if (aTxt != null && aTxt.length() > 0){
-			try
-			{
-				byte[] bts = aTxt.getBytes("UTF-8");
-				ret = new String(bts);
-				//ret = ret.replace("\uD03F", "\uD098");
-				//ret = CC.STR_EMPTY;
-				//for (int ii=0; ii < bts.length; ii++)
-				//	ret += (char)bts[ii];
-				//ret = ret.replace(new char[]{0xD0, 0x3F}, new char[]{0xD0, 0x98});
-				//ret = new String(aTxt.getBytes("UTF-8"), "UTF-8");
-				//ret = new String(ret.getBytes(), "CP1251");
-//				BufferedReader br = new BufferedReader(new InputStreamReader(new ByteArrayInputStream(aTxt.getBytes("UTF-8"))));
-//				ret = br.readLine();
-//				br.close();
-//				byte [] ttt = ret.getBytes();
-			}
-			catch (UnsupportedEncodingException ex)
-//			catch (IOException ex)
-			{
-				ex.printStackTrace();
-			}
-		}
-		return ret;
-	}
+	
 	
 	private String DisplayCalendar(Calendar aCalendar){
 		

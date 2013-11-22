@@ -14,7 +14,7 @@ import net.sourceforge.cardme.vcard.types.parameters.TelephoneParameterType;
 
 public class PhoneTableModel extends AbstractTableModel {
 
-	private ResourceBundle 	_bnd;
+	private Autumn 	_aut;
 	private ArrayList<TelephoneFeature> _phoneNumbers;
 	
 	public void setTelephones(Iterator<TelephoneFeature> aitNumbers){
@@ -26,8 +26,8 @@ public class PhoneTableModel extends AbstractTableModel {
 		}
 	}
 	
-	public PhoneTableModel(ResourceBundle aBnd){
-		_bnd = aBnd;
+	public PhoneTableModel(Autumn aut){
+		_aut = aut;
 		_phoneNumbers = new ArrayList<TelephoneFeature>();
 	}
 	
@@ -57,7 +57,7 @@ public class PhoneTableModel extends AbstractTableModel {
 					break;
 			}				
 		}
-		return wPerson.StringFromUTF8(ret);
+		return Autumn.StringFromUTF8(ret);
 	}
 
 	@Override
@@ -67,10 +67,10 @@ public class PhoneTableModel extends AbstractTableModel {
 		
 		switch (columnIndex){
 			case 0:
-				ret = _bnd.getString("Table.Phone.ColName.Num");
+				ret = _aut.getString("Table.Phone.ColName.Num");
 				break;
 			case 1:
-				ret = _bnd.getString("Table.Phone.ColName.Types");
+				ret = _aut.getString("Table.Phone.ColName.Types");
 				break;
 		}
 		return ret;
