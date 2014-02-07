@@ -6,8 +6,8 @@ import java.util.ResourceBundle;
 
 import javax.swing.table.AbstractTableModel;
 
+import autumn.tabella.tVTN;
 import JCommonTools.CC;
-
 import net.sourceforge.cardme.vcard.features.TelephoneFeature;
 import net.sourceforge.cardme.vcard.types.parameters.TelephoneParameterType;
 
@@ -15,54 +15,32 @@ import net.sourceforge.cardme.vcard.types.parameters.TelephoneParameterType;
 public class PhoneTableModel extends AbstractTableModel {
 
 	private Autumn 	_aut;
-	private ArrayList<TelephoneFeature> _phoneNumbers;
-	
-	public void setTelephones(Iterator<TelephoneFeature> aitNumbers){
-		if (aitNumbers != null){
-			_phoneNumbers.clear();
-			while (aitNumbers.hasNext()){
-				_phoneNumbers.add(aitNumbers.next());
-			}
-		}
-	}
-	
-	public PhoneTableModel(Autumn aut){
+    private ArrayList<tVTN> _contacts;
+
+	public PhoneTableModel(Autumn aut)
+	{
 		_aut = aut;
-		_phoneNumbers = new ArrayList<TelephoneFeature>();
+		if (_aut != null)
+			_contacts = _aut.getPerson().getContactColl();
+		else
+			_contacts = null;
 	}
 	
 	@Override
-	public int getColumnCount() {
-		return 2;
+	public int getColumnCount() 
+	{
+		return 3;
 	}
 
 	@Override
-	public int getRowCount() {
-		return _phoneNumbers != null ? _phoneNumbers.size() + 1 : 1;   
+	public int getRowCount() 
+	{
+		return _contacts != null ? _contacts.size() + 1 : 1;
 	}
 
 	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
-		String ret = CC.STR_EMPTY;
-		if (_phoneNumbers != null && _phoneNumbers.size() > rowIndex){
-			switch (columnIndex){
-				case 0:
-					ret = _phoneNumbers.get(rowIndex).getTelephone();
-					break;
-				case 1:
-					for (TelephoneParameterType tt : _phoneNumbers.get(rowIndex).getTelephoneParameterTypesList())
-						ret += tt.getDescription()+ ";";
-					if (ret.length() > 1)
-						ret = ret.substring(0, ret.length()-1);
-					break;
-			}				
-		}
-		return Autumn.StringFromUTF8(ret);
-	}
-
-	@Override
-	public String getColumnName(int columnIndex) {
-		
+	public String getColumnName(int columnIndex) 
+	{
 		String ret = super.getColumnName(columnIndex);
 		
 		switch (columnIndex){
@@ -72,10 +50,41 @@ public class PhoneTableModel extends AbstractTableModel {
 			case 1:
 				ret = _aut.getString("Table.Phone.ColName.Types");
 				break;
+			case 2:
+				ret = _aut.getString("Table.Phone.ColName.Notes");
+				break;
 		}
 		return ret;
 	}
 	
+	@Override
+	public Object getValueAt(int rowIndex, int columnIndex) 
+	{
+		String ret = CC.STR_EMPTY;
+		if (_contacts != null && _contacts.size() > rowIndex)
+		{
+			switch (columnIndex){
+				case 0:
+					ret = _contacts.get(rowIndex).getValue();
+					break;
+				case 1:
+					/*
+					for (TelephoneParameterType tt : _phoneNumbers.get(rowIndex).getTelephoneParameterTypesList())
+						ret += tt.getDescription()+ ";";
+					if (ret.length() > 1)
+						ret = ret.substring(0, ret.length()-1);
+					*/
+					ret = _contacts.get(rowIndex).getType();
+					break;
+				case 2:
+					ret = _contacts.get(rowIndex).getNote();
+					break;
+			}				
+			
+		}
+		return ret;
+	}
+
 	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) 
 	{

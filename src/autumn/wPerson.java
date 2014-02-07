@@ -53,6 +53,10 @@ import org.omg.CORBA.Environment;
 
 import com.toedter.calendar.JDateChooser;
 
+import autumn.Autumn;
+import autumn.PhoneTableModel;
+import autumn.jePhoto;
+import autumn.tabella.tPerson;
 import net.sourceforge.cardme.engine.VCardEngine;
 import net.sourceforge.cardme.io.CompatibilityMode;
 import net.sourceforge.cardme.io.VCardWriter;
@@ -60,7 +64,6 @@ import net.sourceforge.cardme.util.StringUtil;
 import net.sourceforge.cardme.vcard.VCardImpl;
 import net.sourceforge.cardme.vcard.errors.VCardError;
 import net.sourceforge.cardme.vcard.features.NameFeature;
-
 import JCommonTools.CC;
 import JCommonTools.GBC;
 
@@ -82,7 +85,8 @@ public class wPerson extends JFrame
 	private String 			_filename;
 	private	Charset			_workcharset;
 	
-	public void setFileName(String aFN){
+	public void setFileName(String aFN)
+	{
 		if (aFN != null && aFN.indexOf(".vcf") > 0)
 			LoadFromVCardFile(aFN);
 	}
@@ -100,7 +104,7 @@ public class wPerson extends JFrame
 		this.setIconImage(CreateIcon("automn2.png", Autumn.TOOL_BAR_ICON_SIZE).getImage());
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+			
 		_vcard = null;
 		_workcharset = Charset.defaultCharset();
 		
@@ -296,7 +300,13 @@ public class wPerson extends JFrame
 			if (dlg.showOpenDialog(wPerson.this) == JFileChooser.APPROVE_OPTION)
 			{
 				if (dlg.getSelectedFile().getName().indexOf(".vcf") > 0)
-					LoadFromVCardFile(dlg.getSelectedFile().getPath());
+				{
+					//LoadFromVCardFile(dlg.getSelectedFile().getPath());
+					PersonalVCard pvc = new PersonalVCard(_aut);
+					pvc.LoadFromVCardFile(dlg.getSelectedFile().getPath());
+					
+				}
+				_showPersonDate();
 			}
 		};
 		
@@ -362,6 +372,17 @@ public class wPerson extends JFrame
 	public void LoadFromFile()
 	{
 	}
+
+	private void _showPersonDate()
+	{
+		tPerson prs = _aut.getPerson();
+		_txtLastName.setText(prs.getLName());
+		_txtFirstName.setText(prs.getFName());
+		_txtPatronymicName.setText(prs.getPName());
+		_dtBirthday.setCalendar(prs.getDBCalendar());
+		_pnlPhoto.setPhoto(prs.getMainImageAsBytes());
+		_txtNote.setText(prs.getNotes());
+	}
 	
 	public void LoadFromVCardFile(String aFileName)
 	{
@@ -399,8 +420,8 @@ public class wPerson extends JFrame
 					//_txtBirthday.setText(CC.STR_EMPTY);
 				if (_vcard.getPhotos().hasNext())
 					_pnlPhoto.setPhoto(_vcard.getPhotos().next());
-				else
-					_pnlPhoto.setPhoto(null);
+				//else
+				//	_pnlPhoto.setPhoto(null);
 				
 			}
 			
@@ -409,7 +430,7 @@ public class wPerson extends JFrame
 			else
 				_txtNote.setText(CC.STR_EMPTY);
 			
-			_tmPhone.setTelephones(_vcard.getTelephoneNumbers());
+			//_tmPhone.setTelephones(_vcard.getTelephoneNumbers());
 			_tabConnection.revalidate();
 			
 			String title= _txtFirstName.getText()+ " " + _txtPatronymicName.getText() + " " + _txtLastName.getText();

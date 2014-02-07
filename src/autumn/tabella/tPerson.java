@@ -1,13 +1,17 @@
 package autumn.tabella;
 
 import java.awt.Image;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.imageio.ImageIO;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+
 
 //import sun.util.calendar.CalendarDate;
 //import sun.util.calendar.BaseCalendar.Date;
@@ -157,6 +161,14 @@ public class tPerson extends tObj
     	this (CC.STR_EMPTY, CC.STR_EMPTY, CC.STR_EMPTY, CC.STR_EMPTY, SEX_UNKNOWN);
     }
     
+	public java.util.Calendar getDBCalendar()
+	{
+		return  new GregorianCalendar(
+				Integer.parseInt(BDay.substring(0, 4)),
+				Integer.parseInt(BDay.substring(4, 2)), 
+				Integer.parseInt(BDay.substring(6, 2))
+		);
+	}
 	public java.util.Date getDBDate()
 	{
 		return  new GregorianCalendar(
@@ -170,7 +182,31 @@ public class tPerson extends tObj
 		SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 		BDay = df.format(bdd);
 	}
-	
+	public byte[] getMainImageAsBytes()
+	{
+		if (ImgColl.size() >0)
+			return  ImgColl.get(0).getBin();
+		else
+			return null;
+	}
+	public Image getMainImage()
+	{
+		Image ret = null;
+		if (ImgColl.size() >0)
+		{
+			tBin bin = ImgColl.get(0);
+			ByteArrayInputStream baiStream = new ByteArrayInputStream(bin.getBin());
+			try
+			{
+				ret = ImageIO.read(baiStream);
+			}
+			catch (IOException ex)
+			{
+				
+			}
+		}
+		return ret;
+	}
 	public void addImageAsBytes (byte[] arrBytes)
 	{
 		tBin bin = new tBin();

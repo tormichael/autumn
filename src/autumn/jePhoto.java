@@ -27,23 +27,31 @@ public class jePhoto extends JPanel {
 	public PhotoFeature getPhoto(){
 		return _photo;
 	}
-	public void setPhoto(PhotoFeature aPhoto){
+	public void setPhoto(PhotoFeature aPhoto)
+	{
 		_photo = aPhoto;
-		if (_photo != null){
-			ByteArrayInputStream baiStream = new ByteArrayInputStream(_photo.getPhoto());
-			try
-			{
-				_img = ImageIO.read(baiStream);
-			}
-			catch (IOException ex)
-			{
-				
-			}
+		if (_photo != null)
+		{
+			setPhoto(_photo.getPhoto());
 		}
-		else{
+		else
+		{
 			_img = this.createImage(this.getWidth(), this.getHeight());
+			this.repaint();
 		}
-		this.repaint();
+	}
+	public void setPhoto(byte[] aPhoto)
+	{
+		ByteArrayInputStream baiStream = new ByteArrayInputStream(aPhoto);
+		try
+		{
+			_img = ImageIO.read(baiStream);
+			this.repaint();
+		}
+		catch (IOException ex)
+		{
+			
+		}
 	}
 		
 	public Boolean isError(){
