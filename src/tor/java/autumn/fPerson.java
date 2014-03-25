@@ -1,6 +1,8 @@
 package tor.java.autumn;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -33,6 +35,7 @@ public class fPerson extends JFrame
 {
 	private Autumn			_aut;
 	
+	private JPanel			_pnl;
 	private JTextField		_txtObjName;
 	private JDesktopPane	_desktop;
 	private ArrayList<infBase>	_alInF;
@@ -40,15 +43,21 @@ public class fPerson extends JFrame
 	private infPhones		_frmPhones;
 	private JInternalFrame	_frmAddress;
 	private infImages		_frmImages;
+
+	private JToggleButton _btnTransparency;
 	
 	private JToggleButton _btnViewFIO;
 	private JToggleButton _btnViewPhone;
 	private JToggleButton _btnViewImage;
 	
+	private Color	_defaultBackrounfColor;
+	
 	public fPerson(Autumn aAut)
 	{
-		_aut = aAut;
+		_defaultBackrounfColor = fPerson.this.getBackground();
 		
+		_aut = aAut;
+	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setIconImage(_aut.getImage("autumn.png"));
 	
@@ -72,6 +81,10 @@ public class fPerson extends JFrame
 		bar.add(actSave);
 		
 		bar.addSeparator();
+		_btnTransparency = new JToggleButton(actTransparency);
+		//actViewFIO.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
+		bar.add(_btnTransparency);
+		bar.addSeparator();
 		
 		_btnViewFIO = new JToggleButton(actViewFIO);
 		actViewFIO.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
@@ -92,19 +105,19 @@ public class fPerson extends JFrame
 		actViewNotes.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
 		bar.add(actViewOptions);
 		actViewOptions.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-		
-		JPanel pnl = new JPanel(new BorderLayout());
+
+		_pnl = new JPanel(new BorderLayout());
 		
 			JPanel pnlObj = new JPanel(new BorderLayout());
 			pnlObj.add(new JLabel(_aut.getString("Label.Object.Title")), BorderLayout.WEST);
 			_txtObjName = new JTextField();
 			pnlObj.add(_txtObjName, BorderLayout.CENTER);
-			pnl.add(pnlObj, BorderLayout.NORTH);
+			_pnl.add(pnlObj, BorderLayout.NORTH);
 			
 			_desktop = new JDesktopPane();
-			pnl.add(_desktop, BorderLayout.CENTER);
+			_pnl.add(_desktop, BorderLayout.CENTER);
 		
-		this.add(pnl, BorderLayout.CENTER);
+		this.add(_pnl, BorderLayout.CENTER);
 		
 		LoadProgramPreference ();
 		
@@ -156,6 +169,40 @@ public class fPerson extends JFrame
 				inf.Save();
 		}
 	};
+	
+	Action actTransparency = new AbstractAction(){
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+			//fPerson.this.setVisible(false);
+			fPerson.this.dispose();
+			if (_btnTransparency.isSelected())
+			{
+				fPerson.this.setUndecorated(true);
+				//this.setShape(null);
+				//this.setOpacity(0.7f);
+				fPerson.this.setBackground(new Color(0, 0, 0, 0));
+				
+				_pnl.setOpaque(false);
+				//pnl.setBackground(new Color(0, 0, 0, 0));
+			
+				_desktop.setOpaque(false);
+				//_desktop.setBackground(new Color(0, 0, 0, 0));
+			}
+			else
+			{
+				_pnl.setOpaque(true);
+				_desktop.setOpaque(true);
+				fPerson.this.setBackground(_defaultBackrounfColor);
+				fPerson.this.setUndecorated(false);
+			}
+			fPerson.this.setVisible(true);
+			//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		}
+	};
+	
 
 	Action actViewFIO = new AbstractAction() 
 	{

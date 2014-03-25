@@ -32,13 +32,28 @@ public class infImages extends infBase
 			public void stateChanged(ChangeEvent e) 
 			{
 				if (_tp.getTabCount() > 0
-					&& _tp.getSelectedIndex() > 0	
+					&& _tp.getSelectedIndex() >= 0	
 					&& _tp.getTitleAt(_tp.getSelectedIndex()).equals("+")
 					&& !_isLockTabChange
 				)
 				{
 					_isLockTabChange = true;
-					_addNewTab();
+					//_addNewTab();
+					int ii = _tp.getTabCount()-1;
+					tBin bin  = new tBin();
+					mAut.getPerson().getImgColl().add(bin);
+					pnlImage pi = new pnlImage(mAut);
+					pi.setBin(bin);
+					if (ii > 0)
+					{
+						_tp.add(pi, mAut.getString("TabPanel.Image.TitleDefault") + " " +(ii+1), ii);
+					}
+					else
+					{
+						_tp.removeAll();
+						_tp.add(pi, mAut.getString("TabPanel.Image.TitleDefault"));
+						_tp.add(new JPanel(), "+");
+					}
 					_isLockTabChange = false;
 					_tp.setSelectedIndex(_tp.getTabCount()-2);
 				}
@@ -57,43 +72,44 @@ public class infImages extends infBase
 		_tp.removeAll();
 		
 
+		int ii = 1;
 		for(tBin bin : mAut.getPerson().getImgColl())
 		{
 			pnlImage pi = new pnlImage(mAut);
 			pi.setBin(bin);
 			String title = pi.getTitle();
 			if (title == null)
-				title = mAut.getString("TabPanel.Image.TitleDefault") + " " + (_tp.getTabCount()+1);
+				title = mAut.getString("TabPanel.Image.TitleDefault") + " " + (ii++);
 			_tp.add(pi, title);
 		}
 		
-		boolean isEmpty = _tp.getTabCount() == 0; 
-		if (isEmpty)
-			_addNewTab();
+		//boolean isEmpty = _tp.getTabCount() == 0; 
+		//if (isEmpty)
+		//	_addNewTab();
 		
 		_isLockTabChange = false;
 		
-		if (!isEmpty)
+		//if (!isEmpty)
 			_tp.add(new JPanel(), "+");
 		
 	}
 	
-	private void _addNewTab()
-	{
-		int ii = _tp.getTabCount()-1;
-		tBin bin  = new tBin();
-		mAut.getPerson().getImgColl().add(bin);
-		pnlImage pi = new pnlImage(mAut);
-		pi.setBin(bin);
-		if (ii > 0)
-		{
-			_tp.add(pi, mAut.getString("TabPanel.Image.TitleDefault") + " " +ii, ii);
-		}
-		else
-		{
-			_tp.removeAll();
-			_tp.add(pi, mAut.getString("TabPanel.Image.TitleDefault"));
-			_tp.add(new JPanel(), "+");
-		}
-	}
+//	private void _addNewTab()
+//	{
+//		int ii = _tp.getTabCount()-1;
+//		tBin bin  = new tBin();
+//		mAut.getPerson().getImgColl().add(bin);
+//		pnlImage pi = new pnlImage(mAut);
+//		pi.setBin(bin);
+//		if (ii > 0)
+//		{
+//			_tp.add(pi, mAut.getString("TabPanel.Image.TitleDefault") + " " +(ii+1), ii);
+//		}
+//		else
+//		{
+//			_tp.removeAll();
+//			_tp.add(pi, mAut.getString("TabPanel.Image.TitleDefault"));
+//			_tp.add(new JPanel(), "+");
+//		}
+//	}
 }

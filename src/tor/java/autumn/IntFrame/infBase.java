@@ -12,7 +12,6 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
-import sun.awt.WindowClosingListener;
 import tor.java.autumn.Autumn;
 
 public class infBase extends JInternalFrame 
