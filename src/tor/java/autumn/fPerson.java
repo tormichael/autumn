@@ -26,6 +26,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import tor.java.autumn.IntFrame.infBase;
 import tor.java.autumn.IntFrame.infFIO;
 import tor.java.autumn.IntFrame.infImages;
+import tor.java.autumn.IntFrame.infNote;
 import tor.java.autumn.IntFrame.infPhones;
 import JCommonTools.AsRegister;
 import JCommonTools.CC;
@@ -43,12 +44,14 @@ public class fPerson extends JFrame
 	private infPhones		_frmPhones;
 	private JInternalFrame	_frmAddress;
 	private infImages		_frmImages;
+	private infNote		_frmNote;
 
 	private JToggleButton _btnTransparency;
 	
 	private JToggleButton _btnViewFIO;
 	private JToggleButton _btnViewPhone;
 	private JToggleButton _btnViewImage;
+	private JToggleButton _btnViewNote;
 	
 	private Color	_defaultBackrounfColor;
 	
@@ -100,11 +103,13 @@ public class fPerson extends JFrame
 		_btnViewImage = new JToggleButton(actViewImages);
 		actViewImages.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
 		bar.add(_btnViewImage);
-		
-		bar.add(actViewNotes);
+
+		_btnViewNote = new JToggleButton(actViewNotes);
 		actViewNotes.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-		bar.add(actViewOptions);
-		actViewOptions.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
+		bar.add(_btnViewNote);
+		
+		//bar.add(actViewOptions);
+		//actViewOptions.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
 
 		_pnl = new JPanel(new BorderLayout());
 		
@@ -152,7 +157,7 @@ public class fPerson extends JFrame
 					
 				}
 				
-				_txtObjName.setText(_aut.getPerson().Name);
+				_txtObjName.setText(_aut.getPerson().getName());
 				for (infBase inf : _alInF)
 					inf.Load();
 			}
@@ -164,7 +169,7 @@ public class fPerson extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			_aut.getPerson().Name = _txtObjName.getText();
+			_aut.getPerson().setName(_txtObjName.getText());
 			for (infBase inf: _alInF)
 				inf.Save();
 		}
@@ -293,7 +298,23 @@ public class fPerson extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			
+			if (_frmNote == null)
+			{
+				_frmNote = new infNote(_aut, "frmNote");
+				_frmNote.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
+ 				_alInF.add(_frmNote);
+ 				_frmNote.Load();
+			}
+			if (_btnViewNote.isSelected())
+			{
+				_desktop.add(_frmNote, JDesktopPane.PALETTE_LAYER);
+			}
+			else
+			{
+				_desktop.remove(_frmNote);
+			}
+			_frmNote.setVisible(_btnViewNote.isSelected());
+			_desktop.repaint();
 		}
 	};
 	
@@ -317,6 +338,16 @@ public class fPerson extends JFrame
 		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/main");
 		AsRegister.LoadFrameStateSizeLocation(node, this);
 		//TableTools.SetColumnsWidthFromString(_tabOp, node.get("TabColWidth_Operation", CC.STR_EMPTY));
+		if (node.getBoolean("isFIOShow", false))
+			_btnViewFIO.doClick();
+		if (node.getBoolean("isPhoneShow", false))
+			_btnViewPhone.doClick();
+		//if (node.getBoolean("isFIOShow", false))
+		//	_btnViewFIO.doClick();
+		if (node.getBoolean("isImageShow", false))
+			_btnViewImage.doClick();
+		if (node.getBoolean("isNoteShow", false))
+			_btnViewNote.doClick();
 	}
 	
 	private void SaveProgramPreference()
@@ -324,5 +355,10 @@ public class fPerson extends JFrame
 		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/main");
 		AsRegister.SaveFrameStateSizeLocation(node, this);
 		//node.put("TabColWidth_Operation", TableTools.GetColumnsWidthAsString(_tabOp));
+		node.putBoolean("isFIOShow", _btnViewFIO.isSelected());
+		node.putBoolean("isPhoneShow", _btnViewPhone.isSelected());
+		//node.putBoolean("isFIOShow", _btnViewFIO.isSelected());
+		node.putBoolean("isImageShow", _btnViewImage.isSelected());
+		node.putBoolean("isNoteShow", _btnViewNote.isSelected());
 	}
 }

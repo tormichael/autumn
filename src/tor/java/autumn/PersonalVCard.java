@@ -96,7 +96,7 @@ public class PersonalVCard
 				prs.setPName(str.trim());
 			
 			FNType formattedName = _vcard.getFN();
-			prs.Name = formattedName.getFormattedName();
+			prs.setName(formattedName.getFormattedName());
 			
 			BDayType bd = _vcard.getBDay();
 			

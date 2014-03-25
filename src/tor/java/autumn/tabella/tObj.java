@@ -7,24 +7,33 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 
 public class tObj 
 {
-	public String 	Name;
-	public String 	UID;
-	public Date		DateCreate;
-	public Date		DateLastModified;
+	protected String 	Name;
+	protected String 	UID;
+	protected Date		DateCreate;
+	protected Date		DateLastModified;
 	/**
 	 * note about object or other common object's information 
 	 */
-	public String Note;
+	protected String Note;
     /** 
      * object images collection
      */
     @XmlElementWrapper (name = "Imagess")
     @XmlElement (name = "tBin")
-    public ArrayList<tBin> Images;
+    protected ArrayList<tBin> Images;
 	
+    public String getName()
+    {
+    	return Name;
+    }
+    public void setName(String aName)
+    {
+    	Name = aName;
+    }
+    
 	public tObj()
 	{
-		
+    	Images =new ArrayList<tBin>();
 	}
 	
 }

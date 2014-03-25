@@ -18,6 +18,11 @@ public class PhoneTableModel extends AbstractTableModel {
 	public PhoneTableModel(Autumn aut)
 	{
 		_aut = aut;
+		Reconnect();
+	}
+	
+	public void Reconnect()
+	{
 		if (_aut != null)
 			_contacts = _aut.getPerson().getContactColl();
 		else

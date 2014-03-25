@@ -50,9 +50,9 @@ public class tPerson extends tObj
 	/**
 	 * Personal images 
 	 */
-    @XmlElementWrapper (name = "ImgColl")
-    @XmlElement (name = "tBin")
-    private ArrayList<tBin> ImgColl;
+    //@XmlElementWrapper (name = "ImgColl")
+    //@XmlElement (name = "tBin")
+    //private ArrayList<tBin> ImgColl;
 	
     /** 
      * personal contacts (phones, address, email, www and so on) collection 
@@ -74,8 +74,6 @@ public class tPerson extends tObj
     @XmlElementWrapper (name = "Docs")
     @XmlElement (name = "tDoc")
     private ArrayList<tDoc> DocColl;
-
-    
     
     
     public String getLName() {
@@ -115,10 +113,10 @@ public class tPerson extends tObj
 		Notes = notes;
 	}
 	public ArrayList<tBin> getImgColl() {
-		return ImgColl;
+		return Images;
 	}
 	public void setImgColl(ArrayList<tBin> imgColl) {
-		ImgColl = imgColl;
+		Images = imgColl;
 	}
 	public ArrayList<tVTN> getContactColl() {
 		return ContactColl;
@@ -146,7 +144,7 @@ public class tPerson extends tObj
     	BDay = aBDay;
     	Sex = aSex;
     	
-    	ImgColl =new ArrayList<tBin>();
+    	//ImgColl =new ArrayList<tBin>();
     	ContactColl = new ArrayList<tVTN>();
     	AddrColl = new ArrayList<tAdr>();
     	DocColl = new ArrayList<tDoc>();
@@ -198,17 +196,17 @@ public class tPerson extends tObj
 	}
 	public byte[] getMainImageAsBytes()
 	{
-		if (ImgColl.size() >0)
-			return  ImgColl.get(0).getBin();
+		if (Images.size() >0)
+			return  Images.get(0).getBin();
 		else
 			return null;
 	}
 	public Image getMainImage()
 	{
 		Image ret = null;
-		if (ImgColl.size() >0)
+		if (Images.size() >0)
 		{
-			tBin bin = ImgColl.get(0);
+			tBin bin = Images.get(0);
 			ByteArrayInputStream baiStream = new ByteArrayInputStream(bin.getBin());
 			try
 			{
@@ -225,7 +223,7 @@ public class tPerson extends tObj
 	{
 		tBin bin = new tBin();
 		bin.setBin(arrBytes);
-		ImgColl.add(bin);
+		Images.add(bin);
 	}
 	
 	public void addTelephone()
