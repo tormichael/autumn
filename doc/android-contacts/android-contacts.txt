@@ -1,0 +1,17 @@
+work with android data contact
+
+c:\Android\android-sdk\platform-tools\adb.exe -e shell 
+
+sqlite3 -batch /data/data/com.android.providers.contacts/databases/contacts2.db 
+
+"SELECT * FROM raw_contacts"
+".dump raw_contacts"
+".backup backup-db"
+
+ > res.txt
+
+c:\Android\android-sdk\platform-tools\adb.exe -e shell sqlite3 -batch /data/data/com.android.providers.contacts/databases/contacts2.db
+
+c:\Android\android-sdk\platform-tools\adb.exe pull /data/data/com.android.providers.contacts/databases/contacts2.db
+
+
