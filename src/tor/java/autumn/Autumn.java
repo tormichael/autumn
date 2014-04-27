@@ -4,16 +4,20 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Formatter;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
 import tor.java.autumn.tabella.tPerson;
+import tor.java.autumn.tabella.tRegister;
 
 public class Autumn 
 {
-	private tPerson			_prs;
+	private tRegister _ore;
+	//private tPerson			_prs;
 	private ResourceBundle 	_bnd;
 	
 	public final static String FN_RESOURCE_TEXT = "tor/java/autumn/rsc/autumnText";
@@ -34,14 +38,17 @@ public class Autumn
 		return _bnd.getString(key);
 	}
 	
-	public tPerson getPerson()
+	public tRegister getRegister()
 	{
-		return _prs;
+		return _ore;
 	}
-	public void setPerson(tPerson aPrs)
-	{
-		_prs = aPrs;
-	}
+//	public tPerson getPerson(tPerson aPrs)
+//	{
+//		tPerson prs = null;
+//		if ()
+//		_prs = aPrs;
+//		return ret;
+//	}
 	
 	/**
 	 * @param args
@@ -49,19 +56,21 @@ public class Autumn
 	public static void main (String[] args) 
 	{
 		//wPerson prsn = new wPerson(new Autumn());
-		fPerson prsn = new fPerson(new Autumn());
+		//fPerson prsn = new fPerson(new Autumn());
 		
 		//if (args != null && args.length > 0)
 		//	prsn.setFileName(args[0]);
 		
-		prsn.setVisible(true);
+		//prsn.setVisible(true);
 		
-		
+		fNavigator nav = new fNavigator(new Autumn());
+		nav.setVisible(true);
 	}
 	
 	public Autumn()
 	{
-		_prs = new tPerson();
+		//_prs = new tPerson();
+		_ore = new tRegister();
 		_bnd = ResourceBundle.getBundle(Autumn.FN_RESOURCE_TEXT, Locale.getDefault());
 	}
 	
@@ -145,4 +154,10 @@ public class Autumn
 		//return ImageTools.CreateIcon(aName, 24).getImage();
 	}
 
+	public static String Calendar2String(Calendar aCal)
+	{
+		Formatter fmt = new Formatter();
+		return fmt.format("%td.%tm.%tY %tH:%tM:%tS (%tZ)"
+				, aCal, aCal, aCal, aCal, aCal, aCal, aCal).toString();
+	}
 }

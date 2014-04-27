@@ -5,14 +5,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import tor.java.autumn.Autumn;
+import tor.java.autumn.tabella.tObj;
 
 public class infNote extends infBase 
 {
 	private JTextArea 		_txtNote;
 
-	public infNote(Autumn aAut, String aName)
+	public infNote(Autumn aAut, String aName, tObj aObj)
 	{
-		super(aAut, aName);
+		super(aAut, aName, aObj);
 		
 		_txtNote = new JTextArea();
 		this.add(new JScrollPane(_txtNote));
@@ -21,12 +22,12 @@ public class infNote extends infBase
 
 	public void Load()
 	{
-		_txtNote.setText(mAut.getPerson().getNotes());
+		_txtNote.setText(mObj.getNote());
 	}
 	
 	protected void mSave()
 	{
-		mAut.getPerson().setNotes(_txtNote.getText());
+		mObj.setNote(_txtNote.getText());
 	}
 	
 }

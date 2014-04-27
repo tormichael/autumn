@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.table.AbstractTableModel;
 
+import tor.java.autumn.tabella.tPerson;
 import tor.java.autumn.tabella.tVTN;
 import JCommonTools.CC;
 
@@ -15,16 +16,16 @@ public class PhoneTableModel extends AbstractTableModel {
 	private Autumn 	_aut;
     private ArrayList<tVTN> _contacts;
 
-	public PhoneTableModel(Autumn aut)
+	public PhoneTableModel(Autumn aut, tPerson aPerson)
 	{
 		_aut = aut;
-		Reconnect();
+		Reconnect(aPerson);
 	}
 	
-	public void Reconnect()
+	public void Reconnect(tPerson aPerson)
 	{
 		if (_aut != null)
-			_contacts = _aut.getPerson().getContactColl();
+			_contacts = aPerson.getContactColl();
 		else
 			_contacts = null;
 	}
