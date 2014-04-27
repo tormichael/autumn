@@ -1,0 +1,1 @@
+c:\Android\android-sdk\platform-tools\adb.exe pull /data/data/com.android.providers.contacts/databases/contacts2.db

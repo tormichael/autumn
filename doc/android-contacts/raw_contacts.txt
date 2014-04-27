@@ -1,0 +1,4 @@
+1|0||||2|1|0|1|0|0||0|0||0|FName LName|LName, FName|40||0|FName LName|LName, FName|0|1||||
+2|0||||2|1|0|2|0|0||0|0||0|Test Test_Family_Name|Test_Family_Name, Test|40||0|Test Test_Family_Name|Test_Family_Name, Test|0|1||||
+3|0||||2|1|0|3|0|0||0|0||0|Федор Сергеевич Михайлов|Михайлов, Федор Сергеевич|40||0|Федор Сергеевич Михайлов|Михайлов, Федор Сергеевич|0|1||||
+4|0||||2|1|0|4|0|0||0|0||0|Cay Horstmann|Horstmann, Cay|40||0|Cay Horstmann|Horstmann, Cay|0|1||||

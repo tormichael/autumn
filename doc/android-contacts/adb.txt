@@ -1,0 +1,21 @@
+
+ ADB и все что с помощью него можно сделать
+
+ 
+>>>>>>>>> файл как правило называется contacts2.db или contacts.db посмотреть это можно так 
+	Код:
+	adb shell
+	cd /data/data/com.android.providers.contacts/databases/
+	ls
+
+>>>>>>>>> есть замечательная команда adb pull
+	Код:
+	adb pull /data/data/com.android.providers.contacts/databases/contacts2.db
+или
+	Код:
+	adb pull /data/data/com.android.providers.contacts/databases/contacts.db
+и после этого ищем contacts2.db в папке откуда вызывался adb, например C:\Android>
+Ну или так
+	Код:
+	adb shell "su -c 'cp -r -p /data/data/com.android.providers.contacts/databases /sdcard/Backup'"
+и забираем contacts2.db на карте памяти в папке Backup
