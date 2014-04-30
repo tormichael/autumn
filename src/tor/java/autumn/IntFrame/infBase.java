@@ -13,17 +13,20 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import tor.java.autumn.Autumn;
+import tor.java.autumn.tabella.tObj;
 
 public class infBase extends JInternalFrame 
 {
 	protected Autumn	mAut;
 	protected String	mName;
+	protected tObj mObj;
 
-	public infBase(Autumn aAut, String aName)
+	public infBase(Autumn aAut, String aName, tObj aObj)
 	{
 		super("", true, false, false, false);
 		mAut = aAut;
 		mName = aName;
+		mObj = aObj;
 		
 		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/"+mName);
 		

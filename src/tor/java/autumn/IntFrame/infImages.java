@@ -10,15 +10,16 @@ import javax.swing.event.ChangeListener;
 
 import tor.java.autumn.Autumn;
 import tor.java.autumn.tabella.tBin;
+import tor.java.autumn.tabella.tObj;
 
 public class infImages extends infBase 
 {
 	private JTabbedPane	_tp;
 	private boolean 		_isLockTabChange;
 	
-	public infImages(Autumn aAut, String aName)
+	public infImages(Autumn aAut, String aName, tObj aObj)
 	{
-		super(aAut, aName);
+		super(aAut, aName, aObj);
 		
 		_tp = new JTabbedPane();
 		
@@ -41,7 +42,7 @@ public class infImages extends infBase
 					//_addNewTab();
 					int ii = _tp.getTabCount()-1;
 					tBin bin  = new tBin();
-					mAut.getPerson().getImgColl().add(bin);
+					mObj.getImgColl().add(bin);
 					pnlImage pi = new pnlImage(mAut);
 					pi.setBin(bin);
 					if (ii > 0)
@@ -73,7 +74,7 @@ public class infImages extends infBase
 		
 
 		int ii = 1;
-		for(tBin bin : mAut.getPerson().getImgColl())
+		for(tBin bin : mObj.getImgColl())
 		{
 			pnlImage pi = new pnlImage(mAut);
 			pi.setBin(bin);

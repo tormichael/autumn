@@ -9,17 +9,18 @@ import JCommonTools.CC;
 import JCommonTools.TableTools;
 import tor.java.autumn.Autumn;
 import tor.java.autumn.PhoneTableModel;
+import tor.java.autumn.tabella.tPerson;
 
 public class infPhones extends infBase 
 {
 	private JTable			_tabConnection;
 	private PhoneTableModel _tmPhone;
 
-	public infPhones(Autumn aAut, String aName)
+	public infPhones(Autumn aAut, String aName, tPerson aPerson)
 	{
-		super(aAut, aName);
+		super(aAut, aName, aPerson);
 		
-		_tmPhone = new PhoneTableModel(aAut);
+		_tmPhone = new PhoneTableModel(aAut, aPerson);
 		_tabConnection = new JTable(_tmPhone);
 		this.add(new JScrollPane(_tabConnection));
 		
@@ -29,7 +30,7 @@ public class infPhones extends infBase
 	
 	public void Load()
 	{
-		_tmPhone.Reconnect();
+		_tmPhone.Reconnect((tPerson)mObj);
 		_tabConnection.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 	}
 	

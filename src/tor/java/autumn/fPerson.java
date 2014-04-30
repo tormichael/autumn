@@ -8,6 +8,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Formatter;
 import java.util.prefs.Preferences;
 
 import javax.swing.AbstractAction;
@@ -28,6 +29,7 @@ import tor.java.autumn.IntFrame.infFIO;
 import tor.java.autumn.IntFrame.infImages;
 import tor.java.autumn.IntFrame.infNote;
 import tor.java.autumn.IntFrame.infPhones;
+import tor.java.autumn.tabella.tPerson;
 import JCommonTools.AsRegister;
 import JCommonTools.CC;
 import JCommonTools.TableTools;
@@ -35,6 +37,7 @@ import JCommonTools.TableTools;
 public class fPerson extends JFrame 
 {
 	private Autumn			_aut;
+	private tPerson				_prs;
 	
 	private JPanel			_pnl;
 	private JTextField		_txtObjName;
@@ -55,11 +58,12 @@ public class fPerson extends JFrame
 	
 	private Color	_defaultBackrounfColor;
 	
-	public fPerson(Autumn aAut)
+	public fPerson(Autumn aAut, tPerson aPrs)
 	{
 		_defaultBackrounfColor = fPerson.this.getBackground();
 		
 		_aut = aAut;
+		_prs = aPrs;
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setIconImage(_aut.getImage("autumn.png"));
@@ -157,7 +161,8 @@ public class fPerson extends JFrame
 					
 				}
 				
-				_txtObjName.setText(_aut.getPerson().getName());
+				_txtObjName.setText(_prs.getName());
+				_desktop.setToolTipText(Autumn.Calendar2String(_prs.getLastModified()));
 				for (infBase inf : _alInF)
 					inf.Load();
 			}
@@ -169,7 +174,7 @@ public class fPerson extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			_aut.getPerson().setName(_txtObjName.getText());
+			_prs.setName(_txtObjName.getText());
 			for (infBase inf: _alInF)
 				inf.Save();
 		}
@@ -216,7 +221,7 @@ public class fPerson extends JFrame
 		{
 			if (_frmFIO == null)
 			{
-				_frmFIO = new infFIO(_aut, "frmFIO");
+				_frmFIO = new infFIO(_aut, "frmFIO", _prs);
 				_frmFIO.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
  				_alInF.add(_frmFIO);
  				_frmFIO.Load();
@@ -241,7 +246,7 @@ public class fPerson extends JFrame
 		{
 			if (_frmPhones == null)
 			{
-				_frmPhones = new infPhones(_aut, "frmPhones");
+				_frmPhones = new infPhones(_aut, "frmPhones", _prs);
 				_frmPhones.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
  				_alInF.add(_frmPhones);
  				_frmPhones.Load();
@@ -275,7 +280,7 @@ public class fPerson extends JFrame
 		{
 			if (_frmImages == null)
 			{
-				_frmImages = new infImages(_aut, "frmImages");
+				_frmImages = new infImages(_aut, "frmImages", _prs);
 				_frmImages.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
  				_alInF.add(_frmImages);
  				_frmImages.Load();
@@ -300,7 +305,7 @@ public class fPerson extends JFrame
 		{
 			if (_frmNote == null)
 			{
-				_frmNote = new infNote(_aut, "frmNote");
+				_frmNote = new infNote(_aut, "frmNote", _prs);
 				_frmNote.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
  				_alInF.add(_frmNote);
  				_frmNote.Load();

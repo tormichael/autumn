@@ -71,6 +71,7 @@ import JCommonTools.GBC;
 public class wPerson extends JFrame 
 {
 	private Autumn			_aut;
+	private tPerson			_prs;
 
 	private JLabel 			_sbiMain;
 	private JTextField 		_txtFirstName;
@@ -91,9 +92,10 @@ public class wPerson extends JFrame
 	}
 	
 	
-	public wPerson(Autumn aut)
+	public wPerson(Autumn aut, tPerson aPrs)
 	{
 		_aut = aut;
+		_prs = aPrs;
 		Dimension szScreen = Toolkit.getDefaultToolkit().getScreenSize();
 		setSize(szScreen.width/2, szScreen.height/2);
 		setLocation((int)(szScreen.width/2*Math.random()), (int)(szScreen.height/3*Math.random()));
@@ -227,7 +229,7 @@ public class wPerson extends JFrame
 			}
 		});
 
-		_tmPhone = new PhoneTableModel(_aut);
+		_tmPhone = new PhoneTableModel(_aut, _prs);
 		_tabConnection = new JTable(_tmPhone);
 		JScrollPane sp = new JScrollPane(_tabConnection);
 		gbl.setConstraints(sp, gbc.setGridXY(0,4).setGridSpan(2, 1).setWeight(0.3, 0.7).setFill(GBC.BOTH));
@@ -329,13 +331,13 @@ public class wPerson extends JFrame
 
 	private void _showPersonDate()
 	{
-		tPerson prs = _aut.getPerson();
-		_txtLastName.setText(prs.getLName());
-		_txtFirstName.setText(prs.getFName());
-		_txtPatronymicName.setText(prs.getPName());
-		_dtBirthday.setCalendar(prs.getDBCalendar());
-		_pnlPhoto.setPhoto(prs.getMainImageAsBytes());
-		_txtNote.setText(prs.getNotes());
+		//tPerson prs = _aut.getPerson();
+		_txtLastName.setText(_prs.getLName());
+		_txtFirstName.setText(_prs.getFName());
+		_txtPatronymicName.setText(_prs.getPName());
+		_dtBirthday.setCalendar(_prs.getDBCalendar());
+		_pnlPhoto.setPhoto(_prs.getMainImageAsBytes());
+		_txtNote.setText(_prs.getNote());
 	}
 	
 

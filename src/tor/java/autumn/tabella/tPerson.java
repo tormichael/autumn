@@ -1,14 +1,10 @@
 package tor.java.autumn.tabella;
 
-import java.awt.Image;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import javax.imageio.ImageIO;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
@@ -43,10 +39,6 @@ public class tPerson extends tObj
 	 * sex 0-unknown; 1-women; 2-man; 
 	 */
 	private int Sex;
-	/**
-	 * Notes
-	 */
-	private String Notes;
 	/**
 	 * Personal images 
 	 */
@@ -105,18 +97,6 @@ public class tPerson extends tObj
 	}
 	public void setSex(int sex) {
 		Sex = sex;
-	}
-	public String getNotes() {
-		return Notes;
-	}
-	public void setNotes(String notes) {
-		Notes = notes;
-	}
-	public ArrayList<tBin> getImgColl() {
-		return Images;
-	}
-	public void setImgColl(ArrayList<tBin> imgColl) {
-		Images = imgColl;
 	}
 	public ArrayList<tVTN> getContactColl() {
 		return ContactColl;
@@ -194,38 +174,7 @@ public class tPerson extends tObj
 			BDay = df.format(bdd);
 		}
 	}
-	public byte[] getMainImageAsBytes()
-	{
-		if (Images.size() >0)
-			return  Images.get(0).getBin();
-		else
-			return null;
-	}
-	public Image getMainImage()
-	{
-		Image ret = null;
-		if (Images.size() >0)
-		{
-			tBin bin = Images.get(0);
-			ByteArrayInputStream baiStream = new ByteArrayInputStream(bin.getBin());
-			try
-			{
-				ret = ImageIO.read(baiStream);
-			}
-			catch (IOException ex)
-			{
-				
-			}
-		}
-		return ret;
-	}
-	public void addImageAsBytes (byte[] arrBytes)
-	{
-		tBin bin = new tBin();
-		bin.setBin(arrBytes);
-		Images.add(bin);
-	}
-	
+
 	public void addTelephone()
 	{
 		
