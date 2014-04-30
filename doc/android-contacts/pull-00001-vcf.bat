@@ -1,0 +1,1 @@
+c:\Android\android-sdk\platform-tools\adb.exe pull /mnt/sdcard/00001.vcf
