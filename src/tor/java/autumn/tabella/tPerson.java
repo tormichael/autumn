@@ -49,22 +49,16 @@ public class tPerson extends tObj
     /** 
      * personal contacts (phones, address, email, www and so on) collection 
      */
-    @XmlElementWrapper (name = "ContactColl")
-    @XmlElement (name = "tVTN")
     private ArrayList<tVTN> ContactColl;
 
     /** 
      * personal addresses
      */
-    @XmlElementWrapper (name = "AddrColl")
-    @XmlElement (name = "tAdr")
     private ArrayList<tAdr> AddrColl;
 
 	/** 
      * personal document collection
      */
-    @XmlElementWrapper (name = "Docs")
-    @XmlElement (name = "tDoc")
     private ArrayList<tDoc> DocColl;
     
     
@@ -98,26 +92,34 @@ public class tPerson extends tObj
 	public void setSex(int sex) {
 		Sex = sex;
 	}
+    @XmlElementWrapper (name = "ContactColl")
+    @XmlElement (name = "tVTN")
 	public ArrayList<tVTN> getContactColl() {
 		return ContactColl;
 	}
 	public void setContactColl(ArrayList<tVTN> contactColl) {
 		ContactColl = contactColl;
 	}
+    @XmlElementWrapper (name = "AddrColl")
+    @XmlElement (name = "tAdr")
 	public ArrayList<tAdr> getAddrColl() {
 		return AddrColl;
 	}
 	public void setAddrColl(ArrayList<tAdr> addrColl) {
 		AddrColl = addrColl;
 	}
+    @XmlElementWrapper (name = "Docs")
+    @XmlElement (name = "tDoc")
 	public ArrayList<tDoc> getDocColl() {
 		return DocColl;
 	}
 	public void setDocColl(ArrayList<tDoc> docColl) {
 		DocColl = docColl;
 	}
+	
 	public tPerson(String aLName, String aFName, String aPName, String aBDay, int aSex)
     {
+		Type = 1;
     	LName = aLName;
     	FName = aFName;
     	PName = aPName;

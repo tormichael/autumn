@@ -45,6 +45,12 @@ public class infBase extends JInternalFrame
 		
 	}
 	
+	public void Load(tObj aObj)
+	{
+		mObj = aObj;
+		Load();
+	}
+	
 	public void Load()
 	{
 		

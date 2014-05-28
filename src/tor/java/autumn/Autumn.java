@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Formatter;
 import java.util.Locale;
@@ -11,13 +12,15 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 
+import JCommonTools.CodeText;
+
 import tor.java.autumn.tabella.tPerson;
 import tor.java.autumn.tabella.tRegister;
 
 public class Autumn 
 {
 	private tRegister _ore;
-	//private tPerson			_prs;
+	private ArrayList<CodeText>	_arrObjType;
 	private ResourceBundle 	_bnd;
 	
 	public final static String FN_RESOURCE_TEXT = "tor/java/autumn/rsc/autumnText";
@@ -27,6 +30,9 @@ public class Autumn
 	public final static String PREFERENCE_PATH = "/autumn";
 	
 	public final static int TOOL_BAR_ICON_SIZE = 24;
+
+	public final static int OBJ_TYPE_ABSTRACT = 0;
+	public final static int OBJ_TYPE_PERSON = 1;
 	
 	public ResourceBundle get_bnd()
 	{
@@ -42,14 +48,15 @@ public class Autumn
 	{
 		return _ore;
 	}
-//	public tPerson getPerson(tPerson aPrs)
-//	{
-//		tPerson prs = null;
-//		if ()
-//		_prs = aPrs;
-//		return ret;
-//	}
-	
+	public void setRegister(tRegister aReg)
+	{
+		_ore = aReg;
+	}
+
+	public ArrayList<CodeText> getArrObjType()
+	{
+		return _arrObjType;
+	}
 	/**
 	 * @param args
 	 */
@@ -69,9 +76,17 @@ public class Autumn
 	
 	public Autumn()
 	{
-		//_prs = new tPerson();
 		_ore = new tRegister();
 		_bnd = ResourceBundle.getBundle(Autumn.FN_RESOURCE_TEXT, Locale.getDefault());
+
+		initObjTypeArray();
+	}
+	
+	private void initObjTypeArray()
+	{
+		_arrObjType = new ArrayList<CodeText>();
+		_arrObjType.add(new CodeText(OBJ_TYPE_ABSTRACT, getString("Text.TypeName.Object")));
+		_arrObjType.add(new CodeText(OBJ_TYPE_PERSON, getString("Text.TypeName.Person")));
 	}
 	
 	public static String StringFromUTF8(String aTxt){

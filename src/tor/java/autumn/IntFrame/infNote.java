@@ -22,7 +22,8 @@ public class infNote extends infBase
 
 	public void Load()
 	{
-		_txtNote.setText(mObj.getNote());
+		if (mObj != null)
+			_txtNote.setText(mObj.getNote());
 	}
 	
 	protected void mSave()

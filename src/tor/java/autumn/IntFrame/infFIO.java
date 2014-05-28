@@ -17,8 +17,6 @@ import tor.java.autumn.tabella.tPerson;
 
 public class infFIO extends infBase 
 {
-	private tPerson _prs;
-	
 	private JTextField 	_txtFirstName;
 	private JTextField 	_txtPatronymicName;
 	private JTextField 	_txtLastName;
@@ -27,7 +25,7 @@ public class infFIO extends infBase
 	public infFIO(Autumn aAut, String aName, tPerson aPerson)
 	{
 		super(aAut, aName, aPerson);
-		_prs = aPerson;
+		mObj = aPerson;
 		
 		GridBagLayout gbl = new GridBagLayout();
 		GBC gbc = new GBC(0,0);
@@ -70,21 +68,28 @@ public class infFIO extends infBase
 		this.add(pnlMain);
 	}
 	
+	
 	public void Load()
 	{
-		//tPerson prs = mAut.getPerson();
-		_txtLastName.setText(_prs.getLName());
-		_txtFirstName.setText(_prs.getFName());
-		_txtPatronymicName.setText(_prs.getPName());
-		_dtBirthday.setCalendar(_prs.getDBCalendar());		
+		tPerson prs = (tPerson)mObj;
+		if (prs != null)
+		{
+			_txtLastName.setText(prs.getLName());
+			_txtFirstName.setText(prs.getFName());
+			_txtPatronymicName.setText(prs.getPName());
+			_dtBirthday.setCalendar(prs.getDBCalendar());
+		}
 	}
 	
 	protected void mSave()
 	{
-		//tPerson prs = mAut.getPerson();
-		_prs.setLName(_txtLastName.getText());
-		_prs.setFName(_txtFirstName.getText());
-		_prs.setPName(_txtPatronymicName.getText());
-		_prs.setBDDate(_dtBirthday.getDate());
+		tPerson prs = (tPerson)mObj;
+		if (prs != null)
+		{
+			prs.setLName(_txtLastName.getText());
+			prs.setFName(_txtFirstName.getText());
+			prs.setPName(_txtPatronymicName.getText());
+			prs.setBDDate(_dtBirthday.getDate());
+		}
 	}
 }

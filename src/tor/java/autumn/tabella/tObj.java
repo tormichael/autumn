@@ -6,10 +6,17 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import javax.imageio.ImageIO;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlTransient;
+
+import com.oracle.jrockit.jfr.ValueDefinition;
+
+import tor.java.autumn.Autumn;
 
 public class tObj 
 {
@@ -17,6 +24,7 @@ public class tObj
 	protected String 			UID;
 	protected Calendar		Create;
 	protected Calendar		LastModified;
+	protected Integer			Type;
 	/**
 	 * note about object or other common object's information 
 	 */
@@ -24,8 +32,6 @@ public class tObj
     /** 
      * object images collection
      */
-    @XmlElementWrapper (name = "Imagess")
-    @XmlElement (name = "tBin")
     protected ArrayList<tBin> Images;
 	
     public String getName()
@@ -36,6 +42,14 @@ public class tObj
     {
     	Name = aName;
     }
+    public Integer getType ()
+    {
+    	return Type;
+    }
+    public void setType(Integer aType)
+    {
+    	Type = aType;
+    }
 	public String getNote() 
 	{
 		return Note;
@@ -44,10 +58,14 @@ public class tObj
 	{
 		Note = note;
 	}
-	public ArrayList<tBin> getImgColl() {
+
+    @XmlElementWrapper (name = "Images")
+    @XmlElement (name = "tBin")
+	public ArrayList<tBin> getImageCollection() {
 		return Images;
 	}
-	public void setImgColl(ArrayList<tBin> imgColl) {
+
+	public void setImageCollection(ArrayList<tBin> imgColl) {
 		Images = imgColl;
 	}
    
@@ -60,10 +78,15 @@ public class tObj
 	{
 		LastModified = lastModified;
 	}
+
+	//protected ResourceBundle 	mRsr;
 	
 	public tObj()
 	{
+		Type = 0; // abstract
     	Images =new ArrayList<tBin>();
+    	
+		//mRsr = ResourceBundle.getBundle(Autumn.FN_RESOURCE_TEXT, Locale.getDefault());
 	}
 
 	public byte[] getMainImageAsBytes()

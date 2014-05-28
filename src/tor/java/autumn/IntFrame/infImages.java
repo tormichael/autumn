@@ -42,7 +42,7 @@ public class infImages extends infBase
 					//_addNewTab();
 					int ii = _tp.getTabCount()-1;
 					tBin bin  = new tBin();
-					mObj.getImgColl().add(bin);
+					mObj.getImageCollection().add(bin);
 					pnlImage pi = new pnlImage(mAut);
 					pi.setBin(bin);
 					if (ii > 0)
@@ -72,9 +72,11 @@ public class infImages extends infBase
 		
 		_tp.removeAll();
 		
-
+		if (mObj == null)
+			return;
+		
 		int ii = 1;
-		for(tBin bin : mObj.getImgColl())
+		for(tBin bin : mObj.getImageCollection())
 		{
 			pnlImage pi = new pnlImage(mAut);
 			pi.setBin(bin);

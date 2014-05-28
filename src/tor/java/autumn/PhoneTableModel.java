@@ -24,7 +24,7 @@ public class PhoneTableModel extends AbstractTableModel {
 	
 	public void Reconnect(tPerson aPerson)
 	{
-		if (_aut != null)
+		if (aPerson != null)
 			_contacts = aPerson.getContactColl();
 		else
 			_contacts = null;

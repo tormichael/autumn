@@ -14,8 +14,6 @@ public class tBin
 		return Bin;
 	}
 
-
-
 	public void setBin(byte[] bin) {
 		Bin = bin;
 	}

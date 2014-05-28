@@ -39,15 +39,15 @@ public class fPerson extends JFrame
 	private Autumn			_aut;
 	private tPerson				_prs;
 	
-	private JPanel			_pnl;
-	private JTextField		_txtObjName;
-	private JDesktopPane	_desktop;
+	private JPanel						_pnl;
+	private JTextField					_txtObjName;
+	private JDesktopPane			_desktop;
 	private ArrayList<infBase>	_alInF;
-	private infFIO			_frmFIO;
-	private infPhones		_frmPhones;
-	private JInternalFrame	_frmAddress;
-	private infImages		_frmImages;
-	private infNote		_frmNote;
+	private infFIO						_frmFIO;
+	private infPhones					_frmPhones;
+	private JInternalFrame			_frmAddress;
+	private infImages					_frmImages;
+	private infNote						_frmNote;
 
 	private JToggleButton _btnTransparency;
 	
@@ -58,14 +58,14 @@ public class fPerson extends JFrame
 	
 	private Color	_defaultBackrounfColor;
 	
-	public fPerson(Autumn aAut, tPerson aPrs)
+	public fPerson(Autumn aAut)
 	{
 		_defaultBackrounfColor = fPerson.this.getBackground();
 		
 		_aut = aAut;
-		_prs = aPrs;
+		_prs = null;
 	
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setIconImage(_aut.getImage("autumn.png"));
 	
 		_alInF = new ArrayList<infBase>();
@@ -160,26 +160,21 @@ public class fPerson extends JFrame
 					pvc.LoadFromVCardFile(dlg.getSelectedFile().getPath());
 					
 				}
-				
-				_txtObjName.setText(_prs.getName());
-				_desktop.setToolTipText(Autumn.Calendar2String(_prs.getLastModified()));
-				for (infBase inf : _alInF)
-					inf.Load();
+				ShowPerson(_prs);
 			}
 		};
 		
 	};
 	
-	Action actSave = new AbstractAction(){
+	Action actSave = new AbstractAction()
+	{
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			_prs.setName(_txtObjName.getText());
-			for (infBase inf: _alInF)
-				inf.Save();
+			SavePerson();
 		}
 	};
-	
+
 	Action actTransparency = new AbstractAction(){
 		@Override
 		public void actionPerformed(ActionEvent e)
@@ -332,6 +327,28 @@ public class fPerson extends JFrame
 		}
 	};
 	
+	public void ShowPerson(tPerson aPrs)
+	{
+		_prs = aPrs;
+		
+		_txtObjName.setText(_prs.getName());
+		_desktop.setToolTipText(Autumn.Calendar2String(_prs.getLastModified()));
+	
+		for (infBase inf : _alInF)
+			inf.Load(_prs);
+	}
+
+	public tPerson SavePerson()
+	{
+		if (_prs != null)
+		{
+			_prs.setName(_txtObjName.getText());
+			for (infBase inf: _alInF)
+				inf.Save();
+		}
+		return _prs;
+	}
+	
 	private void UpdateLanguage()
 	{
 		setTitle(_aut.getString("Titles.wPerson"));
@@ -340,7 +357,7 @@ public class fPerson extends JFrame
 	
 	private void LoadProgramPreference()
 	{
-		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/main");
+		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/fPerson");
 		AsRegister.LoadFrameStateSizeLocation(node, this);
 		//TableTools.SetColumnsWidthFromString(_tabOp, node.get("TabColWidth_Operation", CC.STR_EMPTY));
 		if (node.getBoolean("isFIOShow", false))
@@ -357,7 +374,7 @@ public class fPerson extends JFrame
 	
 	private void SaveProgramPreference()
 	{
-		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/main");
+		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/fPerson");
 		AsRegister.SaveFrameStateSizeLocation(node, this);
 		//node.put("TabColWidth_Operation", TableTools.GetColumnsWidthAsString(_tabOp));
 		node.putBoolean("isFIOShow", _btnViewFIO.isSelected());

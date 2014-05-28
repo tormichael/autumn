@@ -14,6 +14,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlElements;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement (name = "ObjRegister")
@@ -23,8 +24,6 @@ public class tRegister
 	private Date	_dateCreated;
 	private Date _dateLastModified;
 
-	@XmlElementWrapper (name = "ObjColl")
-    @XmlElement (name = "tObj")
     private ArrayList<tObj> _objColl;
 	
     public Date getDateCreated() 
@@ -44,6 +43,11 @@ public class tRegister
 		this._dateLastModified = _dateLastModified;
 	}
 
+	@XmlElementWrapper (name = "ObjColl")
+    @XmlElements ({
+		@XmlElement (name = "Obj", type =tObj.class),
+		@XmlElement (name = "Person", type = tPerson.class)
+    })
     public ArrayList<tObj> getObjColl()
     {
     	return _objColl;
