@@ -14,8 +14,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlTransient;
 
-import com.oracle.jrockit.jfr.ValueDefinition;
-
 import tor.java.autumn.Autumn;
 
 public class tObj 

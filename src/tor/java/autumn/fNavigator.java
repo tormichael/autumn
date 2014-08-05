@@ -28,8 +28,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import tor.java.autumn.pNavMode.pNavMode;
 import tor.java.autumn.pNavMode.pNavModeAlphabet;
-import tor.java.autumn.pNavMode.pNavModeGroup;
-import tor.java.autumn.pNavMode.pNavModeType;
+import tor.java.autumn.pNavMode.pNavModeList;
 import tor.java.autumn.tabella.tObj;
 import tor.java.autumn.tabella.tPerson;
 import tor.java.autumn.tabella.tRegister;
@@ -55,6 +54,7 @@ public class fNavigator extends JFrame
 	private JLabel _sbiMain;
 	private JComboBox<CodeText> _cboMode;
 	
+	private JPanel _pnlNavigator;
 	private pNavMode _currNavMode;
 	
 	private fPerson _fprs;
@@ -150,6 +150,8 @@ public class fNavigator extends JFrame
 		 * C O N T E N T S
 		 */
 		_currNavMode = null;
+		_pnlNavigator = new JPanel(new BorderLayout());
+		add(_pnlNavigator, BorderLayout.CENTER);
 		
 		
 		/**
@@ -197,24 +199,35 @@ public class fNavigator extends JFrame
 	private void _showMode()
 	{
 		if (_currNavMode != null)
-			fNavigator.this.remove(_currNavMode);
+		{
+			_pnlNavigator.remove(_currNavMode);
+			_pnlNavigator.revalidate();
+			_pnlNavigator.repaint();
+			_currNavMode = null;
+		}
 		
 		switch (((CodeText)_cboMode.getSelectedItem()).getCode())
 		{
 		case 1: // alphabet
 			_currNavMode = new pNavModeAlphabet(_aut);
 			break;
-		case 2: // group
-			_currNavMode = new pNavModeGroup(_aut);
+		case 2: // list
+			_currNavMode = new pNavModeList(_aut);
 			break;
-		case 3: // type
-			_currNavMode = new pNavModeType(_aut);
-			break;
+//		case 2: // group
+//			_currNavMode = new pNavModeGroup(_aut);
+//			break;
+//		case 3: // type
+//			_currNavMode = new pNavModeType(_aut);
+//			break;
 		}
 		
 		if (_currNavMode != null)
 		{
-			fNavigator.this.add(_currNavMode, BorderLayout.CENTER);
+			_pnlNavigator.add(_currNavMode, BorderLayout.CENTER);
+			_pnlNavigator.revalidate();
+			_pnlNavigator.repaint();
+			_currNavMode.ShowRegister();
 			_currNavMode.setActionObjectSelected(actObjectSelected);
 		}
 		
@@ -428,8 +441,9 @@ public class fNavigator extends JFrame
 		
 		_cboMode.removeAllItems();
 		_cboMode.addItem(new CodeText(1, _aut.getString("Text.Navigator.Mode.Alphabet")));
-		_cboMode.addItem(new CodeText(2, _aut.getString("Text.Navigator.Mode.Group")));
-		_cboMode.addItem(new CodeText(3, _aut.getString("Text.Navigator.Mode.Type")));
+		_cboMode.addItem(new CodeText(2, _aut.getString("Text.Navigator.Mode.List")));
+		//_cboMode.addItem(new CodeText(2, _aut.getString("Text.Navigator.Mode.Group")));
+		//_cboMode.addItem(new CodeText(3, _aut.getString("Text.Navigator.Mode.Type")));
 	}
 	
 	private void LoadProgramPreference()

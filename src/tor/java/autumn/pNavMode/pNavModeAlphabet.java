@@ -7,6 +7,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListModel;
 import javax.swing.event.ChangeEvent;
@@ -69,7 +70,8 @@ public class pNavModeAlphabet extends pNavMode
 				pnlLetter = new JPanel(new BorderLayout());
 				lmObj = new DefaultListModel<tObj>();
 				lstObj = new JList<tObj>(lmObj);
-				pnlLetter.add(lstObj, BorderLayout.CENTER);
+				pnlLetter.add(new JScrollPane().add(lstObj), BorderLayout.CENTER);
+				//pnlLetter.add(lstObj, BorderLayout.CENTER);
 				_tp.add(pnlLetter,letter);
 				prevLetter = letter;
 				lstObj.addListSelectionListener(new ListSelectionListener() 
