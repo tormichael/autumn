@@ -24,6 +24,7 @@ import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import tor.java.autumn.IntFrame.infAddress;
 import tor.java.autumn.IntFrame.infBase;
 import tor.java.autumn.IntFrame.infFIO;
 import tor.java.autumn.IntFrame.infImages;
@@ -45,7 +46,7 @@ public class fPerson extends JFrame
 	private ArrayList<infBase>	_alInF;
 	private infFIO						_frmFIO;
 	private infPhones					_frmPhones;
-	private JInternalFrame			_frmAddress;
+	private infAddress				_frmAddress;
 	private infImages					_frmImages;
 	private infNote						_frmNote;
 
@@ -53,6 +54,7 @@ public class fPerson extends JFrame
 	
 	private JToggleButton _btnViewFIO;
 	private JToggleButton _btnViewPhone;
+	private JToggleButton _btnViewAddress;
 	private JToggleButton _btnViewImage;
 	private JToggleButton _btnViewNote;
 	
@@ -101,8 +103,9 @@ public class fPerson extends JFrame
 		actViewPhones.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
 		bar.add(_btnViewPhone);
 		
-		bar.add(actViewAddress);
+		_btnViewAddress = new JToggleButton(actViewAddress);
 		actViewAddress.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
+		bar.add(_btnViewAddress);
 		
 		_btnViewImage = new JToggleButton(actViewImages);
 		actViewImages.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
@@ -264,7 +267,23 @@ public class fPerson extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			
+			if (_frmAddress == null)
+			{
+				_frmAddress = new infAddress(_aut, "frmAddress", _prs);
+				_frmAddress.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
+ 				_alInF.add(_frmAddress);
+ 				_frmAddress.Load();
+			}
+			if (_btnViewAddress.isSelected())
+			{
+				_desktop.add(_frmAddress, JDesktopPane.PALETTE_LAYER);
+			}
+			else
+			{
+				_desktop.remove(_frmAddress);
+			}
+			_frmAddress.setVisible(_btnViewAddress.isSelected());
+			_desktop.repaint();
 		}
 	};
 	
@@ -364,8 +383,8 @@ public class fPerson extends JFrame
 			_btnViewFIO.doClick();
 		if (node.getBoolean("isPhoneShow", false))
 			_btnViewPhone.doClick();
-		//if (node.getBoolean("isFIOShow", false))
-		//	_btnViewFIO.doClick();
+		if (node.getBoolean("isAddressShow", false))
+			_btnViewAddress.doClick();
 		if (node.getBoolean("isImageShow", false))
 			_btnViewImage.doClick();
 		if (node.getBoolean("isNoteShow", false))
@@ -379,7 +398,7 @@ public class fPerson extends JFrame
 		//node.put("TabColWidth_Operation", TableTools.GetColumnsWidthAsString(_tabOp));
 		node.putBoolean("isFIOShow", _btnViewFIO.isSelected());
 		node.putBoolean("isPhoneShow", _btnViewPhone.isSelected());
-		//node.putBoolean("isFIOShow", _btnViewFIO.isSelected());
+		node.putBoolean("isAddressShow", _btnViewAddress.isSelected());
 		node.putBoolean("isImageShow", _btnViewImage.isSelected());
 		node.putBoolean("isNoteShow", _btnViewNote.isSelected());
 	}

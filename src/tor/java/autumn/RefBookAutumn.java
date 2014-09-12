@@ -19,6 +19,8 @@ public class RefBookAutumn
 	public final static String RB_ALIAS_VTN_TYPE = "vtn_type";
 	public final static String RB_ALIAS_VTN_TYPE_EMAIL = "EMAIL";
 	public final static String RB_ALIAS_VTN_MODE = "vtn_mode";
+	public final static String RB_ALIAS_ADDRESS_TYPE = "address_type";
+	public final static String RB_ALIAS_COUNTRY = "country";
 	
 	private RefBook _rb;
 	private Autumn _aut;
@@ -27,6 +29,8 @@ public class RefBookAutumn
 	
 	private rbNode _rbnContactType;
 	private rbNode _rbnContactMode;
+	private rbNode _rbnAddressType;
+	private rbNode _rbnCountry;
 	
 	public RefBook getRB()
 	{
@@ -51,6 +55,27 @@ public class RefBookAutumn
 
 		return _rbnContactMode;
 	}
+	public rbNode getNodeAddressType()
+	{
+		if (_rbnAddressType == null)
+			_rbnAddressType = _rb.getRefBookNode().findByAlias(RB_ALIAS_ADDRESS_TYPE);		
+
+		return _rbnAddressType;
+	}
+	public rbNode getNodeCountry()
+	{
+		if (_rbnCountry == null)
+			_rbnCountry = _rb.getRefBookNode().findByAlias(RB_ALIAS_COUNTRY);		
+
+		return _rbnCountry;
+	}
+//	public rbNode getNodeXXX()
+//	{
+//		if (_rbnXXX == null)
+//			_rbnXXX = _rb.getRefBookNode().findByAlias(RB_ALIAS_XXX);		
+//
+//		return _rbnXXX;
+//	}
 
 	public String getFileName()
 	{
@@ -76,7 +101,10 @@ public class RefBookAutumn
 		if (aFileName != null && aFileName.length() > 0)
 		{
 			_rb = RefBook.Load(aFileName);
-			_curFileName = aFileName;
+			if (_rb != null)
+				_curFileName = aFileName;
+			else
+				_rb = new RefBook();
 		}
 	}
 	

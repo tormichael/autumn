@@ -520,6 +520,7 @@ public class fNavigator extends JFrame
 		
 		node.putInt("SelectedMode", ((CodeText) _cboMode.getSelectedItem()).getCode());
 		node.put("LastOpenedFileName", _currFileName);
-		node.put("RefBookFileName", _aut.getRefbook().getFileName());
+		if (_aut.getRefbook().getFileName() != null)
+			node.put("RefBookFileName", _aut.getRefbook().getFileName());
 	}	
 }

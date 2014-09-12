@@ -3,86 +3,86 @@ package tor.java.autumn.tabella;
 
 public class tAdr 
 {
-	private String HouseStreet;
-	private String City;
-	private String Region;
-	private String Index;
-	private String Country;
-	private String Type;
-	private String Note;
-	private int NN;
+	private int _type;
+	private int _nn;
+	private String _index;
+	private String _country;
+	private String _locality;
+	private String _region;
+	private String _houseStreet;
+	private String _note;
 
 
 	public String getHouseStreet() 
 	{
-		return HouseStreet;
+		return _houseStreet;
 	}
 	public void setHouseStreet(String houseStreet) 
 	{
-		HouseStreet = houseStreet;
+		_houseStreet = houseStreet;
 	}
 
-	public String getCity() 
+	public String getLocality()
 	{
-		return City;
+		return _locality;
 	}
-	public void setCity(String city) 
+	public void setLocality(String locality) 
 	{
-		City = city;
+		_locality = locality;
 	}
 
 	public String getRegion()
 	{
-		return Region;
+		return _region;
 	}
 	public void setRegion(String region) 
 	{
-		Region = region;
+		_region = region;
 	}
 
 	public String getIndex() 
 	{
-		return Index;
+		return _index;
 	}
 	public void setIndex(String index)
 	{
-		Index = index;
+		_index = index;
 	}
 
 	public String getCountry() 
 	{
-		return Country;
+		return _country;
 	}
 	public void setCountry(String country) 
 	{
-		Country = country;
+		_country = country;
 	}
 
-	public String getType() 
+	public int getType() 
 	{
-		return Type;
+		return _type;
 	}
-	public void setType(String type) 
+	public void setType(int type) 
 	{
-		Type = type;
+		_type = type;
 	}
 
 	public String getNote() 
 	{
-		return Note;
+		return _note;
 	}
 	public void setNote(String note) 
 	{
-		Note = note;
+		_note = note;
 	}
 
 	public int getNN() 
 	{
-		return NN;
+		return _nn;
 	}
 	public void setNN(int nN) 
 	{
-		NN = nN;
+		_nn = nN;
 	}
 
 	public tAdr()

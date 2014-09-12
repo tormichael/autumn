@@ -202,6 +202,7 @@ public class PersonalVCard
 			}
 		
 		// Address:
+		rbNode rbnTAdr = _aut.getRefbook().getNodeAddressType();
 		List<AdrType> iAdr = aVCard.getAdrs();
 		if (iAdr != null)
 			for (AdrType at : iAdr)
@@ -209,15 +210,21 @@ public class PersonalVCard
 				tAdr adr = new tAdr();
 				adr.setIndex(at.getPostalCode());
 				adr.setHouseStreet(at.getStreetAddress());
-				adr.setCity(at.getLocality());
+				adr.setLocality(at.getLocality());
 				adr.setRegion(at.getRegion());
 				adr.setCountry(at.getCountryName());
-				String nt = CC.STR_EMPTY;
-				for (AdrParamType apt : at.getParams())
+				if (rbnTAdr != null)
 				{
-					nt += (nt.length() > 0 ? "; " : CC.STR_EMPTY) + apt.getType();
+					for (AdrParamType apt : at.getParams())
+					{
+						rbNode rbn = rbnTAdr.findByAlias(apt.getType());
+						if (rbn != null)
+						{
+							adr.setType(rbn.getId());
+							break;
+						}
+					}
 				}
-				adr.setType(nt);
 				aPrs.getAddrColl().add(adr);
 			}
 		
