@@ -1,6 +1,7 @@
 package tor.java.autumn;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -8,8 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.Random;
 import java.util.prefs.Preferences;
 
 import javax.swing.AbstractAction;
@@ -35,6 +35,7 @@ import tor.java.autumn.tabella.tRegister;
 import JCommonTools.AsRegister;
 import JCommonTools.CC;
 import JCommonTools.CodeText;
+import JCommonTools.Dialog.dAbout;
 
 public class fNavigator extends JFrame 
 {
@@ -46,10 +47,13 @@ public class fNavigator extends JFrame
 	private JMenuItem _mnuFileSaveAs;
 	private JMenuItem _mnuFilePrint;
 	private JMenuItem _mnuFileProperties;
+	private JMenuItem _mnuFileRefbook;
 	private JMenuItem _mnuFileExit;
 	private JMenu _mnuRecord;
 	private JMenuItem _mnuRecordNew;
 	private JMenuItem _mnuRecordDelete;
+	private JMenu _mnuHelp;
+	private JMenuItem _mnuHelpAbout;
 	private JLabel _lblMode;
 	private JLabel _sbiMain;
 	private JComboBox<CodeText> _cboMode;
@@ -84,7 +88,7 @@ public class fNavigator extends JFrame
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		this.setIconImage(_aut.getImage("autumn2.png"));
+		this.setIconImage(_aut.getImageInRscImg("autumn2.png"));
 
 		/**
 		 * M E N U
@@ -109,6 +113,8 @@ public class fNavigator extends JFrame
 		_mnuFile.addSeparator();
 		_mnuFileProperties = new JMenuItem();
 		_mnuFile.add(_mnuFileProperties);
+		_mnuFileRefbook = new JMenuItem(actRefbook);
+		_mnuFile.add(_mnuFileRefbook);
 		_mnuFile.addSeparator();
 		_mnuFileExit = new JMenuItem(actExit);
 		_mnuFile.add(_mnuFileExit);
@@ -118,7 +124,10 @@ public class fNavigator extends JFrame
 		_mnuRecord.add(_mnuRecordNew);
 		_mnuRecordDelete = new JMenuItem(actRecordDelete);
 		_mnuRecord.add(_mnuRecordDelete);
-		
+		_mnuHelp = new JMenu();
+		mnuBar.add(_mnuHelp);
+		_mnuHelpAbout = new JMenuItem(new ActionAbout());
+		_mnuHelp.add(_mnuHelpAbout);
 		/**
 		 *   T O O L S   B A R
 		 */
@@ -140,6 +149,7 @@ public class fNavigator extends JFrame
 		actRecordDelete.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.RecordDelete"));
 		bar.add(actRecordDelete);
 		bar.addSeparator();
+		actRefbook.putValue(Action.SMALL_ICON, _aut.getImageIcon("refbook.png"));
 		_lblMode = new JLabel();
 		bar.add(_lblMode);
 		bar.addSeparator();
@@ -233,6 +243,34 @@ public class fNavigator extends JFrame
 		
 	}
 	
+	private class ActionAbout extends AbstractAction
+	{
+		public ActionAbout()
+		{
+			putValue(Action.SMALL_ICON, _aut.getImageIcon("about.png"));
+		}
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			dAbout dlg = new dAbout();
+			dlg.setIconImage(fNavigator.this.getIconImage());
+			dlg.set_txtTitle(_aut.getString("Titles.fNavigator"));
+			Random rdm = new Random();
+			dlg.setBackrounImage(_aut.getImageInRscImgAutumn("autumn"+ (rdm.nextInt(37)+1)+ ".png"));
+			//dlg.setBackrounImage(_aut.getImageInRscImg("autumn.png"));
+			//dlg.setBackrounImage(_wld.getImage("Geosynchronous_orbit.gif"));
+			dlg.setTextColor(Color.WHITE);
+			String dt = CC.STR_EMPTY;
+			try
+			{
+				//File jarFile = new File(fOrbita.this.getClass().getProtectionDomain().getCodeSource().getLocation().toExternalForm());
+				//dt = "build time: "+ jarFile.lastModified();
+			}
+			catch (Exception ex) {}
+			dlg.set_txtBuild("Build id: 0001"+CC.NEW_LINE+dt);
+			dlg.setVisible(true);
+		}
+	}
+
 	Action actLoad = new AbstractAction()
 	{
 		@Override
@@ -315,6 +353,15 @@ public class fNavigator extends JFrame
 		}
 	};
 	
+	Action actRefbook = new AbstractAction()
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			_aut.getRefbook().FormShow();
+		}
+	};
+
 	Action actExit = new AbstractAction()
 	{
 		@Override
@@ -433,10 +480,13 @@ public class fNavigator extends JFrame
 		_mnuFileSaveAs.setText( _aut.getString("Menu.Person.File.SaveAs"));
 		_mnuFilePrint.setText( _aut.getString("Menu.Person.File.Print"));
 		_mnuFileProperties.setText( _aut.getString("Menu.Person.File.Properties"));
+		_mnuFileRefbook.setText(_aut.getString("Menu.Person.File.Refbook"));
 		_mnuFileExit.setText( _aut.getString("Menu.Person.File.Exit"));
 		_mnuRecord.setText(_aut.getString("Menu.Record"));
 		_mnuRecordNew.setText(_aut.getString("Menu.Record.New"));
 		_mnuRecordDelete.setText(_aut.getString("Menu.Record.Delete"));
+		_mnuHelp.setText(_aut.getString("Menu.Help"));
+		_mnuHelpAbout.setText(_aut.getString("Menu.Help.About"));
 		_lblMode.setText(_aut.getString("Label.Navigator.Mode"));
 		
 		_cboMode.removeAllItems();
@@ -460,8 +510,9 @@ public class fNavigator extends JFrame
 				}
 		
 		setCurrentFileName(node.get("LastOpenedFileName", CC.STR_EMPTY));
+		_aut.getRefbook().Load(node.get("RefBookFileName", CC.STR_EMPTY));
 	}
-	
+
 	private void SaveProgramPreference()
 	{
 		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/Navigator");
@@ -469,5 +520,6 @@ public class fNavigator extends JFrame
 		
 		node.putInt("SelectedMode", ((CodeText) _cboMode.getSelectedItem()).getCode());
 		node.put("LastOpenedFileName", _currFileName);
+		node.put("RefBookFileName", _aut.getRefbook().getFileName());
 	}	
 }

@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.AbstractTableModel;
 
 import tor.java.autumn.tabella.tPerson;
 import tor.java.autumn.tabella.tVTN;
 import JCommonTools.CC;
+import JCommonTools.RefBook.fRefBook;
+import JCommonTools.RefBook.rbNode;
 
 
 public class PhoneTableModel extends AbstractTableModel {
@@ -16,6 +19,18 @@ public class PhoneTableModel extends AbstractTableModel {
 	private Autumn 	_aut;
     private ArrayList<tVTN> _contacts;
 
+	private DefaultComboBoxModel<rbNode> _modCboType;
+	private DefaultComboBoxModel<rbNode> _modCboMode;
+   
+	public void setComboBoxTypeModel (DefaultComboBoxModel<rbNode> aCBM)
+	{
+		_modCboType = aCBM;
+	}
+	public void setComboBoxModeModel (DefaultComboBoxModel<rbNode> aCBM)
+	{
+		_modCboMode = aCBM;
+	}
+	
 	public PhoneTableModel(Autumn aut, tPerson aPerson)
 	{
 		_aut = aut;
@@ -33,7 +48,7 @@ public class PhoneTableModel extends AbstractTableModel {
 	@Override
 	public int getColumnCount() 
 	{
-		return 3;
+		return 4;
 	}
 
 	@Override
@@ -55,6 +70,9 @@ public class PhoneTableModel extends AbstractTableModel {
 				ret = _aut.getString("Table.Phone.ColName.Types");
 				break;
 			case 2:
+				ret = _aut.getString("Table.Phone.ColName.Mode");
+				break;
+			case 3:
 				ret = _aut.getString("Table.Phone.ColName.Notes");
 				break;
 		}
@@ -72,15 +90,12 @@ public class PhoneTableModel extends AbstractTableModel {
 					ret = _contacts.get(rowIndex).getValue();
 					break;
 				case 1:
-					/*
-					for (TelephoneParameterType tt : _phoneNumbers.get(rowIndex).getTelephoneParameterTypesList())
-						ret += tt.getDescription()+ ";";
-					if (ret.length() > 1)
-						ret = ret.substring(0, ret.length()-1);
-					*/
-					ret = _contacts.get(rowIndex).getType();
+					ret = fRefBook.FindRBNodeByIDInComModel(_modCboType, _contacts.get(rowIndex).getType());
 					break;
 				case 2:
+					ret = fRefBook.FindRBNodeByIDInComModel(_modCboMode, _contacts.get(rowIndex).getMode());
+					break;
+				case 3:
 					ret = _contacts.get(rowIndex).getNote();
 					break;
 			}				
@@ -90,41 +105,38 @@ public class PhoneTableModel extends AbstractTableModel {
 	}
 
 	@Override
+	public boolean isCellEditable(int rowIndex, int columnIndex) 
+	{
+		//return super.isCellEditable(rowIndex, columnIndex);
+		return true;
+	}
+	
+	@Override
 	public void setValueAt(Object aValue, int rowIndex, int columnIndex) 
 	{
-		super.setValueAt(aValue, rowIndex, columnIndex);
-		/*if (_params == null)
-			return;
-		
-		if (_params.size() >= rowIndex)
+		if (rowIndex == _contacts.size())
 		{
-			if (_params.size() == rowIndex)
-				_params.add(new Param());
-			
-			switch (columnIndex)
-			{
-				case 0:
-					_params.get(rowIndex).Number = Integer.parseInt(aValue.toString());
-					break;
-				case 1:
-					_params.get(rowIndex).Title = aValue.toString();
-					break;
-				case 2:
-					_params.get(rowIndex).Name = aValue.toString();
-					break;
-				case 3:
-					_params.get(rowIndex).Type = eQueryParamType.valueOf(aValue.toString());
-					break;
-				case 4:
-					_params.get(rowIndex).IsInsert = Boolean.parseBoolean(aValue.toString());
-					break;
-				case 5:
-					_params.get(rowIndex).DefaultValue = aValue.toString();
-					break;
-			}
-		}*/
-			
-		//super.setValueAt(aValue, rowIndex, columnIndex);
+			_contacts.add(new tVTN());
+		}
+		
+		switch (columnIndex)
+		{
+			case 0:
+				_contacts.get(rowIndex).setValue(aValue.toString());
+				break;
+			case 1:
+				_contacts.get(rowIndex).setType(fRefBook.FindRBNodeByNameInComModel(_modCboType, aValue.toString()));
+				break;
+			case 2:
+				_contacts.get(rowIndex).setMode(fRefBook.FindRBNodeByNameInComModel(_modCboMode, aValue.toString()));
+				break;
+			case 3:
+				_contacts.get(rowIndex).setNote(aValue.toString());
+				break;
+			default:
+				super.setValueAt(aValue, rowIndex, columnIndex);
+				break;
+		}
 	}
 	
 }

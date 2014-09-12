@@ -42,6 +42,7 @@ import net.sourceforge.cardme.vcard.types.params.EmailParamType;
 import net.sourceforge.cardme.vcard.types.params.TelParamType;
 import net.sourceforge.cardme.vcard.types.params.UrlParamType;
 import JCommonTools.CC;
+import JCommonTools.RefBook.rbNode;
 
 public class PersonalVCard 
 {
@@ -50,14 +51,15 @@ public class PersonalVCard
 	//VCard				_vcard;
 	private Charset		_workcharset;
 	private String 		_filename;
-	
 
+	private rbNode _rbnContactTypeEmail;
+	
 	public PersonalVCard(Autumn aut)
 	{
 		_aut = aut;
 		//_vcard = null;
 		_workcharset = Charset.defaultCharset();
-		
+		_rbnContactTypeEmail = _aut.getRefbook().getRefBookNode().findByAlias(_aut.getRefbook().RB_ALIAS_VTN_TYPE_EMAIL);		
 	}
 	
 	public void LoadFromVCardFile(String aFileName)
@@ -140,19 +142,27 @@ public class PersonalVCard
 			{
 				aPrs.addImageAsBytes(ph.getPhoto());
 			}
+
+		rbNode rbnTType = _aut.getRefbook().getNodeContactType();
+		rbNode rbnTMode = _aut.getRefbook().getNodeContactMode();
 		
 		// Telephone:
 		List<TelType> itTel = aVCard.getTels();
 		if (itTel != null)
 			for (TelType tt : itTel)
 			{
-				tVTN tel = new tVTN(tt.getTelephone(), "");
-				String nt = CC.STR_EMPTY;
-				for (TelParamType tpt : tt.getParams())
+				tVTN tel = new tVTN(tt.getTelephone(), 0, 0);
+				if (rbnTType != null && rbnTMode != null)
 				{
-					nt += (nt.length() > 0 ? "; " : CC.STR_EMPTY) + tpt.getType();
+					for (TelParamType tpt : tt.getParams())
+					{
+						rbNode rbn = rbnTType.findByAlias(tpt.getType());
+						if (rbn != null)
+							tel.setType(rbn.getId());
+						else if ((rbn = rbnTMode.findByAlias(tpt.getType())) != null)
+							tel.setMode(rbn.getId());
+					}
 				}
-				tel.setType(nt);
 				aPrs.getContactColl().add(tel);
 			}
 
@@ -163,12 +173,12 @@ public class PersonalVCard
 			{
 				tVTN mail = new tVTN();
 				mail.setValue(et.getEmail());
-				String nt = CC.STR_EMPTY;
-				for (EmailParamType ept : et.getParams())
-				{
-					nt += (nt.length() > 0 ? "; " : CC.STR_EMPTY) + ept.getType();
-				}
-				mail.setType(nt);					
+				if (_rbnContactTypeEmail != null)
+					mail.setType(_rbnContactTypeEmail.getId());
+					
+//				for (EmailParamType ept : et.getParams())
+//				{
+//				}
 				aPrs.getContactColl().add(mail);
 			}
 
@@ -179,12 +189,15 @@ public class PersonalVCard
 			{
 				tVTN url = new tVTN();
 				url.setValue(ut.getRawUrl());
-				String nt = CC.STR_EMPTY;
-				for (UrlParamType upt : ut.getParams())
+				if (rbnTType != null)
 				{
-					nt += (nt.length() > 0 ? "; " : CC.STR_EMPTY) + upt.getType();
+					for (UrlParamType upt : ut.getParams())
+					{
+						rbNode rbn = rbnTType.findByAlias(upt.getType());
+						if (rbn != null)
+							url.setType(rbn.getId());
+					}
 				}
-				url.setType(nt);					
 				aPrs.getContactColl().add(url);
 			}
 		

@@ -4,49 +4,57 @@ import JCommonTools.CC;
 
 public class tVTN 
 {
-	private String Value;
-	private String Type;
-	private String Note;
-	private int NN;
+	private String _val;
+	private int _type;
+	private int _mode;
+	private String _note;
+	private int _nn;
 
 	public String getValue() {
-		return Value;
+		return _val;
 	}
 	public void setValue(String value) {
-		Value = value;
+		_val = value;
 	}
-	public String getType() {
-		return Type;
+	public int getType() {
+		return _type;
 	}
-	public void setType(String type) {
-		Type = type;
+	public void setType(int type) {
+		_type = type;
+	}
+	public int getMode() {
+		return _mode;
+	}
+	public void setMode(int mode) {
+		_mode = mode;
 	}
 	public String getNote() {
-		return Note;
+		return _note;
 	}
 	public void setNote(String note) {
-		Note = note;
+		_note = note;
 	}
 	public int getNN() {
-		return NN;
+		return _nn;
 	}
 	public void setNN(int nN) {
-		NN = nN;
+		_nn = nN;
 	}
-	public tVTN(String aVal, String aType, String aNote, int aNN)
+	public tVTN(String aVal, int aType, int aMode, String aNote, int aNN)
 	{
-		Value = aVal;
-		Type = aType;
-		Note = aNote;
-		NN = aNN;
+		_val = aVal;
+		_type = aType;
+		_mode = aMode;
+		_note = aNote;
+		_nn = aNN;
 	}
-	public  tVTN(String aVal, String aType)
+	public  tVTN(String aVal, int aType, int aMode)
 	{
-		this(aVal, aType, CC.STR_EMPTY, 0);
+		this(aVal, aType, aMode, CC.STR_EMPTY, 0);
 	}
 	public  tVTN()
 	{
-		this(CC.STR_EMPTY, CC.STR_EMPTY, CC.STR_EMPTY, 0);
+		this(CC.STR_EMPTY, 0, 0, CC.STR_EMPTY, 0);
 	}
 
 	

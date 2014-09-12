@@ -13,6 +13,7 @@ import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 
 import JCommonTools.CodeText;
+import JCommonTools.RefBook.RefBook;
 
 import tor.java.autumn.tabella.tPerson;
 import tor.java.autumn.tabella.tRegister;
@@ -22,10 +23,12 @@ public class Autumn
 	private tRegister _ore;
 	private ArrayList<CodeText>	_arrObjType;
 	private ResourceBundle 	_bnd;
+	private RefBookAutumn	_rfb;
 	
-	public final static String FN_RESOURCE_TEXT = "tor/java/autumn/rsc/autumnText";
-	public final static String FD_RESOURCE_ICONS = "rsc/icons/";
-	public final static String FD_RESOURCE_IMAGE = "rsc/icons/";
+	public final static String FN_RESOURCE_TEXT = "autumnText";
+	public final static String FD_RESOURCE_ICONS = "img/";
+	public final static String FD_RESOURCE_IMAGE = "img/";
+	public final static String FD_RESOURCE_IMAGE_AUTUMN = "img/autumn/";
 	
 	public final static String PREFERENCE_PATH = "/autumn";
 	
@@ -51,6 +54,15 @@ public class Autumn
 	public void setRegister(tRegister aReg)
 	{
 		_ore = aReg;
+	}
+	
+	public RefBookAutumn getRefbook()
+	{
+		return _rfb;
+	}
+	public void setRefbook(RefBookAutumn aRB)
+	{
+		_rfb = aRB;
 	}
 
 	public ArrayList<CodeText> getArrObjType()
@@ -78,7 +90,7 @@ public class Autumn
 	{
 		_ore = new tRegister();
 		_bnd = ResourceBundle.getBundle(Autumn.FN_RESOURCE_TEXT, Locale.getDefault());
-
+		_rfb = new RefBookAutumn(this);
 		initObjTypeArray();
 	}
 	
@@ -154,12 +166,25 @@ public class Autumn
 		}
 	}
 
+	public  Image getImageInRscImg(String aName)
+	{
+		return getImage(FD_RESOURCE_IMAGE+aName);
+	}
+	
+	public  Image getImageInRscImgAutumn(String aName)
+	{
+		return getImage(FD_RESOURCE_IMAGE_AUTUMN+aName);
+	}
+	
 	public  Image getImage(String aName)
 	{
-		URL url = this.getClass().getClassLoader().getResource(FD_RESOURCE_IMAGE+aName);
+		URL url = this.getClass().getClassLoader().getResource(aName);
+		if (url ==null)
+			url = this.getClass().getResource(aName);
+		
 		if (url != null)
 		{
-			return Toolkit.getDefaultToolkit().getImage(url).getScaledInstance(24, 24, Image.SCALE_SMOOTH);
+			return Toolkit.getDefaultToolkit().getImage(url).getScaledInstance(32, 32, Image.SCALE_SMOOTH);
 		}
 		else
 		{

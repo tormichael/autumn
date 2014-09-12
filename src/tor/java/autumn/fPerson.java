@@ -66,7 +66,7 @@ public class fPerson extends JFrame
 		_prs = null;
 	
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setIconImage(_aut.getImage("autumn.png"));
+		this.setIconImage(_aut.getImageInRscImg("autumn.png"));
 	
 		_alInF = new ArrayList<infBase>();
 		

@@ -336,7 +336,7 @@ public class wPerson extends JFrame
 		_txtFirstName.setText(_prs.getFName());
 		_txtPatronymicName.setText(_prs.getPName());
 		_dtBirthday.setCalendar(_prs.getDBCalendar());
-		_pnlPhoto.setPhoto(_prs.getMainImageAsBytes());
+		_pnlPhoto.setImage(_prs.getMainImageAsBytes());
 		_txtNote.setText(_prs.getNote());
 	}
 	

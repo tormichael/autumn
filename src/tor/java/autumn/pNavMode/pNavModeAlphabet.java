@@ -70,8 +70,8 @@ public class pNavModeAlphabet extends pNavMode
 				pnlLetter = new JPanel(new BorderLayout());
 				lmObj = new DefaultListModel<tObj>();
 				lstObj = new JList<tObj>(lmObj);
-				pnlLetter.add(new JScrollPane().add(lstObj), BorderLayout.CENTER);
-				//pnlLetter.add(lstObj, BorderLayout.CENTER);
+				//pnlLetter.add(new JScrollPane(lstObj), BorderLayout.CENTER);
+				pnlLetter.add(lstObj, BorderLayout.CENTER);
 				_tp.add(pnlLetter,letter);
 				prevLetter = letter;
 				lstObj.addListSelectionListener(new ListSelectionListener() 

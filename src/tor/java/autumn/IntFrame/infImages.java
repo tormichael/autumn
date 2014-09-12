@@ -1,7 +1,10 @@
 package tor.java.autumn.IntFrame;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -11,6 +14,7 @@ import javax.swing.event.ChangeListener;
 import tor.java.autumn.Autumn;
 import tor.java.autumn.tabella.tBin;
 import tor.java.autumn.tabella.tObj;
+import tor.java.autumn.tabella.tPerson;
 
 public class infImages extends infBase 
 {
@@ -45,6 +49,7 @@ public class infImages extends infBase
 					mObj.getImageCollection().add(bin);
 					pnlImage pi = new pnlImage(mAut);
 					pi.setBin(bin);
+					pi.RemovePanel = actRemovePanel;
 					if (ii > 0)
 					{
 						_tp.add(pi, mAut.getString("TabPanel.Image.TitleDefault") + " " +(ii+1), ii);
@@ -83,6 +88,8 @@ public class infImages extends infBase
 			String title = pi.getTitle();
 			if (title == null)
 				title = mAut.getString("TabPanel.Image.TitleDefault") + " " + (ii++);
+			//if (ii > 1)
+				pi.RemovePanel = actRemovePanel;
 			_tp.add(pi, title);
 		}
 		
@@ -115,4 +122,26 @@ public class infImages extends infBase
 //			_tp.add(new JPanel(), "+");
 //		}
 //	}
+	
+	protected void mSave()
+	{
+		for (int ii = 0; ii < _tp.getComponentCount(); ii++ )
+			if (_tp.getComponentAt(ii) instanceof pnlImage)
+				((pnlImage)_tp.getComponentAt(ii)).Save();
+	}
+
+	Action actRemovePanel = new AbstractAction() 
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			_isLockTabChange = true;
+			pnlImage pi = (pnlImage) e.getSource();
+			mObj.getImageCollection().remove(pi.getBin());
+			_tp.setSelectedIndex(0);
+			_tp.remove(pi);
+			_isLockTabChange = false;
+		}
+	};
+	
 }

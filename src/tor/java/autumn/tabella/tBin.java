@@ -1,5 +1,12 @@
 package tor.java.autumn.tabella;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageFilter;
+import java.io.ByteArrayOutputStream;
+
+import javax.imageio.ImageIO;
+
 public class tBin 
 {
 	private byte[] Bin;
@@ -17,8 +24,6 @@ public class tBin
 	public void setBin(byte[] bin) {
 		Bin = bin;
 	}
-
-
 
 	public String getFmt() {
 		return Fmt;
@@ -77,4 +82,24 @@ public class tBin
 		NN = 0;
 	}
 
+	
+	public void SaveImageAsBin(Image aImg)
+	{
+		if (aImg instanceof BufferedImage)
+		{
+			BufferedImage bi = (BufferedImage) aImg;
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			try
+			{
+				ImageIO.write(bi, "jpg", baos);
+				baos.flush();
+				Bin = baos.toByteArray();
+			}
+			catch (Exception ex)
+			{
+				ex.printStackTrace();
+			}
+			
+		}
+	}
 }
