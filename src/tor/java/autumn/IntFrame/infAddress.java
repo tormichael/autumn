@@ -137,7 +137,7 @@ public class infAddress extends infBase
 	private void _getData(tAdr aAdr)
 	{
 		aAdr.setIndex(_txfIndex.getText());
-		aAdr.setType(((rbNode)_cboCountry.getSelectedItem()).getId());
+		aAdr.setCountry(((rbNode)_cboCountry.getSelectedItem()).getId());
 		aAdr.setLocality(_txfLocality.getText());
 		aAdr.setRegion(_txfRegion.getText());
 		aAdr.setHouseStreet(_txaAddress.getText());
@@ -223,10 +223,20 @@ public class infAddress extends infBase
 		public void setValueAt(Object aValue, int rowIndex, int columnIndex) 
 		{
 			if (rowIndex == _alAdr.size())
+			{
 				_alAdr.add(new tAdr());
+			}
 			
 			if (rowIndex < _alAdr.size())
 				_alAdr.get(rowIndex).setType(fRefBook.FindRBNodeByNameInComModel(_cboMod, aValue.toString()));
+		
+			super.setValueAt(aValue, rowIndex, columnIndex);
+		}
+		
+		@Override
+		public Class<rbNode> getColumnClass(int columnIndex) 
+		{
+			return rbNode.class;
 		}
 	}
 	

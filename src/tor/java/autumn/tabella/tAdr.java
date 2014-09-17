@@ -6,7 +6,7 @@ public class tAdr
 	private int _type;
 	private int _nn;
 	private String _index;
-	private String _country;
+	private int _country;
 	private String _locality;
 	private String _region;
 	private String _houseStreet;
@@ -49,11 +49,11 @@ public class tAdr
 		_index = index;
 	}
 
-	public String getCountry() 
+	public int getCountry() 
 	{
 		return _country;
 	}
-	public void setCountry(String country) 
+	public void setCountry(int country) 
 	{
 		_country = country;
 	}

@@ -1,5 +1,6 @@
 package tor.java.autumn;
 
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.io.UnsupportedEncodingException;
@@ -13,6 +14,7 @@ import java.util.ResourceBundle;
 import javax.swing.ImageIcon;
 
 import JCommonTools.CodeText;
+import JCommonTools.Tools;
 import JCommonTools.RefBook.RefBook;
 
 import tor.java.autumn.tabella.tPerson;
@@ -83,6 +85,7 @@ public class Autumn
 		//prsn.setVisible(true);
 		
 		fNavigator nav = new fNavigator(new Autumn());
+		Tools.setUIFont (new javax.swing.plaf.FontUIResource("Serif",Font.ITALIC,26));
 		nav.setVisible(true);
 	}
 	
