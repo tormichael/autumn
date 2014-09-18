@@ -36,6 +36,8 @@ import JCommonTools.AsRegister;
 import JCommonTools.CC;
 import JCommonTools.CodeText;
 import JCommonTools.Dialog.dAbout;
+import JCommonTools.Param.BookParam;
+import JCommonTools.Param.fBookParam;
 
 public class fNavigator extends JFrame 
 {
@@ -111,7 +113,7 @@ public class fNavigator extends JFrame
 		_mnuFilePrint = new JMenuItem();
 		_mnuFile.add(_mnuFilePrint);
 		_mnuFile.addSeparator();
-		_mnuFileProperties = new JMenuItem();
+		_mnuFileProperties = new JMenuItem(actProperties);
 		_mnuFile.add(_mnuFileProperties);
 		_mnuFileRefbook = new JMenuItem(actRefbook);
 		_mnuFile.add(_mnuFileRefbook);
@@ -149,6 +151,7 @@ public class fNavigator extends JFrame
 		actRecordDelete.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.RecordDelete"));
 		bar.add(actRecordDelete);
 		bar.addSeparator();
+		actProperties.putValue(Action.SMALL_ICON, _aut.getImageIcon("configure.png"));
 		actRefbook.putValue(Action.SMALL_ICON, _aut.getImageIcon("refbook.png"));
 		_lblMode = new JLabel();
 		bar.add(_lblMode);
@@ -350,6 +353,21 @@ public class fNavigator extends JFrame
 
 			if (_currFileName != null)
 				_save();
+		}
+	};
+
+	Action actProperties = new AbstractAction()
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			BookParam bp = new BookParam();
+			fBookParam frm = new fBookParam(bp);
+			frm.setAppPreferencePath(Autumn.PREFERENCE_PATH);
+			//frm.setTitle(_aut.getString("Refbook.Title"));
+			frm.setIconImage(_aut.getImageIcon("configure.png").getImage());
+		
+			frm.setVisible(true);
 		}
 	};
 	
