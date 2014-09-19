@@ -56,6 +56,7 @@ public class Autumn
 	public void setRegister(tRegister aReg)
 	{
 		_ore = aReg;
+		_rfb.Load(_ore.getRefBookFileName());
 	}
 	
 	public RefBookAutumn getRefbook()

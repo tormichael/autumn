@@ -135,6 +135,7 @@ public class RefBookAutumn
 			{
 				frb.removeWindowListener(this);
 				_curFileName = frb.getCurrentFileName();
+				_aut.getRegister().setRefBookFileName(_curFileName);
 				_initRBN();
 				super.windowClosing(e);
 			}

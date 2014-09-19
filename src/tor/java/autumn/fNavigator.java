@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import sun.nio.ch.WindowsAsynchronousChannelProvider;
 import tor.java.autumn.pNavMode.pNavMode;
 import tor.java.autumn.pNavMode.pNavModeAlphabet;
 import tor.java.autumn.pNavMode.pNavModeList;
@@ -325,7 +326,7 @@ public class fNavigator extends JFrame
 			_aut.setRegister(tRegister.Load(_currFileName));
 			_isVCard = false;
 		}
-		
+				
 		_sbiMain.setText(String.format(_aut.getString("Text.Message.Successfully.Load"), _currFileName));
 		
 		if (_currNavMode != null)
@@ -361,12 +362,31 @@ public class fNavigator extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			BookParam bp = new BookParam();
-			fBookParam frm = new fBookParam(bp);
+			BookParam bp = BookParam.Load(_aut.getRegister().getBookParamFileName());
+			if (bp == null)
+				bp = new BookParam();
+			final fBookParam frm = new fBookParam(bp);
 			frm.setAppPreferencePath(Autumn.PREFERENCE_PATH);
-			//frm.setTitle(_aut.getString("Refbook.Title"));
+			frm.setTitle(_aut.getString("BookParam.Title"));
 			frm.setIconImage(_aut.getImageIcon("configure.png").getImage());
+	
+			frm.setEditable(true);
+			frm.actPageAdd.putValue(Action.SMALL_ICON, _aut.getImageIcon("page_add.png"));
+			frm.actPageEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("page_edit.png"));
+			frm.actPageRemove.putValue(Action.SMALL_ICON, _aut.getImageIcon("page_remove.png"));
+			frm.actParamsEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("params_edit.png"));
 		
+			frm.addWindowListener(new WindowAdapter() 
+			{
+				@Override
+				public void windowClosing(WindowEvent e) 
+				{
+					frm.removeWindowListener(this);
+					if (frm.getCurrentFileName() != null && frm.getCurrentFileName().length()>0) 
+						_aut.getRegister().setBookParamFileName(frm.getCurrentFileName());
+				};
+			});
+			
 			frm.setVisible(true);
 		}
 	};
@@ -528,7 +548,7 @@ public class fNavigator extends JFrame
 				}
 		
 		setCurrentFileName(node.get("LastOpenedFileName", CC.STR_EMPTY));
-		_aut.getRefbook().Load(node.get("RefBookFileName", CC.STR_EMPTY));
+		//_aut.getRefbook().Load(node.get("RefBookFileName", CC.STR_EMPTY));
 	}
 
 	private void SaveProgramPreference()
@@ -538,7 +558,7 @@ public class fNavigator extends JFrame
 		
 		node.putInt("SelectedMode", ((CodeText) _cboMode.getSelectedItem()).getCode());
 		node.put("LastOpenedFileName", _currFileName);
-		if (_aut.getRefbook().getFileName() != null)
-			node.put("RefBookFileName", _aut.getRefbook().getFileName());
+		//if (_aut.getRefbook().getFileName() != null)
+		//	node.put("RefBookFileName", _aut.getRefbook().getFileName());
 	}	
 }

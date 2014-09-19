@@ -23,6 +23,9 @@ public class tRegister
 	
 	private Date	_dateCreated;
 	private Date _dateLastModified;
+	
+	private String _rbFN;
+	private String _bpFN;
 
     private ArrayList<tObj> _objColl;
 	
@@ -42,7 +45,20 @@ public class tRegister
 	{
 		this._dateLastModified = _dateLastModified;
 	}
-
+	
+	public String getRefBookFileName() {
+		return _rbFN;
+	}
+	public void setRefBookFileName(String _rbFN) {
+		this._rbFN = _rbFN;
+	}
+	public String getBookParamFileName() {
+		return _bpFN;
+	}
+	public void setBookParamFileName(String _bpFN) {
+		this._bpFN = _bpFN;
+	}
+	
 	@XmlElementWrapper (name = "ObjColl")
     @XmlElements ({
 		@XmlElement (name = "Obj", type =tObj.class),
@@ -59,6 +75,8 @@ public class tRegister
 	
     public tRegister()
     {
+    	_rbFN = null;
+    	_bpFN = null;
     	_dateCreated = Calendar.getInstance().getTime();
     	_dateLastModified = Calendar.getInstance().getTime();
     	_objColl = new ArrayList<tObj>();
