@@ -60,6 +60,7 @@ public class infAddress extends infBase
 		else
 			_tabMod = new tmAddress(aAut, null, cbmType);
 		_tab =  new JTable(_tabMod);
+		_tab.setRowHeight(_tab.getFont().getSize() + 2);
 		_tab.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(_cboType));
 		
 		GridBagLayout gbl = new GridBagLayout();

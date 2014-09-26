@@ -42,6 +42,7 @@ public class infPhones extends infBase
 		
 		_tmPhone = new PhoneTableModel(aAut, aPerson);
 		_tabConnection = new JTable(_tmPhone);
+		_tabConnection.setRowHeight(_tabConnection.getFont().getSize() + 2);
 		this.add(new JScrollPane(_tabConnection));
 
 		DefaultComboBoxModel<rbNode> cbmType = new DefaultComboBoxModel<rbNode>();
