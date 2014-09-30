@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -36,6 +37,7 @@ import tor.java.autumn.tabella.tRegister;
 import JCommonTools.AsRegister;
 import JCommonTools.CC;
 import JCommonTools.CodeText;
+import JCommonTools.Tools;
 import JCommonTools.Dialog.dAbout;
 import JCommonTools.Param.BookParam;
 import JCommonTools.Param.fBookParam;
@@ -182,7 +184,7 @@ public class fNavigator extends JFrame
 		_sbiMain.setBorder(BorderFactory.createLoweredBevelBorder());
 		statusBar.add(_sbiMain);
 
-		UpdateLanguage();		
+		_reloadParam();		
 	
 		LoadProgramPreference ();
 		
@@ -364,7 +366,10 @@ public class fNavigator extends JFrame
 		{
 			BookParam bp = BookParam.Load(_aut.getRegister().getBookParamFileName());
 			if (bp == null)
+			{
 				bp = new BookParam();
+				bp.getBookPage().setPrefsNode(Autumn.PREFERENCE_PATH);
+			}
 			final fBookParam frm = new fBookParam(bp);
 			frm.setAppPreferencePath(Autumn.PREFERENCE_PATH);
 			frm.setTitle(_aut.getString("BookParam.Title"));
@@ -388,6 +393,10 @@ public class fNavigator extends JFrame
 			});
 			
 			frm.setVisible(true);
+			if (frm.IsOk())
+			{
+				_reloadParam();
+			}
 		}
 	};
 	
@@ -508,6 +517,19 @@ public class fNavigator extends JFrame
 			_sbiMain.setText(String.format(_aut.getString("Text.Error"), strErr));
 	}
 	
+	private void _reloadParam()
+	{
+		Preferences nodeGeneral = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/general");
+		String fntSet = nodeGeneral.get("GlobalFont", CC.STR_EMPTY);
+		if (fntSet.length() > 0)
+		{
+			Font fnt = Font.decode(fntSet);
+			Tools.setUIFont (new javax.swing.plaf.FontUIResource(fnt));
+		}
+		
+		UpdateLanguage();
+	}
+	
 	private void UpdateLanguage()
 	{
 		setCurrentFileName(_currFileName);
@@ -556,7 +578,8 @@ public class fNavigator extends JFrame
 		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/Navigator");
 		AsRegister.SaveFrameStateSizeLocation(node, this);
 		
-		node.putInt("SelectedMode", ((CodeText) _cboMode.getSelectedItem()).getCode());
+		if (_cboMode != null && _cboMode.getSelectedItem() != null)
+			node.putInt("SelectedMode", ((CodeText) _cboMode.getSelectedItem()).getCode());
 		node.put("LastOpenedFileName", _currFileName);
 		//if (_aut.getRefbook().getFileName() != null)
 		//	node.put("RefBookFileName", _aut.getRefbook().getFileName());

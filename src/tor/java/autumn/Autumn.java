@@ -86,7 +86,6 @@ public class Autumn
 		//prsn.setVisible(true);
 		
 		fNavigator nav = new fNavigator(new Autumn());
-		Tools.setUIFont (new javax.swing.plaf.FontUIResource("Serif",Font.ITALIC,26));
 		nav.setVisible(true);
 	}
 	
