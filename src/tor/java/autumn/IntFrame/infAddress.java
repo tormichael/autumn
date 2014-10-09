@@ -23,6 +23,7 @@ import org.w3c.dom.views.AbstractView;
 import JCommonTools.CC;
 import JCommonTools.GBC;
 import JCommonTools.TableTools;
+import JCommonTools.RefBook.RBComboBoxCellEdit;
 import JCommonTools.RefBook.fRefBook;
 import JCommonTools.RefBook.rbNode;
 
@@ -61,7 +62,10 @@ public class infAddress extends infBase
 			_tabMod = new tmAddress(aAut, null, cbmType);
 		_tab =  new JTable(_tabMod);
 		_tab.setRowHeight(_tab.getFont().getSize() + 2);
-		_tab.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(_cboType));
+		_cboType.setRequestFocusEnabled(false);
+		RBComboBoxCellEdit edit = new RBComboBoxCellEdit(_cboType);
+		edit.setClickCountToStart(2);
+		_tab.getColumnModel().getColumn(0).setCellEditor(edit);
 		
 		GridBagLayout gbl = new GridBagLayout();
 		JPanel pnlAdr = new JPanel(gbl);
@@ -156,6 +160,7 @@ public class infAddress extends infBase
 		
 		_tab.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/"+mName);
+		TableTools.SetColumnsWidthFromString(_tab, node.get("TabColWidth_Address", CC.STR_EMPTY));
 		_spn.setDividerLocation(node.getInt("SplitAddress", 200));
 	}
 	

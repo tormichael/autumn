@@ -221,23 +221,24 @@ public class fNavigator extends JFrame
 			_pnlNavigator.repaint();
 			_currNavMode = null;
 		}
-		
-		switch (((CodeText)_cboMode.getSelectedItem()).getCode())
+		if (_cboMode.getSelectedItem() instanceof CodeText)
 		{
-		case 1: // alphabet
-			_currNavMode = new pNavModeAlphabet(_aut);
-			break;
-		case 2: // list
-			_currNavMode = new pNavModeList(_aut);
-			break;
-//		case 2: // group
-//			_currNavMode = new pNavModeGroup(_aut);
-//			break;
-//		case 3: // type
-//			_currNavMode = new pNavModeType(_aut);
-//			break;
+			switch (((CodeText)_cboMode.getSelectedItem()).getCode())
+			{
+			case 1: // alphabet
+				_currNavMode = new pNavModeAlphabet(_aut);
+				break;
+			case 2: // list
+				_currNavMode = new pNavModeList(_aut);
+				break;
+	//		case 2: // group
+	//			_currNavMode = new pNavModeGroup(_aut);
+	//			break;
+	//		case 3: // type
+	//			_currNavMode = new pNavModeType(_aut);
+	//			break;
+			}
 		}
-		
 		if (_currNavMode != null)
 		{
 			_pnlNavigator.add(_currNavMode, BorderLayout.CENTER);

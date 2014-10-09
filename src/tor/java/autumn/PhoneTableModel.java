@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.table.AbstractTableModel;
 
 import tor.java.autumn.tabella.tPerson;
@@ -137,6 +138,19 @@ public class PhoneTableModel extends AbstractTableModel {
 				super.setValueAt(aValue, rowIndex, columnIndex);
 				break;
 		}
+		
+		fireTableCellUpdated(rowIndex, columnIndex);
 	}
 	
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex) 
+	{
+//		if (columnIndex == 1)
+//			return _modCboType.getClass();
+//		if (columnIndex == 2)
+//			return _modCboMode.getClass();
+//		else
+			return getValueAt(0, columnIndex).getClass();
+	}
 }
