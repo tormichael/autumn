@@ -1,20 +1,32 @@
 package tor.java.autumn.tabella;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
+
+
+
+import javax.xml.bind.annotation.XmlRootElement;
 
 //import sun.util.calendar.CalendarDate;
 //import sun.util.calendar.BaseCalendar.Date;
 import JCommonTools.CC;
 
+@XmlRootElement (name = "Persona")
 public class tPerson extends tObj 
 {
+	public final static String FILE_EXTENTION = "per";
+	
 	public final static int SEX_UNKNOWN = 0;
 	public final static int SEX_WOMEN = 1;
 	public final static int SEX_MAN = 2;
@@ -140,6 +152,53 @@ public class tPerson extends tObj
     {
     	this (CC.STR_EMPTY, CC.STR_EMPTY, CC.STR_EMPTY, CC.STR_EMPTY, SEX_UNKNOWN);
     }
+    
+ 	public static tPerson Load(String aFileName)
+	{
+ 		tPerson ret = null;
+
+		if (aFileName != null && aFileName.length() > 0)
+		{
+	    	try
+	    	{
+	    		JAXBContext context = JAXBContext.newInstance(tPerson.class);
+	    		Unmarshaller um = context.createUnmarshaller();
+	    		Object obj = um.unmarshal(new File(aFileName));
+	    		ret = (tPerson) obj;
+	    	}
+	    	catch (JAXBException ex)
+	    	{
+	    		ex.printStackTrace();
+	    	}
+		}
+    	
+    	return ret;
+		
+	}
+	
+	public String Save (String aFileName)
+	{
+		String ret = null;
+		
+		if (aFileName != null && aFileName.length() > 0)
+		{
+	    	try
+	    	{
+	    		JAXBContext context = JAXBContext.newInstance(tPerson.class);
+	    		Marshaller m = context.createMarshaller();
+	    		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+	    		m.marshal(this, new File(aFileName));
+	    	}
+	    	catch (JAXBException ex)
+	    	{
+	    		ret = ex.getMessage();
+	    	}
+		}
+    	
+    	return ret;
+	}
+	
+
     
 	public java.util.Calendar getDBCalendar()
 	{

@@ -286,7 +286,7 @@ public class fNavigator extends JFrame
 			JFileChooser dlg = new JFileChooser();
 			if (_currFileName != null)
 				dlg.setCurrentDirectory(new File(_currFileName));
-			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Object register", "ore"));
+			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Object register", tRegister.FILE_EXTENTION));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
 			dlg.setMultiSelectionEnabled(false);
 			if (dlg.showOpenDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
@@ -497,7 +497,7 @@ public class fNavigator extends JFrame
 		JFileChooser dlg = new JFileChooser();
 		if (_currFileName != null)
 			dlg.setCurrentDirectory(new File(_currFileName));
-		dlg.addChoosableFileFilter(new FileNameExtensionFilter("Object register", "ore"));
+		dlg.addChoosableFileFilter(new FileNameExtensionFilter("Object register", tRegister.FILE_EXTENTION));
 		dlg.setMultiSelectionEnabled(false);
 		if (dlg.showOpenDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
 		{

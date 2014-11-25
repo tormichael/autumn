@@ -203,4 +203,9 @@ public class Autumn
 		return fmt.format("%td.%tm.%tY %tH:%tM:%tS (%tZ)"
 				, aCal, aCal, aCal, aCal, aCal, aCal, aCal).toString();
 	}
+
+	public void ShowError(String aText)
+	{
+		
+	}
 }

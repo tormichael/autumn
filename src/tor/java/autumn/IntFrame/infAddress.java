@@ -6,7 +6,9 @@ import java.util.prefs.Preferences;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -26,7 +28,6 @@ import JCommonTools.TableTools;
 import JCommonTools.RefBook.RBComboBoxCellEdit;
 import JCommonTools.RefBook.fRefBook;
 import JCommonTools.RefBook.rbNode;
-
 import tor.java.autumn.Autumn;
 import tor.java.autumn.tabella.tAdr;
 import tor.java.autumn.tabella.tPerson;
@@ -69,27 +70,42 @@ public class infAddress extends infBase
 		
 		GridBagLayout gbl = new GridBagLayout();
 		JPanel pnlAdr = new JPanel(gbl);
+		JLabel lbl = new JLabel(mAut.getString("Label.Address.Index"));
+		gbl.setConstraints(lbl, new GBC(0,0).setIns(2).setAnchor(GBC.EAST));
+		pnlAdr.add(lbl);
 		_txfIndex = new JTextField(10);		
-		gbl.setConstraints(_txfIndex, new GBC(0,0).setIns(2).setFill(GBC.HORIZONTAL));
+		gbl.setConstraints(_txfIndex, new GBC(1,0).setIns(2).setFill(GBC.HORIZONTAL));
 		pnlAdr.add(_txfIndex);
 		DefaultComboBoxModel<rbNode> cbmCountry = new DefaultComboBoxModel<rbNode>();
 		fRefBook.LoadComboModel(cbmCountry, aAut.getRefbook().getNodeCountry(), true);
 		_cboCountry = new JComboBox<rbNode>(cbmCountry);
-		gbl.setConstraints(_cboCountry, new GBC(1,0).setIns(2).setFill(GBC.HORIZONTAL).setAnchor(GBC.EAST).setWeight(1., 0.));
+		gbl.setConstraints(_cboCountry, new GBC(2,0).setIns(2).setFill(GBC.HORIZONTAL).setAnchor(GBC.EAST).setWeight(1., 0.));
 		pnlAdr.add(_cboCountry);
+		lbl = new JLabel(mAut.getString("Label.Address.Location"));
+		gbl.setConstraints(lbl, new GBC(0,1).setIns(2).setAnchor(GBC.EAST));
+		pnlAdr.add(lbl);
 		_txfLocality = new JTextField();
-		gbl.setConstraints(_txfLocality, new GBC(0,1).setIns(2).setGridSpan(2,1).setFill(GBC.HORIZONTAL).setWeight(1., 0.));
+		gbl.setConstraints(_txfLocality, new GBC(1,1).setIns(2).setGridSpan(2,1).setFill(GBC.HORIZONTAL).setWeight(1., 0.));
 		pnlAdr.add(_txfLocality);
+		lbl = new JLabel(mAut.getString("Label.Address.Region"));
+		gbl.setConstraints(lbl, new GBC(0,2).setIns(2).setAnchor(GBC.EAST));
+		pnlAdr.add(lbl);
 		_txfRegion = new JTextField();
-		gbl.setConstraints(_txfRegion, new GBC(0,2).setIns(2).setGridSpan(2,1).setFill(GBC.HORIZONTAL).setWeight(1., 0.));
+		gbl.setConstraints(_txfRegion, new GBC(1,2).setIns(2).setGridSpan(2,1).setFill(GBC.HORIZONTAL).setWeight(1., 0.));
 		pnlAdr.add(_txfRegion);
+		lbl = new JLabel(mAut.getString("Label.Address.Place"));
+		gbl.setConstraints(lbl, new GBC(0,3).setIns(2).setAnchor(GBC.EAST));
+		pnlAdr.add(lbl);
 		_txaAddress = new JTextArea();
 		JScrollPane sp = new JScrollPane(_txaAddress);
-		gbl.setConstraints(sp, new GBC(0,3).setIns(2).setGridSpan(2,1).setFill(GBC.BOTH) .setWeight(1., 0.5));
+		gbl.setConstraints(sp, new GBC(1,3).setIns(2).setGridSpan(2,1).setFill(GBC.BOTH) .setWeight(1., 0.5));
 		pnlAdr.add(sp);
+		lbl = new JLabel(mAut.getString("Label.Address.Note"));
+		gbl.setConstraints(lbl, new GBC(0,4).setIns(2).setAnchor(GBC.EAST));
+		pnlAdr.add(lbl);
 		_txaNote = new JTextArea();
 		sp = new JScrollPane(_txaNote);
-		gbl.setConstraints(sp, new GBC(0,4).setIns(2).setGridSpan(2,1).setFill(GBC.BOTH).setWeight(1., 0.5));
+		gbl.setConstraints(sp, new GBC(1,4).setIns(2).setGridSpan(2,1).setFill(GBC.BOTH).setWeight(1., 0.5));
 		pnlAdr.add(sp);
 		
 		_spn = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, new JScrollPane(_tab), pnlAdr);
@@ -98,21 +114,26 @@ public class infAddress extends infBase
 		_tab.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		_tab.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
 		{
+			
 			@Override
 			public void valueChanged(ListSelectionEvent e) 
 			{
-				ArrayList<tAdr> aadr = ((tPerson)mObj).getAddrColl();
-				if (_prevAdrInd >= 0)
-					_getData(aadr.get(_prevAdrInd));
-				int sr = e.getFirstIndex();
-				if (sr < aadr.size())
+				DefaultListSelectionModel dlsm = (DefaultListSelectionModel) e.getSource();
+				if (e.getValueIsAdjusting() && dlsm != null)
 				{
-					_setData(aadr.get(sr));
-					_prevAdrInd = sr;
-				}
-				else
-				{
-					_setData(null);
+					ArrayList<tAdr> aadr = ((tPerson)mObj).getAddrColl();
+					if (_prevAdrInd >= 0 && _prevAdrInd < aadr.size())
+						_getData(aadr.get(_prevAdrInd));
+					_prevAdrInd = dlsm.getLeadSelectionIndex();
+					if (_prevAdrInd < aadr.size())
+					{
+						_setData(aadr.get(_prevAdrInd));
+						//_prevAdrInd = sr;
+					}
+					else
+					{
+						_setData(null);
+					}
 				}
 			}
 		});
@@ -123,7 +144,11 @@ public class infAddress extends infBase
 		if (aAdr != null)
 		{
 			_txfIndex.setText(aAdr.getIndex());
-			fRefBook.FindRBNodeByIDInComModel((DefaultComboBoxModel<rbNode>)_cboCountry.getModel(), aAdr.getType());
+			_cboCountry.setSelectedItem(
+					fRefBook.FindRBNodeByIDInComboBoxModel(
+							(DefaultComboBoxModel<rbNode>)_cboCountry.getModel(), 
+							aAdr.getCountry()
+			));
 			_txfLocality.setText(aAdr.getLocality());
 			_txfRegion.setText(aAdr.getRegion());
 			_txaAddress.setText(aAdr.getHouseStreet());
@@ -154,7 +179,11 @@ public class infAddress extends infBase
 		tPerson prs = (tPerson)mObj;
 		_tabMod.Reconnect(prs);
 		if (prs != null && prs.getAddrColl().size()>0)
+		{
 			_tab.getSelectionModel().setSelectionInterval(0, 0);
+			_setData(prs.getAddrColl().get(0));
+			_prevAdrInd = 0;
+		}
 		else
 			_setData(null);
 		
@@ -166,6 +195,9 @@ public class infAddress extends infBase
 	
 	protected void mSave()
 	{
+		ArrayList<tAdr> aadr = ((tPerson)mObj).getAddrColl();
+		if (_prevAdrInd >= 0 && _prevAdrInd < aadr.size())
+			_getData(aadr.get(_prevAdrInd));	
 		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/"+mName);
 		node.put("TabColWidth_Address", TableTools.GetColumnsWidthAsString(_tab));
 		node.putInt("SplitAddress", _spn.getDividerLocation());

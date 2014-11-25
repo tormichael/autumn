@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement (name = "ObjRegister")
 public class tRegister 
 {
+	public final static String FILE_EXTENTION = "ore";
 	
 	private Date	_dateCreated;
 	private Date _dateLastModified;

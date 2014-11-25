@@ -31,6 +31,7 @@ import tor.java.autumn.IntFrame.infImages;
 import tor.java.autumn.IntFrame.infNote;
 import tor.java.autumn.IntFrame.infPhones;
 import tor.java.autumn.tabella.tPerson;
+import tor.java.autumn.tabella.tRegister;
 import JCommonTools.AsRegister;
 import JCommonTools.CC;
 import JCommonTools.TableTools;
@@ -151,8 +152,10 @@ public class fPerson extends JFrame
 		public void actionPerformed(ActionEvent e){
 			
 			JFileChooser dlg = new JFileChooser();
-			dlg.setCurrentDirectory(new File("C:\\temp\\vcards\\"));
-			dlg.setFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
+			//dlg.setCurrentDirectory(new File("C:\\temp\\vcards\\"));
+			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
+			dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
+			//dlg.setFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
 			dlg.setMultiSelectionEnabled(false);
 			if (dlg.showOpenDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
 			{
@@ -162,6 +165,20 @@ public class fPerson extends JFrame
 					PersonalVCard pvc = new PersonalVCard(_aut);
 					pvc.LoadFromVCardFile(dlg.getSelectedFile().getPath());
 					
+				}
+				else
+				{
+					tPerson prs = null;
+					try
+					{
+						prs = tPerson.Load(dlg.getSelectedFile().getPath());
+					}
+					catch (Exception ex )
+					{
+						_aut.ShowError(ex.getMessage());
+					}
+					if (prs != null)
+						_prs = prs;
 				}
 				ShowPerson(_prs);
 			}
@@ -175,6 +192,16 @@ public class fPerson extends JFrame
 		public void actionPerformed(ActionEvent e)
 		{
 			SavePerson();
+			JFileChooser dlg = new JFileChooser();
+			//dlg.setCurrentDirectory(new File("C:\\temp\\vcards\\"));
+			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
+			dlg.setMultiSelectionEnabled(false);
+			if (dlg.showSaveDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
+			{
+				String err = _prs.Save(dlg.getSelectedFile().getPath());
+				if (err != null && err.length() > 0)
+					_aut.ShowError(err);
+			}
 		}
 	};
 
