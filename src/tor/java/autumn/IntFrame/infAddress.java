@@ -6,6 +6,7 @@ import java.util.prefs.Preferences;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListSelectionModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,7 +27,6 @@ import JCommonTools.TableTools;
 import JCommonTools.RefBook.RBComboBoxCellEdit;
 import JCommonTools.RefBook.fRefBook;
 import JCommonTools.RefBook.rbNode;
-
 import tor.java.autumn.Autumn;
 import tor.java.autumn.tabella.tAdr;
 import tor.java.autumn.tabella.tPerson;
@@ -98,21 +98,26 @@ public class infAddress extends infBase
 		_tab.getSelectionModel().setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		_tab.getSelectionModel().addListSelectionListener(new ListSelectionListener() 
 		{
+			
 			@Override
 			public void valueChanged(ListSelectionEvent e) 
 			{
-				ArrayList<tAdr> aadr = ((tPerson)mObj).getAddrColl();
-				if (_prevAdrInd >= 0)
-					_getData(aadr.get(_prevAdrInd));
-				int sr = e.getFirstIndex();
-				if (sr < aadr.size())
+				DefaultListSelectionModel dlsm = (DefaultListSelectionModel) e.getSource();
+				if (e.getValueIsAdjusting() && dlsm != null)
 				{
-					_setData(aadr.get(sr));
-					_prevAdrInd = sr;
-				}
-				else
-				{
-					_setData(null);
+					ArrayList<tAdr> aadr = ((tPerson)mObj).getAddrColl();
+					if (_prevAdrInd >= 0 && _prevAdrInd < aadr.size())
+						_getData(aadr.get(_prevAdrInd));
+					_prevAdrInd = dlsm.getLeadSelectionIndex();
+					if (_prevAdrInd < aadr.size())
+					{
+						_setData(aadr.get(_prevAdrInd));
+						//_prevAdrInd = sr;
+					}
+					else
+					{
+						_setData(null);
+					}
 				}
 			}
 		});
@@ -154,7 +159,11 @@ public class infAddress extends infBase
 		tPerson prs = (tPerson)mObj;
 		_tabMod.Reconnect(prs);
 		if (prs != null && prs.getAddrColl().size()>0)
+		{
 			_tab.getSelectionModel().setSelectionInterval(0, 0);
+			_setData(prs.getAddrColl().get(0));
+			_prevAdrInd = 0;
+		}
 		else
 			_setData(null);
 		
