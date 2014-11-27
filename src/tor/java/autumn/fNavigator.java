@@ -436,9 +436,8 @@ public class fNavigator extends JFrame
 			
 			_fprs.SavePerson();
 			
-			tPerson prs = (tPerson) e.getSource();
-			if (prs != null)
-				_fprs.ShowPerson(prs);
+			if (e.getSource() instanceof tPerson)
+				_fprs.ShowPerson((tPerson) e.getSource());
 		}
 	};
 	

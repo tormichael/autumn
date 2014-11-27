@@ -18,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import sun.awt.HorizBagLayout;
+//import sun.awt.HorizBagLayout;
 import tor.java.autumn.tabella.tObj;
 
 import JCommonTools.AsRegister;
