@@ -106,6 +106,46 @@ public class PersonalVCard
 		_filename = aFileName;
 	}
 	
+	public tPerson LoadOneVCard(String aFileName)
+	{
+		tPerson prs  = null;
+		VCard vcard = null;
+		VCardEngine vcardEngine = new VCardEngine();
+		vcardEngine.setCompatibilityMode(CompatibilityMode.MS_OUTLOOK);
+		//vcardEngine.setForcedCharset("windows-1251");
+		try
+		{
+			FileInputStream fis = new FileInputStream(aFileName);
+			byte [] ba = new byte[1000000];
+			int reallen = fis.read(ba,0,ba.length);
+			fis.close();
+			String instr = new String(ba, 0, reallen, "windows-1251");
+			
+			vcard = vcardEngine.parse (instr); //new File(aFileName));
+			if (vcardEngine.isCharsetForced())
+				_workcharset = vcardEngine.getForcedCharset(); 
+		}
+		catch (VCardParseException ex)
+		{
+			System.err.print(_aut.getString("Text.Error.NotParseVCardFile")+aFileName);
+			ex.printStackTrace();
+		}
+		catch (IOException ioe)
+		{
+			System.err.print(_aut.getString("Text.Error.NotParseVCardFile")+aFileName);
+			ioe.printStackTrace();
+		}
+		
+		if (vcard != null)
+		{
+			prs = new tPerson();
+			vCard2tPerson(vcard, prs);
+		}
+		//_filename = aFileName;
+		
+		return prs;
+	}
+	
 	protected void vCard2tPerson(VCard aVCard, tPerson aPrs)
 	{
 		if (aVCard == null)

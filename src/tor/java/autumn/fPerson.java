@@ -34,12 +34,15 @@ import tor.java.autumn.tabella.tPerson;
 import tor.java.autumn.tabella.tRegister;
 import JCommonTools.AsRegister;
 import JCommonTools.CC;
+import JCommonTools.FileNameTools;
 import JCommonTools.TableTools;
 
 public class fPerson extends JFrame 
 {
-	private Autumn			_aut;
-	private tPerson				_prs;
+	private Autumn					_aut;
+	private tPerson					_prs;
+
+	private String 						_currDir;
 	
 	private JPanel						_pnl;
 	private JTextField					_txtObjName;
@@ -61,12 +64,16 @@ public class fPerson extends JFrame
 	
 	private Color	_defaultBackrounfColor;
 	
+	public Action UpdateRegisterShow;
+	
 	public fPerson(Autumn aAut)
 	{
 		_defaultBackrounfColor = fPerson.this.getBackground();
 		
 		_aut = aAut;
 		_prs = null;
+		_currDir = null;
+		UpdateRegisterShow  = null;
 	
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setIconImage(_aut.getImageInRscImg("autumn.png"));
@@ -152,35 +159,45 @@ public class fPerson extends JFrame
 		public void actionPerformed(ActionEvent e){
 			
 			JFileChooser dlg = new JFileChooser();
-			//dlg.setCurrentDirectory(new File("C:\\temp\\vcards\\"));
+			if (_currDir != null && _currDir.length() > 0)
+				dlg.setCurrentDirectory(new File(_currDir));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
 			//dlg.setFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
 			dlg.setMultiSelectionEnabled(false);
 			if (dlg.showOpenDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
 			{
+				tPerson prs = null;
 				if (dlg.getSelectedFile().getName().indexOf(".vcf") > 0)
 				{
-					//LoadFromVCardFile(dlg.getSelectedFile().getPath());
 					PersonalVCard pvc = new PersonalVCard(_aut);
-					pvc.LoadFromVCardFile(dlg.getSelectedFile().getPath());
-					
+					prs = pvc.LoadOneVCard(dlg.getSelectedFile().getPath());
 				}
 				else
 				{
-					tPerson prs = null;
 					try
-					{
+					{ 
 						prs = tPerson.Load(dlg.getSelectedFile().getPath());
 					}
 					catch (Exception ex )
 					{
 						_aut.ShowError(ex.getMessage());
 					}
-					if (prs != null)
+				}
+				
+				if (prs != null)
+				{
+					if (_aut.getRegister() == null)
 						_prs = prs;
+					else if (_aut.getRegister().ReplaceObject(_prs, prs))
+					{
+						_prs = prs;
+						if (UpdateRegisterShow != null)
+							UpdateRegisterShow.actionPerformed(new ActionEvent(prs, 0, null));
+					}
 				}
 				ShowPerson(_prs);
+				_currDir = dlg.getSelectedFile().getParent();
 			}
 		};
 		
@@ -193,14 +210,17 @@ public class fPerson extends JFrame
 		{
 			SavePerson();
 			JFileChooser dlg = new JFileChooser();
-			//dlg.setCurrentDirectory(new File("C:\\temp\\vcards\\"));
-			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
+			if (_currDir != null && _currDir.length() > 0)
+				dlg.setCurrentDirectory(new File(_currDir));
+			dlg.setFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
 			dlg.setMultiSelectionEnabled(false);
 			if (dlg.showSaveDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
 			{
-				String err = _prs.Save(dlg.getSelectedFile().getPath());
+				String err = _prs.Save(FileNameTools.AddExtensionIfNone(dlg.getSelectedFile().getPath(), tPerson.FILE_EXTENTION));
 				if (err != null && err.length() > 0)
 					_aut.ShowError(err);
+				
+				_currDir = dlg.getSelectedFile().getParent();
 			}
 		}
 	};
@@ -238,7 +258,6 @@ public class fPerson extends JFrame
 		}
 	};
 	
-
 	Action actViewFIO = new AbstractAction() 
 	{
 		@Override
@@ -416,6 +435,7 @@ public class fPerson extends JFrame
 			_btnViewImage.doClick();
 		if (node.getBoolean("isNoteShow", false))
 			_btnViewNote.doClick();
+		_currDir = node.get("CurrentDir", null);
 	}
 	
 	private void SaveProgramPreference()
@@ -428,5 +448,7 @@ public class fPerson extends JFrame
 		node.putBoolean("isAddressShow", _btnViewAddress.isSelected());
 		node.putBoolean("isImageShow", _btnViewImage.isSelected());
 		node.putBoolean("isNoteShow", _btnViewNote.isSelected());
+		if (_currDir != null && _currDir.length() > 0)
+			node.put("CurrentDir", _currDir);
 	}
 }

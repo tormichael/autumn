@@ -36,4 +36,5 @@ public class pNavMode extends JPanel
 		
 	}
 	
+	
 }

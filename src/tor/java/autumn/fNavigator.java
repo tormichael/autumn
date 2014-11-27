@@ -37,6 +37,7 @@ import tor.java.autumn.tabella.tRegister;
 import JCommonTools.AsRegister;
 import JCommonTools.CC;
 import JCommonTools.CodeText;
+import JCommonTools.FileNameTools;
 import JCommonTools.Tools;
 import JCommonTools.Dialog.dAbout;
 import JCommonTools.Param.BookParam;
@@ -425,7 +426,10 @@ public class fNavigator extends JFrame
 		public void actionPerformed(ActionEvent e) 
 		{
 			if (_fprs == null)
+			{
 				_fprs= new fPerson(_aut);
+				_fprs.UpdateRegisterShow = actRefreshNavMode;
+			}
 			
 			if (!_fprs.isVisible())
 				_fprs.setVisible(true);
@@ -438,6 +442,16 @@ public class fNavigator extends JFrame
 		}
 	};
 	
+	Action actRefreshNavMode = new AbstractAction()
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			tObj obj =  (tObj) e.getSource();
+			if (obj != null)
+				_currNavMode.ShowRegister(obj);
+		}
+	};
 
 	Action actRecordNew = new AbstractAction()
 	{
@@ -497,11 +511,11 @@ public class fNavigator extends JFrame
 		JFileChooser dlg = new JFileChooser();
 		if (_currFileName != null)
 			dlg.setCurrentDirectory(new File(_currFileName));
-		dlg.addChoosableFileFilter(new FileNameExtensionFilter("Object register", tRegister.FILE_EXTENTION));
+		dlg.setFileFilter(new FileNameExtensionFilter("Object register", tRegister.FILE_EXTENTION));
 		dlg.setMultiSelectionEnabled(false);
 		if (dlg.showOpenDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
 		{
-			ret = dlg.getSelectedFile().getPath();
+			ret = FileNameTools.AddExtensionIfNone(dlg.getSelectedFile().getPath(), tRegister.FILE_EXTENTION);
 		}
 		return ret;
 	}
@@ -581,7 +595,10 @@ public class fNavigator extends JFrame
 		
 		if (_cboMode != null && _cboMode.getSelectedItem() != null)
 			node.putInt("SelectedMode", ((CodeText) _cboMode.getSelectedItem()).getCode());
-		node.put("LastOpenedFileName", _currFileName);
+		
+		if (_currFileName != null && _currFileName.length() > 0)
+			node.put("LastOpenedFileName", _currFileName);
+
 		//if (_aut.getRefbook().getFileName() != null)
 		//	node.put("RefBookFileName", _aut.getRefbook().getFileName());
 	}	

@@ -146,4 +146,17 @@ public class tRegister
 
 		Collections.sort(_objColl, objComparator);
 	}
+	
+	public boolean ReplaceObject (tObj objWas, tObj objNew)
+	{
+		boolean ret = false;
+		
+		int index = _objColl.indexOf(objWas);
+		if (index >= 0)
+		{
+			_objColl.set(index, objNew);
+			ret = true;
+		}
+		return ret;
+	}
 }
