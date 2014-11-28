@@ -187,7 +187,7 @@ public class Autumn
 		
 		if (url != null)
 		{
-			return Toolkit.getDefaultToolkit().getImage(url).getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+			return Toolkit.getDefaultToolkit().getImage(url); //.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
 		}
 		else
 		{

@@ -5,14 +5,18 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.net.URL;
 import java.util.Random;
 import java.util.prefs.Preferences;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -262,10 +266,23 @@ public class fNavigator extends JFrame
 			dAbout dlg = new dAbout();
 			dlg.setIconImage(fNavigator.this.getIconImage());
 			dlg.set_txtTitle(_aut.getString("Titles.fNavigator"));
-			Random rdm = new Random();
-			dlg.setBackrounImage(_aut.getImageInRscImgAutumn("autumn"+ (rdm.nextInt(37)+1)+ ".png"));
-			//dlg.setBackrounImage(_aut.getImageInRscImg("autumn.png"));
-			//dlg.setBackrounImage(_wld.getImage("Geosynchronous_orbit.gif"));
+			try
+			{
+				Random rdm = new Random();
+				String name = Autumn.FD_RESOURCE_IMAGE_AUTUMN+"autumn0"+ (rdm.nextInt(37)+1)+ ".png";
+				URL url = this.getClass().getClassLoader().getResource(name);
+				if (url ==null)
+					url = this.getClass().getResource(name);			
+	
+				if (url != null)
+				{
+					BufferedImage img = ImageIO.read(url); 
+					dlg.setBackrounImage(img);
+				}
+			}
+			catch (Exception ex)
+			{
+			}
 			dlg.setTextColor(Color.WHITE);
 			String dt = CC.STR_EMPTY;
 			try
