@@ -71,7 +71,9 @@ public class fNavigator extends JFrame
 	private JPanel _pnlNavigator;
 	private pNavMode _currNavMode;
 	
-	private fPerson _fprs;
+	private fObject _frm;
+	private fObject _frmObject;
+	private fObject _frmPerson;
 	
 	private String _currFileName;
 	private boolean _isVCard;
@@ -92,7 +94,9 @@ public class fNavigator extends JFrame
 	public fNavigator(Autumn aAut)
 	{
 		_aut = aAut;
-		_fprs = null;
+		_frm = null;
+		_frmObject = null;
+		_frmPerson = null;
 		_currFileName = null;
 		_isVCard = false;
 		
@@ -440,21 +444,41 @@ public class fNavigator extends JFrame
 	Action actObjectSelected = new AbstractAction()
 	{
 		@Override
-		public void actionPerformed(ActionEvent e) 
+		public void actionPerformed(ActionEvent e)
 		{
-			if (_fprs == null)
+			if (_frm != null)
 			{
-				_fprs= new fPerson(_aut);
-				_fprs.UpdateRegisterShow = actRefreshNavMode;
+				_frm.Save();
+				_frm.setVisible(false);
 			}
-			
-			if (!_fprs.isVisible())
-				_fprs.setVisible(true);
-			
-			_fprs.SavePerson();
+
 			
 			if (e.getSource() instanceof tPerson)
-				_fprs.ShowPerson((tPerson) e.getSource());
+			{
+				if (_frmPerson == null)
+				{
+					_frmPerson= new fPerson(_aut);
+					_frmPerson.UpdateRegisterShow = actRefreshNavMode;
+				}
+				_frm = _frmPerson;
+			}
+			else if (e.getSource() instanceof tObj)
+			{
+				if (_frmObject == null)
+				{
+					_frmObject= new fObject(_aut);
+					_frmObject.UpdateRegisterShow = actRefreshNavMode;
+				}
+				_frm = _frmObject;
+			}
+			else
+			{
+				return;
+			}
+				
+			//if (!_frm.isVisible())
+			_frm.setVisible(true);
+			_frm.Show((tObj) e.getSource());
 		}
 	};
 	
@@ -538,8 +562,8 @@ public class fNavigator extends JFrame
 	
 	private void _save()
 	{
-		if (_fprs != null)
-			_fprs.SavePerson();
+		if (_frm != null)
+			_frm.Save();
 
 		String strErr = _aut.getRegister().Save(_currFileName);
 		if (strErr == null)

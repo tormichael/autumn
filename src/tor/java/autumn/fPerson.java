@@ -31,136 +31,62 @@ import tor.java.autumn.IntFrame.infImages;
 import tor.java.autumn.IntFrame.infNote;
 import tor.java.autumn.IntFrame.infPhones;
 import tor.java.autumn.tabella.tPerson;
-import tor.java.autumn.tabella.tRegister;
 import JCommonTools.AsRegister;
-import JCommonTools.CC;
 import JCommonTools.FileNameTools;
-import JCommonTools.TableTools;
 
-public class fPerson extends JFrame 
+public class fPerson extends fObject 
 {
-	private Autumn					_aut;
-	private tPerson					_prs;
+	//private tPerson				_prs;
 
-	private String 						_currDir;
+	private infFIO				_frmFIO;
+	private infPhones			_frmPhones;
+	private infAddress			_frmAddress;
 	
-	private JPanel						_pnl;
-	private JTextField					_txtObjName;
-	private JDesktopPane			_desktop;
-	private ArrayList<infBase>	_alInF;
-	private infFIO						_frmFIO;
-	private infPhones					_frmPhones;
-	private infAddress				_frmAddress;
-	private infImages					_frmImages;
-	private infNote						_frmNote;
-
-	private JToggleButton _btnTransparency;
+	private JToggleButton 		_btnViewFIO;
+	private JToggleButton 		_btnViewPhone;
+	private JToggleButton 		_btnViewAddress;
 	
-	private JToggleButton _btnViewFIO;
-	private JToggleButton _btnViewPhone;
-	private JToggleButton _btnViewAddress;
-	private JToggleButton _btnViewImage;
-	private JToggleButton _btnViewNote;
-	
-	private Color	_defaultBackrounfColor;
-	
-	public Action UpdateRegisterShow;
+	protected void setPerson(tPerson aPrs)
+	{
+		mObj = aPrs;
+	}
+	protected tPerson getPerson()
+	{
+		if (mObj instanceof tPerson)
+			return (tPerson)mObj;
+		else
+			return null;
+	}
 	
 	public fPerson(Autumn aAut)
 	{
-		_defaultBackrounfColor = fPerson.this.getBackground();
+		super(aAut);
 		
-		_aut = aAut;
-		_prs = null;
-		_currDir = null;
-		UpdateRegisterShow  = null;
+		mPrefPath = "fPerson";
+		//_prs = null;
 	
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setIconImage(_aut.getImageInRscImg("autumn.png"));
-	
-		_alInF = new ArrayList<infBase>();
-		
-		/**
-		 *   T O O L S   B A R
-		 */
-		JToolBar bar = new JToolBar();
-		add(bar, BorderLayout.NORTH);
-
-		//actCreate.putValue(Action.SMALL_ICON, CreateIcon("new.png", Start.TOOL_BAR_ICON_SIZE));
-		//bar.add(actCreate);
-
-		actLoad.putValue(Action.SMALL_ICON, _aut.getImageIcon("open.png"));
-		actLoad.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.FileLoad"));
-		bar.add(actLoad);
-		
-		actSave.putValue(Action.SMALL_ICON, _aut.getImageIcon("save.png"));
-		actSave.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.FileSave"));
-		bar.add(actSave);
-		
-		bar.addSeparator();
-		_btnTransparency = new JToggleButton(actTransparency);
-		//actViewFIO.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-		bar.add(_btnTransparency);
-		bar.addSeparator();
-		
 		_btnViewFIO = new JToggleButton(actViewFIO);
-		actViewFIO.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-		bar.add(_btnViewFIO);
+		actViewFIO.putValue(Action.SMALL_ICON, mAut.getImageIcon("new.png"));
+		mTBar.add(_btnViewFIO, 5);
 
 		_btnViewPhone = new JToggleButton(actViewPhones);
-		actViewPhones.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-		bar.add(_btnViewPhone);
+		actViewPhones.putValue(Action.SMALL_ICON, mAut.getImageIcon("new.png"));
+		mTBar.add(_btnViewPhone, 6);
 		
 		_btnViewAddress = new JToggleButton(actViewAddress);
-		actViewAddress.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-		bar.add(_btnViewAddress);
+		actViewAddress.putValue(Action.SMALL_ICON, mAut.getImageIcon("new.png"));
+		mTBar.add(_btnViewAddress, 7);
 		
-		_btnViewImage = new JToggleButton(actViewImages);
-		actViewImages.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-		bar.add(_btnViewImage);
-
-		_btnViewNote = new JToggleButton(actViewNotes);
-		actViewNotes.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-		bar.add(_btnViewNote);
-		
-		//bar.add(actViewOptions);
-		//actViewOptions.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-
-		_pnl = new JPanel(new BorderLayout());
-		
-			JPanel pnlObj = new JPanel(new BorderLayout());
-			pnlObj.add(new JLabel(_aut.getString("Label.Object.Title")), BorderLayout.WEST);
-			_txtObjName = new JTextField();
-			pnlObj.add(_txtObjName, BorderLayout.CENTER);
-			_pnl.add(pnlObj, BorderLayout.NORTH);
-			
-			_desktop = new JDesktopPane();
-			_pnl.add(_desktop, BorderLayout.CENTER);
-		
-		this.add(_pnl, BorderLayout.CENTER);
-		
-		LoadProgramPreference ();
-		
-		this.addWindowListener(new WindowAdapter() 
-		{
-			@Override
-			public void windowClosing(WindowEvent e) 
-			{
-				SaveProgramPreference();
-				super.windowClosing(e);
-			}
-		});
-		
-		UpdateLanguage();		
 	}
 	
-	Action actLoad = new AbstractAction(){
+	Action actLoad = new AbstractAction()
+	{
 		@Override
 		public void actionPerformed(ActionEvent e){
 			
 			JFileChooser dlg = new JFileChooser();
-			if (_currDir != null && _currDir.length() > 0)
-				dlg.setCurrentDirectory(new File(_currDir));
+			if (mCurrDir != null && mCurrDir.length() > 0)
+				dlg.setCurrentDirectory(new File(mCurrDir));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
 			//dlg.setFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
@@ -170,7 +96,7 @@ public class fPerson extends JFrame
 				tPerson prs = null;
 				if (dlg.getSelectedFile().getName().indexOf(".vcf") > 0)
 				{
-					PersonalVCard pvc = new PersonalVCard(_aut);
+					PersonalVCard pvc = new PersonalVCard(mAut);
 					prs = pvc.LoadOneVCard(dlg.getSelectedFile().getPath());
 				}
 				else
@@ -181,23 +107,23 @@ public class fPerson extends JFrame
 					}
 					catch (Exception ex )
 					{
-						_aut.ShowError(ex.getMessage());
+						mAut.ShowError(ex.getMessage());
 					}
 				}
 				
 				if (prs != null)
 				{
-					if (_aut.getRegister() == null)
-						_prs = prs;
-					else if (_aut.getRegister().ReplaceObject(_prs, prs))
+					if (mAut.getRegister() == null)
+						setPerson(prs);
+					else if (mAut.getRegister().ReplaceObject(mObj, prs))
 					{
-						_prs = prs;
+						setPerson(prs);
 						if (UpdateRegisterShow != null)
 							UpdateRegisterShow.actionPerformed(new ActionEvent(prs, 0, null));
 					}
 				}
-				ShowPerson(_prs);
-				_currDir = dlg.getSelectedFile().getParent();
+				Show(mObj);
+				mCurrDir = dlg.getSelectedFile().getParent();
 			}
 		};
 		
@@ -208,56 +134,23 @@ public class fPerson extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			SavePerson();
+			Save();
 			JFileChooser dlg = new JFileChooser();
-			if (_currDir != null && _currDir.length() > 0)
-				dlg.setCurrentDirectory(new File(_currDir));
+			if (mCurrDir != null && mCurrDir.length() > 0)
+				dlg.setCurrentDirectory(new File(mCurrDir));
 			dlg.setFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
 			dlg.setMultiSelectionEnabled(false);
 			if (dlg.showSaveDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
 			{
-				String err = _prs.Save(FileNameTools.AddExtensionIfNone(dlg.getSelectedFile().getPath(), tPerson.FILE_EXTENTION));
+				String err = getPerson().Save(FileNameTools.AddExtensionIfNone(dlg.getSelectedFile().getPath(), tPerson.FILE_EXTENTION));
 				if (err != null && err.length() > 0)
-					_aut.ShowError(err);
+					mAut.ShowError(err);
 				
-				_currDir = dlg.getSelectedFile().getParent();
+				mCurrDir = dlg.getSelectedFile().getParent();
 			}
 		}
 	};
 
-	Action actTransparency = new AbstractAction(){
-		@Override
-		public void actionPerformed(ActionEvent e)
-		{
-			//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-			//fPerson.this.setVisible(false);
-			fPerson.this.dispose();
-			if (_btnTransparency.isSelected())
-			{
-				fPerson.this.setUndecorated(true);
-				//this.setShape(null);
-				//this.setOpacity(0.7f);
-				fPerson.this.setBackground(new Color(0, 0, 0, 0));
-				
-				_pnl.setOpaque(false);
-				//pnl.setBackground(new Color(0, 0, 0, 0));
-			
-				_desktop.setOpaque(false);
-				//_desktop.setBackground(new Color(0, 0, 0, 0));
-			}
-			else
-			{
-				_pnl.setOpaque(true);
-				_desktop.setOpaque(true);
-				fPerson.this.setBackground(_defaultBackrounfColor);
-				fPerson.this.setUndecorated(false);
-			}
-			fPerson.this.setVisible(true);
-			//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		}
-	};
-	
 	Action actViewFIO = new AbstractAction() 
 	{
 		@Override
@@ -265,21 +158,21 @@ public class fPerson extends JFrame
 		{
 			if (_frmFIO == null)
 			{
-				_frmFIO = new infFIO(_aut, "frmFIO", _prs);
+				_frmFIO = new infFIO(mAut, "frmFIO", getPerson());
 				_frmFIO.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
- 				_alInF.add(_frmFIO);
+ 				mALInF.add(_frmFIO);
  				_frmFIO.Load();
 			}
 			if (_btnViewFIO.isSelected())
 			{
-				_desktop.add(_frmFIO, JDesktopPane.PALETTE_LAYER);
+				mDesktop.add(_frmFIO, JDesktopPane.PALETTE_LAYER);
 			}
 			else
 			{
-				_desktop.remove(_frmFIO);
+				mDesktop.remove(_frmFIO);
 			}
 			_frmFIO.setVisible(_btnViewFIO.isSelected());
-			_desktop.repaint();
+			mDesktop.repaint();
 		}
 	};
 	
@@ -290,21 +183,21 @@ public class fPerson extends JFrame
 		{
 			if (_frmPhones == null)
 			{
-				_frmPhones = new infPhones(_aut, "frmPhones", _prs);
+				_frmPhones = new infPhones(mAut, "frmPhones", getPerson());
 				_frmPhones.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
- 				_alInF.add(_frmPhones);
+ 				mALInF.add(_frmPhones);
  				_frmPhones.Load();
 			}
 			if (_btnViewPhone.isSelected())
 			{
-				_desktop.add(_frmPhones, JDesktopPane.PALETTE_LAYER);
+				mDesktop.add(_frmPhones, JDesktopPane.PALETTE_LAYER);
 			}
 			else
 			{
-				_desktop.remove(_frmPhones);
+				mDesktop.remove(_frmPhones);
 			}
 			_frmPhones.setVisible(_btnViewPhone.isSelected());
-			_desktop.repaint();
+			mDesktop.repaint();
 		}
 	};
 	
@@ -315,140 +208,49 @@ public class fPerson extends JFrame
 		{
 			if (_frmAddress == null)
 			{
-				_frmAddress = new infAddress(_aut, "frmAddress", _prs);
+				_frmAddress = new infAddress(mAut, "frmAddress", getPerson());
 				_frmAddress.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
- 				_alInF.add(_frmAddress);
+ 				mALInF.add(_frmAddress);
  				_frmAddress.Load();
 			}
 			if (_btnViewAddress.isSelected())
 			{
-				_desktop.add(_frmAddress, JDesktopPane.PALETTE_LAYER);
+				mDesktop.add(_frmAddress, JDesktopPane.PALETTE_LAYER);
 			}
 			else
 			{
-				_desktop.remove(_frmAddress);
+				mDesktop.remove(_frmAddress);
 			}
 			_frmAddress.setVisible(_btnViewAddress.isSelected());
-			_desktop.repaint();
+			mDesktop.repaint();
 		}
 	};
 	
-	Action actViewImages = new AbstractAction() 
+	protected void UpdateLanguage()
 	{
-		@Override
-		public void actionPerformed(ActionEvent arg0) 
-		{
-			if (_frmImages == null)
-			{
-				_frmImages = new infImages(_aut, "frmImages", _prs);
-				_frmImages.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
- 				_alInF.add(_frmImages);
- 				_frmImages.Load();
-			}
-			if (_btnViewImage.isSelected())
-			{
-				_desktop.add(_frmImages, JDesktopPane.PALETTE_LAYER);
-			}
-			else
-			{
-				_desktop.remove(_frmImages);
-			}
-			_frmImages.setVisible(_btnViewImage.isSelected());
-			_desktop.repaint();	
-		}
-	};
-	
-	Action actViewNotes = new AbstractAction() 
-	{
-		@Override
-		public void actionPerformed(ActionEvent arg0) 
-		{
-			if (_frmNote == null)
-			{
-				_frmNote = new infNote(_aut, "frmNote", _prs);
-				_frmNote.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
- 				_alInF.add(_frmNote);
- 				_frmNote.Load();
-			}
-			if (_btnViewNote.isSelected())
-			{
-				_desktop.add(_frmNote, JDesktopPane.PALETTE_LAYER);
-			}
-			else
-			{
-				_desktop.remove(_frmNote);
-			}
-			_frmNote.setVisible(_btnViewNote.isSelected());
-			_desktop.repaint();
-		}
-	};
-	
-	Action actViewOptions = new AbstractAction() 
-	{
-		@Override
-		public void actionPerformed(ActionEvent arg0) 
-		{
-			
-		}
-	};
-	
-	public void ShowPerson(tPerson aPrs)
-	{
-		_prs = aPrs;
+		super.UpdateLanguage();
 		
-		_txtObjName.setText(_prs.getName());
-		_desktop.setToolTipText(Autumn.Calendar2String(_prs.getLastModified()));
-	
-		for (infBase inf : _alInF)
-			inf.Load(_prs);
-	}
-
-	public tPerson SavePerson()
-	{
-		if (_prs != null)
-		{
-			_prs.setName(_txtObjName.getText());
-			for (infBase inf: _alInF)
-				inf.Save();
-		}
-		return _prs;
+		setTitle(mAut.getString("Titles.wPerson"));
 	}
 	
-	private void UpdateLanguage()
+	protected void mLoadPreference(Preferences aNode)
 	{
-		setTitle(_aut.getString("Titles.wPerson"));
+		super.mLoadPreference(aNode);
 		
-	}
-	
-	private void LoadProgramPreference()
-	{
-		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/fPerson");
-		AsRegister.LoadFrameStateSizeLocation(node, this);
-		//TableTools.SetColumnsWidthFromString(_tabOp, node.get("TabColWidth_Operation", CC.STR_EMPTY));
-		if (node.getBoolean("isFIOShow", false))
+		if (aNode.getBoolean("isFIOShow", false))
 			_btnViewFIO.doClick();
-		if (node.getBoolean("isPhoneShow", false))
+		if (aNode.getBoolean("isPhoneShow", false))
 			_btnViewPhone.doClick();
-		if (node.getBoolean("isAddressShow", false))
+		if (aNode.getBoolean("isAddressShow", false))
 			_btnViewAddress.doClick();
-		if (node.getBoolean("isImageShow", false))
-			_btnViewImage.doClick();
-		if (node.getBoolean("isNoteShow", false))
-			_btnViewNote.doClick();
-		_currDir = node.get("CurrentDir", null);
 	}
 	
-	private void SaveProgramPreference()
+	protected void mSavePreference(Preferences aNode)
 	{
-		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/fPerson");
-		AsRegister.SaveFrameStateSizeLocation(node, this);
-		//node.put("TabColWidth_Operation", TableTools.GetColumnsWidthAsString(_tabOp));
-		node.putBoolean("isFIOShow", _btnViewFIO.isSelected());
-		node.putBoolean("isPhoneShow", _btnViewPhone.isSelected());
-		node.putBoolean("isAddressShow", _btnViewAddress.isSelected());
-		node.putBoolean("isImageShow", _btnViewImage.isSelected());
-		node.putBoolean("isNoteShow", _btnViewNote.isSelected());
-		if (_currDir != null && _currDir.length() > 0)
-			node.put("CurrentDir", _currDir);
+		super.mSavePreference(aNode);
+		
+		aNode.putBoolean("isFIOShow", _btnViewFIO.isSelected());
+		aNode.putBoolean("isPhoneShow", _btnViewPhone.isSelected());
+		aNode.putBoolean("isAddressShow", _btnViewAddress.isSelected());
 	}
 }
