@@ -12,9 +12,9 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import tor.java.autumn.Autumn;
-import tor.java.autumn.tabella.tBin;
-import tor.java.autumn.tabella.tObj;
-import tor.java.autumn.tabella.tPerson;
+import tor.java.thirteen.card.tBin;
+import tor.java.thirteen.card.tObj;
+import tor.java.thirteen.card.tPerson;
 
 public class infImages extends infBase 
 {

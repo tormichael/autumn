@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 //import sun.awt.HorizBagLayout;
-import tor.java.autumn.tabella.tObj;
+import tor.java.thirteen.card.tObj;
 
 import JCommonTools.AsRegister;
 import JCommonTools.CC;

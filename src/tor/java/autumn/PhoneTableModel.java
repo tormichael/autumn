@@ -8,8 +8,8 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.table.AbstractTableModel;
 
-import tor.java.autumn.tabella.tPerson;
-import tor.java.autumn.tabella.tVTN;
+import tor.java.thirteen.card.tPerson;
+import tor.java.thirteen.card.tVTN;
 import JCommonTools.CC;
 import JCommonTools.RefBook.fRefBook;
 import JCommonTools.RefBook.rbNode;

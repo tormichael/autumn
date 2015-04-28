@@ -14,9 +14,9 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import tor.java.autumn.tabella.tAdr;
-import tor.java.autumn.tabella.tPerson;
-import tor.java.autumn.tabella.tVTN;
+import tor.java.thirteen.card.tAdr;
+import tor.java.thirteen.card.tPerson;
+import tor.java.thirteen.card.tVTN;
 import net.sourceforge.cardme.engine.VCardEngine;
 import net.sourceforge.cardme.io.CompatibilityMode;
 import net.sourceforge.cardme.io.VCardWriter;

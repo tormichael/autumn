@@ -13,7 +13,7 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import tor.java.autumn.Autumn;
-import tor.java.autumn.tabella.tObj;
+import tor.java.thirteen.card.tObj;
 
 public class infBase extends JInternalFrame 
 {

@@ -12,8 +12,8 @@ import javax.swing.event.ListSelectionListener;
 
 import JCommonTools.CC;
 import tor.java.autumn.Autumn;
-import tor.java.autumn.tabella.tObj;
-import tor.java.autumn.tabella.tRegister;
+import tor.java.thirteen.card.tObj;
+import tor.java.thirteen.card.tRegister;
 
 public class pNavModeList extends pNavMode 
 {

@@ -17,8 +17,8 @@ import JCommonTools.CodeText;
 import JCommonTools.Tools;
 import JCommonTools.RefBook.RefBook;
 
-import tor.java.autumn.tabella.tPerson;
-import tor.java.autumn.tabella.tRegister;
+import tor.java.thirteen.card.tPerson;
+import tor.java.thirteen.card.tRegister;
 
 public class Autumn 
 {

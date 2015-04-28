@@ -5,7 +5,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import tor.java.autumn.Autumn;
-import tor.java.autumn.tabella.tObj;
+import tor.java.thirteen.card.tObj;
 
 public class infNote extends infBase 
 {

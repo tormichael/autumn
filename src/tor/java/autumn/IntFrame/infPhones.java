@@ -43,7 +43,7 @@ import JCommonTools.RefBook.fRefBook;
 import JCommonTools.RefBook.rbNode;
 import tor.java.autumn.Autumn;
 import tor.java.autumn.PhoneTableModel;
-import tor.java.autumn.tabella.tPerson;
+import tor.java.thirteen.card.tPerson;
 
 public class infPhones extends infBase 
 {

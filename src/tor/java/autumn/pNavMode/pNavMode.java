@@ -6,7 +6,7 @@ import javax.swing.Action;
 import javax.swing.JPanel;
 
 import tor.java.autumn.Autumn;
-import tor.java.autumn.tabella.tObj;
+import tor.java.thirteen.card.tObj;
 
 public class pNavMode extends JPanel 
 {

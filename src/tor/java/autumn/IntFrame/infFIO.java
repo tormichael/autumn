@@ -13,7 +13,7 @@ import JCommonTools.GBC;
 import com.toedter.calendar.JDateChooser;
 
 import tor.java.autumn.Autumn;
-import tor.java.autumn.tabella.tPerson;
+import tor.java.thirteen.card.tPerson;
 
 public class infFIO extends infBase 
 {

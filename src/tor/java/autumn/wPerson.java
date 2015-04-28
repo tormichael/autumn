@@ -54,7 +54,7 @@ import org.omg.CORBA.Environment;
 import tor.java.autumn.Autumn;
 import tor.java.autumn.PhoneTableModel;
 import tor.java.autumn.jePhoto;
-import tor.java.autumn.tabella.tPerson;
+import tor.java.thirteen.card.tPerson;
 
 import com.toedter.calendar.JDateChooser;
 

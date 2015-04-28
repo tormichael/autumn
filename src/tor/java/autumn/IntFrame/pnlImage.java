@@ -25,7 +25,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import tor.java.autumn.Autumn;
 import tor.java.autumn.fNavigator;
 import tor.java.autumn.jePhoto;
-import tor.java.autumn.tabella.tBin;
+import tor.java.thirteen.card.tBin;
 
 public class pnlImage extends JPanel 
 {

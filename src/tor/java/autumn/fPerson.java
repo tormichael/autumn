@@ -30,7 +30,7 @@ import tor.java.autumn.IntFrame.infFIO;
 import tor.java.autumn.IntFrame.infImages;
 import tor.java.autumn.IntFrame.infNote;
 import tor.java.autumn.IntFrame.infPhones;
-import tor.java.autumn.tabella.tPerson;
+import tor.java.thirteen.card.tPerson;
 import JCommonTools.AsRegister;
 import JCommonTools.FileNameTools;
 
