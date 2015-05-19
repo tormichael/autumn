@@ -339,7 +339,8 @@ public class fNavigator extends JFrame
 	{
 		if (_currFileName.indexOf(".vcf") > 0)
 		{
-			_aut.getRegister().ClearObjectsCollection();
+			if (_aut.getRegister() != null)
+				_aut.getRegister().ClearObjectsCollection();
 			PersonalVCard pvc = new PersonalVCard(_aut);
 			pvc.LoadFromVCardFile(_currFileName);
 			_isVCard = true;

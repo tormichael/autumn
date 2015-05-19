@@ -116,10 +116,14 @@ public class fObject extends JFrame
 		
 		this.add(_pnl, BorderLayout.CENTER);
 		
-		LoadProgramPreference ();
-		
 		this.addWindowListener(new WindowAdapter() 
 		{
+			@Override
+			public void windowOpened(WindowEvent e) 
+			{
+				LoadProgramPreference ();
+				super.windowOpened(e);
+			}
 			@Override
 			public void windowClosing(WindowEvent e) 
 			{
