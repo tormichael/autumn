@@ -31,7 +31,6 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import sun.nio.ch.WindowsAsynchronousChannelProvider;
 import tor.java.autumn.pNavMode.pNavMode;
 import tor.java.autumn.pNavMode.pNavModeAlphabet;
 import tor.java.autumn.pNavMode.pNavModeList;
