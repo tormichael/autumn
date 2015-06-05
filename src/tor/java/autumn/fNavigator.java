@@ -553,7 +553,7 @@ public class fNavigator extends JFrame
 			dlg.setCurrentDirectory(new File(_currFileName));
 		dlg.setFileFilter(new FileNameExtensionFilter("Object register", tRegister.FILE_EXTENTION));
 		dlg.setMultiSelectionEnabled(false);
-		if (dlg.showOpenDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
+		if (dlg.showSaveDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
 		{
 			ret = FileNameTools.AddExtensionIfNone(dlg.getSelectedFile().getPath(), tRegister.FILE_EXTENTION);
 		}

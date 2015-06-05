@@ -55,6 +55,7 @@ import tor.java.autumn.Autumn;
 import tor.java.autumn.PhoneTableModel;
 import tor.java.autumn.jePhoto;
 import tor.java.thirteen.card.tPerson;
+import tor.java.thirteen.card.tRegister;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -66,6 +67,7 @@ import net.sourceforge.cardme.vcard.VCardImpl;
 import net.sourceforge.cardme.vcard.errors.VCardError;
 import net.sourceforge.cardme.vcard.features.NameFeature;
 import JCommonTools.CC;
+import JCommonTools.FileNameTools;
 import JCommonTools.GBC;
 
 public class wPerson extends JFrame 
@@ -84,7 +86,6 @@ public class wPerson extends JFrame
 	private JTable			_tabConnection;
 	private PhoneTableModel _tmPhone;
 	
-
 	public void setFileName(String aFN)
 	{
 		//if (aFN != null && aFN.indexOf(".vcf") > 0)
@@ -100,7 +101,6 @@ public class wPerson extends JFrame
 		setSize(szScreen.width/2, szScreen.height/2);
 		setLocation((int)(szScreen.width/2*Math.random()), (int)(szScreen.height/3*Math.random()));
 
-		
 		this.setTitle(_aut.getString("Titles.wPerson"));
 		this.setIconImage(CreateIcon("automn2.png", Autumn.TOOL_BAR_ICON_SIZE).getImage());
 		

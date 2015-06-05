@@ -65,6 +65,9 @@ public class fPerson extends fObject
 		mPrefPath = "fPerson";
 		//_prs = null;
 	
+		mBtnSave.setAction(actSave);
+		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("save.png"));
+		
 		_btnViewFIO = new JToggleButton(actViewFIO);
 		actViewFIO.putValue(Action.SMALL_ICON, mAut.getImageIcon("new.png"));
 		mTBar.add(_btnViewFIO, 5);

@@ -11,6 +11,7 @@ import java.util.prefs.Preferences;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -38,10 +39,11 @@ public class fObject extends JFrame
 	protected tObj						mObj;
 
 	protected String 					mCurrDir;
-	protected String					mPrefPath;
+	protected String						mPrefPath;
 	
 	protected JToolBar 					mTBar;
-	protected JToggleButton				mBtnViewImage;
+	protected JButton						mBtnSave;
+	protected JToggleButton			mBtnViewImage;
 	protected JToggleButton 			mBtnViewNote;
 	protected JDesktopPane				mDesktop;
 	protected JTextField				mTxtObjName;
@@ -83,8 +85,11 @@ public class fObject extends JFrame
 		actLoad.putValue(Action.SMALL_ICON, mAut.getImageIcon("open.png"));
 		mTBar.add(actLoad);
 		
-		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("save.png"));
-		mTBar.add(actSave);
+		mBtnSave = new JButton();
+		mBtnSave.setIcon(mAut.getImageIcon("save.png"));
+		mTBar.add(mBtnSave);
+		//actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("save.png"));
+		//mTBar.add(actSave);
 		
 		mTBar.addSeparator();
 		_btnTransparency = new JToggleButton(actTransparency);
