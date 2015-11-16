@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<RefBook>
+    <refBookNode>
+        <Nodes>
+            <Node>
+                <Nodes>
+                    <Node>
+                        <Nodes>
+                            <Node>
+<Nodes/>
+<alias>EMAIL</alias>
+<id>7752</id>
+<name>eMail</name>
+                            </Node>
+                            <Node>
+<Nodes/>
+<alias>WWW</alias>
+<id>7754</id>
+<name>www</name>
+                            </Node>
+                            <Node>
+<Nodes/>
+<alias>skype</alias>
+<id>7758</id>
+<name>skype</name>
+                            </Node>
+                            <Node>
+<Nodes/>
+<alias>icq</alias>
+<id>7756</id>
+<name>ICQ</name>
+                            </Node>
+                            <Node>
+<Nodes/>
+<alias>CELL</alias>
+<id>7710</id>
+<name>мобильный тел.</name>
+                            </Node>
+                            <Node>
+<Nodes/>
+<alias>VOICE</alias>
+<id>7720</id>
+<name>стационарный тел.</name>
+                            </Node>
+                            <Node>
+<Nodes/>
+<alias>FAX</alias>
+<id>7722</id>
+<name>факс</name>
+                            </Node>
+                        </Nodes>
+                        <alias>vtn_type</alias>
+                        <id>7702</id>
+                        <name>Тип контакта</name>
+                    </Node>
+                    <Node>
+                        <Nodes>
+                            <Node>
+<Nodes/>
+<alias>HOME</alias>
+<id>7772</id>
+<name>домашний</name>
+                            </Node>
+                            <Node>
+<Nodes/>
+<alias>WORK</alias>
+<id>7774</id>
+<name>рабочий</name>
+                            </Node>
+                            <Node>
+<Nodes/>
+<alias>PERSON</alias>
+<id>7776</id>
+<name>личный</name>
+                            </Node>
+                        </Nodes>
+                        <alias>vtn_mode</alias>
+                        <id>7770</id>
+                        <name>Статус контакта</name>
+                    </Node>
+                </Nodes>
+                <alias>vtn</alias>
+                <id>7700</id>
+                <name>Контакты</name>
+            </Node>
+            <Node>
+                <Nodes>
+                    <Node>
+                        <Nodes/>
+                        <alias>dacha</alias>
+                        <id>7936</id>
+                        <name>дача</name>
+                    </Node>
+                    <Node>
+                        <Nodes/>
+                        <alias>WORK</alias>
+                        <id>7934</id>
+                        <name>рабочий</name>
+                    </Node>
+                    <Node>
+                        <Nodes/>
+                        <alias>HOME</alias>
+                        <id>7932</id>
+                        <name>домашний</name>
+                    </Node>
+                </Nodes>
+                <alias>address_type</alias>
+                <id>7930</id>
+                <name>Типы адресов</name>
+            </Node>
+            <Node>
+                <Nodes>
+                    <Node>
+                        <Nodes/>
+                        <alias>UA</alias>
+                        <id>3804</id>
+                        <name>Украина</name>
+                    </Node>
+                    <Node>
+                        <Nodes/>
+                        <alias>DE</alias>
+                        <id>3276</id>
+                        <name>Германия</name>
+                    </Node>
+                    <Node>
+                        <Nodes/>
+                        <alias>CN</alias>
+                        <id>3156</id>
+                        <name>Китай</name>
+                    </Node>
+                    <Node>
+                        <Nodes/>
+                        <alias>US</alias>
+                        <id>3840</id>
+                        <name>Соединенные Штаты Америки</name>
+                    </Node>
+                    <Node>
+                        <Nodes/>
+                        <alias>RU</alias>
+                        <id>3643</id>
+                        <name>Россия</name>
+                    </Node>
+                </Nodes>
+                <alias>country</alias>
+                <id>3000</id>
+                <name>Страны мира</name>
+            </Node>
+        </Nodes>
+        <alias>rb</alias>
+        <id>1</id>
+        <name>RB - справочник</name>
+    </refBookNode>
+</RefBook>
