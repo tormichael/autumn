@@ -339,7 +339,8 @@ public class fNavigator extends JFrame
 	{
 		if (_currFileName.indexOf(".vcf") > 0)
 		{
-			_aut.getRegister().ClearObjectsCollection();
+			if (_aut.getRegister() != null)
+				_aut.getRegister().ClearObjectsCollection();
 			PersonalVCard pvc = new PersonalVCard(_aut);
 			pvc.LoadFromVCardFile(_currFileName);
 			_isVCard = true;
@@ -552,7 +553,7 @@ public class fNavigator extends JFrame
 			dlg.setCurrentDirectory(new File(_currFileName));
 		dlg.setFileFilter(new FileNameExtensionFilter("Object register", tRegister.FILE_EXTENTION));
 		dlg.setMultiSelectionEnabled(false);
-		if (dlg.showOpenDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
+		if (dlg.showSaveDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
 		{
 			ret = FileNameTools.AddExtensionIfNone(dlg.getSelectedFile().getPath(), tRegister.FILE_EXTENTION);
 		}
