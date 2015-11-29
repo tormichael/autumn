@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<BookParam>
+    <bookPage>
+        <inset>0</inset>
+        <Pages>
+            <Page>
+                <inset>10</inset>
+                <Pages/>
+                <Parameters>
+                    <Param>
+                        <number>1</number>
+                        <prefsKey>pText1</prefsKey>
+                        <swingCtrlName>javax.swing.JTextField</swingCtrlName>
+                        <title>Text parameters</title>
+                        <type>String</type>
+                    </Param>
+                    <Param>
+                        <number>2</number>
+                        <prefsKey>GlobalFont</prefsKey>
+                        <swingCtrlName>JFontChooser</swingCtrlName>
+                        <title>Font</title>
+                        <type>String</type>
+                    </Param>
+                    <Param>
+                        <number>3</number>
+                        <prefsKey>gValue</prefsKey>
+                        <swingCtrlName>javax.swing.JComboBox&lt;String&gt;</swingCtrlName>
+                        <swingCtrlOptional>String</swingCtrlOptional>
+                        <swingCtrlRestriction>|Value1|Value2|Value3|Value4|Value5|Value6|Value7</swingCtrlRestriction>
+                        <title>ComboBox  parameter</title>
+                        <type>String</type>
+                    </Param>
+                    <Param>
+                        <number>4</number>
+                        <prefsKey>p4</prefsKey>
+                        <swingCtrlName>javax.swing.JFileChooser</swingCtrlName>
+                        <swingCtrlRestriction>txt|doc</swingCtrlRestriction>
+                        <title>File name</title>
+                        <type>String</type>
+                    </Param>
+                </Parameters>
+                <prefsNode>general</prefsNode>
+                <title>General</title>
+            </Page>
+            <Page>
+                <inset>15</inset>
+                <Pages/>
+                <Parameters/>
+                <prefsNode>personal</prefsNode>
+                <title>Personal</title>
+            </Page>
+        </Pages>
+        <Parameters/>
+        <prefsNode>autumn</prefsNode>
+        <title>root</title>
+    </bookPage>
+</BookParam>

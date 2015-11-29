@@ -68,16 +68,18 @@ public class PersonalVCard
 		List<VCard> vcards  = null;
 		VCardEngine vcardEngine = new VCardEngine();
 		vcardEngine.setCompatibilityMode(CompatibilityMode.MS_OUTLOOK);
-		//vcardEngine.setForcedCharset("windows-1251");
+		//if (Charset.isSupported("windows-1251"))
+		//	vcardEngine.setForcedCharset("windows-1251");
+		
 		try
 		{
-			FileInputStream fis = new FileInputStream(aFileName);
-			byte [] ba = new byte[1000000];
-			int reallen = fis.read(ba,0,ba.length);
-			fis.close();
-			String instr = new String(ba, 0, reallen, "windows-1251");
-			
-			//vcard = vcardEngine.parse (instr); //new File(aFileName));
+//			FileInputStream fis = new FileInputStream(aFileName);
+//			byte [] ba = new byte[1000000];
+//			int reallen = fis.read(ba,0,ba.length);
+//			fis.close();
+//			String instr = new String(ba, 0, reallen, "windows-1251");
+//			vcard = vcardEngine.parse (instr); //new File(aFileName));
+
 			vcards = vcardEngine.parseMultiple (aFileName); //instr);
 			if (vcardEngine.isCharsetForced())
 				_workcharset = vcardEngine.getForcedCharset(); 
