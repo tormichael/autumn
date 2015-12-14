@@ -312,23 +312,20 @@ public class fNavigator extends JFrame
 				dlg.setCurrentDirectory(new File(_currFileName));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Object register", tRegister.FILE_EXTENTION));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
-			//dlg.setMultiSelectionEnabled(false);
-			dlg.setMultiSelectionEnabled(true);
+			dlg.setMultiSelectionEnabled(false);
 			if (dlg.showOpenDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
 			{
 				if (dlg.getSelectedFiles() != null && dlg.getSelectedFiles().length > 0)
 				{
-					for (int ii = 0; ii < dlg.getSelectedFiles().length; ii++)
-					{
-						setCurrentFileName(dlg.getSelectedFiles()[ii].getPath());
-						_loadCurrenFileName();
-					}
-				}
-				else
-				{
 					setCurrentFileName(dlg.getSelectedFile().getPath());
 					_loadCurrenFileName();
+//					for (int ii = 0; ii < dlg.getSelectedFiles().length; ii++)
+//					{
+//						setCurrentFileName(dlg.getSelectedFiles()[ii].getPath());
+//						_loadCurrenFileName();
+//					}
 				}
+
 //				if (dlg.getSelectedFile().getName().indexOf(".vcf") > 0)
 //				{
 //					_aut.getRegister().ClearObjectsCollection();
@@ -373,6 +370,7 @@ public class fNavigator extends JFrame
 							pvc.LoadFromVCardFile(fName);
 					}
 					_isVCard = true;
+					_currNavMode.ShowRegister(null);
 				}
 				else
 				{
