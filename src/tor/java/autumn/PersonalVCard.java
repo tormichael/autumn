@@ -21,6 +21,7 @@ import net.sourceforge.cardme.engine.VCardEngine;
 import net.sourceforge.cardme.io.CompatibilityMode;
 import net.sourceforge.cardme.io.VCardWriter;
 import net.sourceforge.cardme.util.StringUtil;
+import net.sourceforge.cardme.util.VCardUtils;
 import net.sourceforge.cardme.vcard.VCard;
 import net.sourceforge.cardme.vcard.VCardImpl;
 import net.sourceforge.cardme.vcard.arch.LanguageType;
@@ -311,7 +312,7 @@ public class PersonalVCard
 	}
 	
 	public String ConvertStringFrom(String aTxt, Charset aCS){
-		
+	
 		String ret = aTxt;
 		String csName = (aCS != null && aCS.displayName().length() > 0) ? aCS.displayName() : Charset.defaultCharset().displayName();  
 	
@@ -329,5 +330,4 @@ public class PersonalVCard
 		return ret;
 	}
 	
-
 }
