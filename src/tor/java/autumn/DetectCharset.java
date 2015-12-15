@@ -60,7 +60,7 @@ public class DetectCharset
 		_init ();
 		try
 		{
-			FileInputStream fis = new FileInputStream(aFile);
+			FileInputStream  fis = new FileInputStream(aFile);
 		
 	        byte[] buf = new byte[1024] ;
 	        int len;
@@ -79,6 +79,8 @@ public class DetectCharset
 	        }
 	        _det.DataEnd();
 
+	        fis.close();
+
 	        if (isAscii) {
 	           _charsetName =  "ASCII";
 	           _found = true ;
@@ -87,6 +89,9 @@ public class DetectCharset
 		catch (Exception ex)
 		{
 			
+		}
+		finally
+		{
 		}
 	}
 }
