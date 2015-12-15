@@ -52,6 +52,7 @@ public class fNavigator extends JFrame
 	
 	private JMenu _mnuFile;
 	private JMenuItem _mnuFileLoad;
+	private JMenuItem _mnuFileAdd;
 	private JMenuItem _mnuFileSave;
 	private JMenuItem _mnuFileSaveAs;
 	private JMenuItem _mnuFilePrint;
@@ -115,6 +116,8 @@ public class fNavigator extends JFrame
 		//mnuFile.add(mnuFileCreate);
 		_mnuFileLoad = new JMenuItem(actLoad);
 		_mnuFile.add(_mnuFileLoad);
+		_mnuFileAdd = new JMenuItem(actAddFiles);
+		_mnuFile.add(_mnuFileAdd);
 		_mnuFile.addSeparator();
 		_mnuFileSave = new JMenuItem(actSave);
 		_mnuFile.add(_mnuFileSave);
@@ -309,11 +312,23 @@ public class fNavigator extends JFrame
 				dlg.setCurrentDirectory(new File(_currFileName));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Object register", tRegister.FILE_EXTENTION));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
-			dlg.setMultiSelectionEnabled(false);
+			//dlg.setMultiSelectionEnabled(false);
+			dlg.setMultiSelectionEnabled(true);
 			if (dlg.showOpenDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
 			{
-				setCurrentFileName(dlg.getSelectedFile().getPath());
-				_loadCurrenFileName();
+				if (dlg.getSelectedFiles() != null && dlg.getSelectedFiles().length > 0)
+				{
+					for (int ii = 0; ii < dlg.getSelectedFiles().length; ii++)
+					{
+						setCurrentFileName(dlg.getSelectedFiles()[ii].getPath());
+						_loadCurrenFileName();
+					}
+				}
+				else
+				{
+					setCurrentFileName(dlg.getSelectedFile().getPath());
+					_loadCurrenFileName();
+				}
 //				if (dlg.getSelectedFile().getName().indexOf(".vcf") > 0)
 //				{
 //					_aut.getRegister().ClearObjectsCollection();
@@ -331,6 +346,37 @@ public class fNavigator extends JFrame
 //				
 //				if (_currNavMode != null)
 //					_currNavMode.ShowRegister();
+			}
+		};
+	};
+
+	Action actAddFiles = new AbstractAction()
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			JFileChooser dlg = new JFileChooser();
+			if (_currFileName != null)
+				dlg.setCurrentDirectory(new File(_currFileName));
+			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Object register", tRegister.FILE_EXTENTION));
+			dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
+			dlg.setMultiSelectionEnabled(true);
+			if (dlg.showOpenDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
+			{
+				PersonalVCard pvc = new PersonalVCard(_aut);
+				if (dlg.getSelectedFiles() != null && dlg.getSelectedFiles().length > 0)
+				{
+					for (int ii = 0; ii < dlg.getSelectedFiles().length; ii++)
+					{
+						String fName =  dlg.getSelectedFiles()[ii].getPath();
+						if (fName.indexOf(".vcf") > 0)
+							pvc.LoadFromVCardFile(fName);
+					}
+					_isVCard = true;
+				}
+				else
+				{
+				}
 			}
 		};
 	};
@@ -591,6 +637,7 @@ public class fNavigator extends JFrame
 		
 		_mnuFile.setText(_aut.getString("Menu.Person.File"));
 		_mnuFileLoad.setText( _aut.getString("Menu.Person.File.Load"));
+		_mnuFileAdd.setText( _aut.getString("Menu.Person.File.Add"));
 		_mnuFileSave.setText( _aut.getString("Menu.Person.File.Save"));
 		_mnuFileSaveAs.setText( _aut.getString("Menu.Person.File.SaveAs"));
 		_mnuFilePrint.setText( _aut.getString("Menu.Person.File.Print"));

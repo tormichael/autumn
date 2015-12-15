@@ -1,5 +1,6 @@
 package tor.java.autumn.IntFrame;
 
+import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
@@ -73,7 +74,8 @@ public class infAddress extends infBase
 		JLabel lbl = new JLabel(mAut.getString("Label.Address.Index"));
 		gbl.setConstraints(lbl, new GBC(0,0).setIns(2).setAnchor(GBC.EAST));
 		pnlAdr.add(lbl);
-		_txfIndex = new JTextField(10);		
+		_txfIndex = new JTextField(10);
+		_txfIndex.setMinimumSize(new Dimension(_txfIndex.getPreferredSize().width, _txfIndex.getPreferredSize().height));
 		gbl.setConstraints(_txfIndex, new GBC(1,0).setIns(2).setFill(GBC.HORIZONTAL));
 		pnlAdr.add(_txfIndex);
 		DefaultComboBoxModel<rbNode> cbmCountry = new DefaultComboBoxModel<rbNode>();
