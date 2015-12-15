@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 
@@ -116,13 +117,23 @@ public class PersonalVCard
 		VCardEngine vcardEngine = new VCardEngine();
 		vcardEngine.setCompatibilityMode(CompatibilityMode.MS_OUTLOOK);
 		//vcardEngine.setForcedCharset("windows-1251");
+		
+		String currCharsetName = Charset.defaultCharset().name();
+		DetectCharset dc = new DetectCharset();
+		dc.DetectFile(aFileName);
+		if (dc.IsFound())
+		{
+			currCharsetName = dc.GetCharsetName();
+			System.out.println("CHARSET = "+currCharsetName);
+		}
+		
 		try
 		{
 			FileInputStream fis = new FileInputStream(aFileName);
 			byte [] ba = new byte[1000000];
 			int reallen = fis.read(ba,0,ba.length);
 			fis.close();
-			String instr = new String(ba, 0, reallen, "windows-1251");
+			String instr = new String(ba, 0, reallen, currCharsetName);
 			
 			vcard = vcardEngine.parse (instr); //new File(aFileName));
 			if (vcardEngine.isCharsetForced())

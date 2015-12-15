@@ -367,12 +367,16 @@ public class fNavigator extends JFrame
 					{
 						String fName =  dlg.getSelectedFiles()[ii].getPath();
 						if (fName.indexOf(".vcf") > 0)
+<<<<<<< HEAD
 						{
 							//pvc.LoadFromVCardFile(fName);
 							tPerson prs = pvc.LoadOneVCard(fName);
 							if (prs != null)
 								_aut.getRegister().getObjColl().add(prs);
 						}
+=======
+							_aut.getRegister().getObjColl().add(pvc.LoadOneVCard(fName));
+>>>>>>> d6bf0c66bbb004eccbd75120bf5a4c203d081727
 					}
 					_isVCard = true;
 					_currNavMode.ShowRegister(null);
