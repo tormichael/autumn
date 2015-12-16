@@ -64,6 +64,35 @@ public class PersonalVCard
 		_rbnContactTypeEmail = _aut.getRefbook().getRefBookNode().findByAlias(_aut.getRefbook().RB_ALIAS_VTN_TYPE_EMAIL);		
 	}
 	
+	public String ReadFromFile(String aFileName)
+	{
+		StringBuilder sb = new StringBuilder();
+
+		String currCharsetName = DetectCharset.DetectFile(aFileName);
+		if (currCharsetName == null)
+				Charset.defaultCharset().name();
+
+		try
+		{
+			FileInputStream fis = new FileInputStream(aFileName);
+			byte [] ba = new byte[1024];
+			int reallen;
+			while ((reallen = fis.read(ba,0,ba.length)) > 0)
+			{
+				sb.append(new String(ba, 0, reallen, currCharsetName));
+			}
+			fis.close();
+			
+		}
+		catch (IOException ioe)
+		{
+			System.err.print(_aut.getString("Text.Error.NotParseVCardFile")+aFileName);
+			ioe.printStackTrace();
+		}
+		
+		return sb.toString();
+	}
+	
 	public void LoadFromVCardFile(String aFileName)
 	{
 		//VCard vcard = null;
@@ -116,25 +145,10 @@ public class PersonalVCard
 		VCard vcard = null;
 		VCardEngine vcardEngine = new VCardEngine();
 		vcardEngine.setCompatibilityMode(CompatibilityMode.MS_OUTLOOK);
-		//vcardEngine.setForcedCharset("windows-1251");
-		
-		String currCharsetName = Charset.defaultCharset().name();
-		DetectCharset dc = new DetectCharset();
-		dc.DetectFile(aFileName);
-		if (dc.IsFound())
-		{
-			currCharsetName = dc.GetCharsetName();
-			System.out.println("CHARSET = "+currCharsetName);
-		}
 		
 		try
 		{
-			FileInputStream fis = new FileInputStream(aFileName);
-			byte [] ba = new byte[1000000];
-			int reallen = fis.read(ba,0,ba.length);
-			fis.close();
-			String instr = new String(ba, 0, reallen, currCharsetName);
-			
+			String instr = ReadFromFile(aFileName);
 			vcard = vcardEngine.parse (instr); //new File(aFileName));
 			if (vcardEngine.isCharsetForced())
 				_workcharset = vcardEngine.getForcedCharset(); 

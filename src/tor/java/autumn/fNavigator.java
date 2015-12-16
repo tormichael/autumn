@@ -51,6 +51,7 @@ public class fNavigator extends JFrame
 	private Autumn _aut;
 	
 	private JMenu _mnuFile;
+	private JMenuItem _mnuFileNew;
 	private JMenuItem _mnuFileLoad;
 	private JMenuItem _mnuFileAdd;
 	private JMenuItem _mnuFileSave;
@@ -114,6 +115,9 @@ public class fNavigator extends JFrame
 		//JMenuItem mnuFileCreate = new JMenuItem(actCreate);
 		//mnuFileCreate.setText( _aut.getString("Menu.Person.File.Create"));
 		//mnuFile.add(mnuFileCreate);
+		_mnuFileNew = new JMenuItem(actNew);
+		_mnuFile.add(_mnuFileNew);
+		_mnuFile.addSeparator();
 		_mnuFileLoad = new JMenuItem(actLoad);
 		_mnuFile.add(_mnuFileLoad);
 		_mnuFileAdd = new JMenuItem(actAddFiles);
@@ -302,6 +306,27 @@ public class fNavigator extends JFrame
 		}
 	}
 
+	private void _repaint()
+	{
+		_pnlNavigator.revalidate();
+		_pnlNavigator.repaint();
+		_currNavMode.ShowRegister();
+	}
+	
+	Action actNew = new AbstractAction()
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			if (_aut.getRegister() != null)
+				_aut.getRegister().ClearObjectsCollection();
+			
+			_currFileName = null;
+			_repaint();
+			_sbiMain.setText(_aut.getString("Text.Message.Successfully.New"));
+		}
+	};
+	
 	Action actLoad = new AbstractAction()
 	{
 		@Override
@@ -315,7 +340,7 @@ public class fNavigator extends JFrame
 			dlg.setMultiSelectionEnabled(false);
 			if (dlg.showOpenDialog(fNavigator.this) == JFileChooser.APPROVE_OPTION)
 			{
-				if (dlg.getSelectedFiles() != null && dlg.getSelectedFiles().length > 0)
+				if (dlg.getSelectedFile() != null && dlg.getSelectedFile().getPath().length() > 0)
 				{
 					setCurrentFileName(dlg.getSelectedFile().getPath());
 					_loadCurrenFileName();
@@ -366,23 +391,21 @@ public class fNavigator extends JFrame
 					for (int ii = 0; ii < dlg.getSelectedFiles().length; ii++)
 					{
 						String fName =  dlg.getSelectedFiles()[ii].getPath();
+						tPerson prs = null;
 						if (fName.indexOf(".vcf") > 0)
-<<<<<<< HEAD
 						{
-							//pvc.LoadFromVCardFile(fName);
-							tPerson prs = pvc.LoadOneVCard(fName);
-							if (prs != null)
-								_aut.getRegister().getObjColl().add(prs);
+							prs = pvc.LoadOneVCard(fName);
 						}
-=======
-							_aut.getRegister().getObjColl().add(pvc.LoadOneVCard(fName));
->>>>>>> d6bf0c66bbb004eccbd75120bf5a4c203d081727
+						else if (fName.indexOf(".per") > 0)
+						{
+							prs = tPerson.Load(fName);
+						}
+						
+						if (prs != null)
+							_aut.getRegister().getObjColl().add(prs);
 					}
 					_isVCard = true;
 					_currNavMode.ShowRegister(null);
-				}
-				else
-				{
 				}
 			}
 		};
@@ -409,6 +432,8 @@ public class fNavigator extends JFrame
 		
 		if (_currNavMode != null)
 			_currNavMode.ShowRegister();
+		
+		_repaint();
 	}
 	
 	Action actSaveAs = new AbstractAction()
@@ -643,6 +668,7 @@ public class fNavigator extends JFrame
 		setCurrentFileName(_currFileName);
 		
 		_mnuFile.setText(_aut.getString("Menu.Person.File"));
+		_mnuFileNew.setText( _aut.getString("Menu.Person.File.New"));
 		_mnuFileLoad.setText( _aut.getString("Menu.Person.File.Load"));
 		_mnuFileAdd.setText( _aut.getString("Menu.Person.File.Add"));
 		_mnuFileSave.setText( _aut.getString("Menu.Person.File.Save"));

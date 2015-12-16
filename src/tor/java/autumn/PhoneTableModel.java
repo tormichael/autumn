@@ -120,23 +120,26 @@ public class PhoneTableModel extends AbstractTableModel {
 			_contacts.add(new tVTN());
 		}
 		
-		switch (columnIndex)
+		if (_contacts.get(rowIndex) != null)
 		{
-			case 0:
-				_contacts.get(rowIndex).setValue(aValue.toString());
-				break;
-			case 1:
-				_contacts.get(rowIndex).setType(fRefBook.FindRBNodeByNameInComModel(_modCboType, aValue.toString()));
-				break;
-			case 2:
-				_contacts.get(rowIndex).setMode(fRefBook.FindRBNodeByNameInComModel(_modCboMode, aValue.toString()));
-				break;
-			case 3:
-				_contacts.get(rowIndex).setNote(aValue.toString());
-				break;
-			default:
-				super.setValueAt(aValue, rowIndex, columnIndex);
-				break;
+			switch (columnIndex)
+			{
+				case 0:
+					_contacts.get(rowIndex).setValue(aValue.toString());
+					break;
+				case 1:
+					_contacts.get(rowIndex).setType(fRefBook.FindRBNodeByNameInComModel(_modCboType, aValue.toString()));
+					break;
+				case 2:
+					_contacts.get(rowIndex).setMode(fRefBook.FindRBNodeByNameInComModel(_modCboMode, aValue.toString()));
+					break;
+				case 3:
+					_contacts.get(rowIndex).setNote(aValue.toString());
+					break;
+				default:
+					super.setValueAt(aValue, rowIndex, columnIndex);
+					break;
+			}
 		}
 		
 		fireTableCellUpdated(rowIndex, columnIndex);
