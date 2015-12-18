@@ -16,6 +16,7 @@ import JCommonTools.RefBook.rbNode;
  */
 public class RefBookAutumn
 {
+	public final static String RB_DEFAUL_FILENAME = "autumn.rfb";
 	public final static String RB_ALIAS_VTN_TYPE = "vtn_type";
 	public final static String RB_ALIAS_VTN_TYPE_EMAIL = "EMAIL";
 	public final static String RB_ALIAS_VTN_MODE = "vtn_mode";
@@ -96,6 +97,10 @@ public class RefBookAutumn
 		_rbnContactMode = null;
 	}
 
+	public void LoadDefault()
+	{
+		Load(RB_DEFAUL_FILENAME);
+	}
 	public void Load(String aFileName)
 	{
 		if (aFileName != null && aFileName.length() > 0)

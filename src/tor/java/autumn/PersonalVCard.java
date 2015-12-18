@@ -138,7 +138,7 @@ public class PersonalVCard
 		}
 		_filename = aFileName;
 	}
-	
+
 	public tPerson LoadOneVCard(String aFileName)
 	{
 		tPerson prs  = null;

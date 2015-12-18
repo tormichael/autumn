@@ -33,6 +33,7 @@ public class Autumn
 	public final static String FD_RESOURCE_IMAGE_AUTUMN = "img/autumn/";
 	
 	public final static String PREFERENCE_PATH = "/autumn";
+	public final static String PARAM_DEFAUL_FN = "autumn.bpr";
 	
 	public final static int TOOL_BAR_ICON_SIZE = 24;
 
@@ -94,6 +95,7 @@ public class Autumn
 		_ore = new tRegister();
 		_bnd = ResourceBundle.getBundle(Autumn.FN_RESOURCE_TEXT, Locale.getDefault());
 		_rfb = new RefBookAutumn(this);
+		_rfb.LoadDefault();
 		initObjTypeArray();
 	}
 	

@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Paths;
 import java.util.Random;
 import java.util.prefs.Preferences;
 
@@ -223,8 +224,6 @@ public class fNavigator extends JFrame
 			}
 		});
 
-		if (_currFileName.length() > 0)
-			_loadCurrenFileName();
 	}
 
 	private void _showMode()
@@ -581,7 +580,6 @@ public class fNavigator extends JFrame
 			dlg.setVisible(true);
 		}
 	};
-
 	
 	Action actRecordNewOk = new AbstractAction()
 	{
@@ -621,7 +619,6 @@ public class fNavigator extends JFrame
 			
 		}
 	};
-
 	
 	private String _getSavedFileName()
 	{
@@ -652,6 +649,7 @@ public class fNavigator extends JFrame
 	
 	private void _reloadParam()
 	{
+		RAZOBRATSYA
 		Preferences nodeGeneral = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/general");
 		String fntSet = nodeGeneral.get("GlobalFont", CC.STR_EMPTY);
 		if (fntSet.length() > 0)
@@ -704,7 +702,13 @@ public class fNavigator extends JFrame
 					_showMode();
 				}
 		
-		setCurrentFileName(node.get("LastOpenedFileName", CC.STR_EMPTY));
+		String cfn = node.get("LastOpenedFileName", CC.STR_EMPTY);
+		if (cfn.length() > 0 && new File(cfn).isFile())
+		{
+			setCurrentFileName(cfn);
+			_loadCurrenFileName();
+		}
+		
 		//_aut.getRefbook().Load(node.get("RefBookFileName", CC.STR_EMPTY));
 	}
 
