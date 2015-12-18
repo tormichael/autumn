@@ -64,7 +64,9 @@ public class pNavModeAlphabet extends pNavMode
 		DefaultListModel<tObj> lmObj = null;
 		for (tObj obj : reg.getObjColl())
 		{
-			String letter = obj.getName().substring(0, 1).toUpperCase();
+			String letter = "???";
+			if (obj.getName() != null)
+				letter = obj.getName().substring(0, 1).toUpperCase();
 			if (!letter.equals(prevLetter))
 			{
 				pnlLetter = new JPanel(new BorderLayout());
@@ -83,7 +85,10 @@ public class pNavModeAlphabet extends pNavMode
 					}
 				});
 			}
-			lmObj.addElement(obj);
+			
+			//if (lmObj != null)
+				lmObj.addElement(obj);
+			
 			if (obj == aObj)
 			{
 				indSelected = lmObj.indexOf(obj);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ObjRegister>
-    <dateCreated>2015-05-19T17:04:55.300+04:00</dateCreated>
-    <dateLastModified>2015-05-19T17:04:55.309+04:00</dateLastModified>
+    <dateCreated>2015-05-19T16:04:55.300+03:00</dateCreated>
+    <dateLastModified>2015-05-19T16:04:55.309+03:00</dateLastModified>
     <ObjColl>
         <Person>
             <Images>
@@ -120,6 +120,19 @@ And other text - 11223344556677</note>
             <Docs/>
             <FName>Test</FName>
             <LName>Test_Family_Name</LName>
+            <PName></PName>
+            <sex>0</sex>
+        </Person>
+        <Person>
+            <Images/>
+            <name>Дядя Федор</name>
+            <type>1</type>
+            <AddrColl/>
+            <BDay></BDay>
+            <ContactColl/>
+            <Docs/>
+            <FName></FName>
+            <LName></LName>
             <PName></PName>
             <sex>0</sex>
         </Person>
@@ -268,9 +281,9 @@ Roe 13 ..........................</note>
                 </tVTN>
             </ContactColl>
             <Docs/>
-            <FName>Имя</FName>
-            <LName>Фамилия</LName>
-            <PName>Отчество</PName>
+            <FName>First</FName>
+            <LName>Last</LName>
+            <PName>Patronomic</PName>
             <sex>0</sex>
         </Person>
         <Person>
@@ -302,5 +315,5 @@ Roe 13 ..........................</note>
             <sex>0</sex>
         </Person>
     </ObjColl>
-    <refBookFileName>T:\ewsf\autumn\autumn.rfb</refBookFileName>
+    <refBookFileName>T:\ws\autumn\autumn.rfb</refBookFileName>
 </ObjRegister>

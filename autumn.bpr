@@ -44,7 +44,15 @@
             </Page>
             <Page>
                 <inset>15</inset>
-                <Pages/>
+                <Pages>
+                    <Page>
+                        <inset>0</inset>
+                        <Pages/>
+                        <Parameters/>
+                        <prefsNode></prefsNode>
+                        <title>Test</title>
+                    </Page>
+                </Pages>
                 <Parameters/>
                 <prefsNode>personal</prefsNode>
                 <title>Personal</title>

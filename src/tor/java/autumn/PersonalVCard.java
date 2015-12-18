@@ -11,6 +11,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 
@@ -21,6 +22,7 @@ import net.sourceforge.cardme.engine.VCardEngine;
 import net.sourceforge.cardme.io.CompatibilityMode;
 import net.sourceforge.cardme.io.VCardWriter;
 import net.sourceforge.cardme.util.StringUtil;
+import net.sourceforge.cardme.util.VCardUtils;
 import net.sourceforge.cardme.vcard.VCard;
 import net.sourceforge.cardme.vcard.VCardImpl;
 import net.sourceforge.cardme.vcard.arch.LanguageType;
@@ -60,6 +62,35 @@ public class PersonalVCard
 		//_vcard = null;
 		_workcharset = Charset.defaultCharset();
 		_rbnContactTypeEmail = _aut.getRefbook().getRefBookNode().findByAlias(_aut.getRefbook().RB_ALIAS_VTN_TYPE_EMAIL);		
+	}
+	
+	public String ReadFromFile(String aFileName)
+	{
+		StringBuilder sb = new StringBuilder();
+
+		String currCharsetName = DetectCharset.DetectFile(aFileName);
+		if (currCharsetName == null)
+				Charset.defaultCharset().name();
+
+		try
+		{
+			FileInputStream fis = new FileInputStream(aFileName);
+			byte [] ba = new byte[1024];
+			int reallen;
+			while ((reallen = fis.read(ba,0,ba.length)) > 0)
+			{
+				sb.append(new String(ba, 0, reallen, currCharsetName));
+			}
+			fis.close();
+			
+		}
+		catch (IOException ioe)
+		{
+			System.err.print(_aut.getString("Text.Error.NotParseVCardFile")+aFileName);
+			ioe.printStackTrace();
+		}
+		
+		return sb.toString();
 	}
 	
 	public void LoadFromVCardFile(String aFileName)
@@ -114,15 +145,10 @@ public class PersonalVCard
 		VCard vcard = null;
 		VCardEngine vcardEngine = new VCardEngine();
 		vcardEngine.setCompatibilityMode(CompatibilityMode.MS_OUTLOOK);
-		//vcardEngine.setForcedCharset("windows-1251");
+		
 		try
 		{
-			FileInputStream fis = new FileInputStream(aFileName);
-			byte [] ba = new byte[1000000];
-			int reallen = fis.read(ba,0,ba.length);
-			fis.close();
-			String instr = new String(ba, 0, reallen, "windows-1251");
-			
+			String instr = ReadFromFile(aFileName);
 			vcard = vcardEngine.parse (instr); //new File(aFileName));
 			if (vcardEngine.isCharsetForced())
 				_workcharset = vcardEngine.getForcedCharset(); 
@@ -311,7 +337,7 @@ public class PersonalVCard
 	}
 	
 	public String ConvertStringFrom(String aTxt, Charset aCS){
-		
+	
 		String ret = aTxt;
 		String csName = (aCS != null && aCS.displayName().length() > 0) ? aCS.displayName() : Charset.defaultCharset().displayName();  
 	
@@ -329,5 +355,4 @@ public class PersonalVCard
 		return ret;
 	}
 	
-
 }
