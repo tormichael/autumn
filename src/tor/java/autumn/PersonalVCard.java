@@ -69,7 +69,7 @@ public class PersonalVCard
 		VCardEngine vcardEngine = new VCardEngine();
 		vcardEngine.setCompatibilityMode(CompatibilityMode.MS_OUTLOOK);
 		//if (Charset.isSupported("windows-1251"))
-		//	vcardEngine.setForcedCharset("windows-1251");
+		//vcardEngine.setForcedCharset("windows-1251");
 		
 		try
 		{
