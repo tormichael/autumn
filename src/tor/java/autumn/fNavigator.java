@@ -212,7 +212,7 @@ public class fNavigator extends JFrame
 				SaveProgramPreference();
 				super.windowClosing(e);
 			}
-		});
+		}); 
 		
 		_cboMode.addActionListener(new ActionListener() 
 		{
@@ -649,7 +649,6 @@ public class fNavigator extends JFrame
 	
 	private void _reloadParam()
 	{
-		RAZOBRATSYA
 		Preferences nodeGeneral = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/general");
 		String fntSet = nodeGeneral.get("GlobalFont", CC.STR_EMPTY);
 		if (fntSet.length() > 0)
