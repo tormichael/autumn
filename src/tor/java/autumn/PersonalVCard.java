@@ -192,7 +192,17 @@ public class PersonalVCard
 		
 		FNType formattedName = aVCard.getFN();
 		if (formattedName != null)
-			aPrs.setName(formattedName.getFormattedName());
+		{
+			String ss[] = formattedName.getFormattedName().split(" ", -1);
+			if (ss.length == 3)
+			{
+				aPrs.setName(ss[2] + " " + ss[0] + " " + ss[1]);
+			}
+			else
+			{
+				aPrs.setName(formattedName.getFormattedName());
+			}
+		}
 		
 		// Birthday:
 		BDayType bd = aVCard.getBDay();

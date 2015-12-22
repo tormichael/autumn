@@ -78,6 +78,7 @@ public class fNavigator extends JFrame
 	private fObject _frmPerson;
 	
 	private String _currFileName;
+	private String _lastAddFileName;
 	private boolean _isVCard;
 	
 	public void setCurrentFileName(String aFN)
@@ -100,6 +101,7 @@ public class fNavigator extends JFrame
 		_frmObject = null;
 		_frmPerson = null;
 		_currFileName = null;
+		_lastAddFileName = null;
 		_isVCard = false;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -377,8 +379,8 @@ public class fNavigator extends JFrame
 		public void actionPerformed(ActionEvent e)
 		{
 			JFileChooser dlg = new JFileChooser();
-			if (_currFileName != null)
-				dlg.setCurrentDirectory(new File(_currFileName));
+			if (_lastAddFileName != null)
+				dlg.setCurrentDirectory(new File(_lastAddFileName));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Object register", tRegister.FILE_EXTENTION));
 			dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
 			dlg.setMultiSelectionEnabled(true);
@@ -402,10 +404,12 @@ public class fNavigator extends JFrame
 						
 						if (prs != null)
 							_aut.getRegister().getObjColl().add(prs);
+						
+						_lastAddFileName = fName;
 					}
-					_isVCard = true;
 					_currNavMode.ShowRegister(null);
 				}
+				
 			}
 		};
 	};
@@ -707,6 +711,11 @@ public class fNavigator extends JFrame
 			setCurrentFileName(cfn);
 			_loadCurrenFileName();
 		}
+		cfn = node.get("LastAddedFileName", CC.STR_EMPTY);
+		if (cfn.length() > 0 && new File(cfn).isFile())
+		{
+			_lastAddFileName = cfn;
+		}
 		
 		//_aut.getRefbook().Load(node.get("RefBookFileName", CC.STR_EMPTY));
 	}
@@ -721,7 +730,10 @@ public class fNavigator extends JFrame
 		
 		if (_currFileName != null && _currFileName.length() > 0)
 			node.put("LastOpenedFileName", _currFileName);
-
+		
+		if (_lastAddFileName != null && _lastAddFileName.length() > 0)
+			node.put("LastAddedFileName", _lastAddFileName);
+		
 		//if (_aut.getRefbook().getFileName() != null)
 		//	node.put("RefBookFileName", _aut.getRefbook().getFileName());
 	}	
