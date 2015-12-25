@@ -69,7 +69,7 @@ public class fObject extends JFrame
 		UpdateRegisterShow  = null;
 	
 		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.setIconImage(mAut.getImageInRscImg("autumn.png"));
+		this.setIconImage(mAut.getImageInRscImg("icons/autumn.png"));
 	
 		mALInF = new ArrayList<infBase>();
 		
@@ -82,7 +82,7 @@ public class fObject extends JFrame
 		//actCreate.putValue(Action.SMALL_ICON, CreateIcon("new.png", Start.TOOL_BAR_ICON_SIZE));
 		//bar.add(actCreate);
 
-		actLoad.putValue(Action.SMALL_ICON, mAut.getImageIcon("open.png"));
+		actLoad.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/open.png"));
 		mTBar.add(actLoad);
 		
 		mBtnSave = new JButton();
@@ -98,11 +98,11 @@ public class fObject extends JFrame
 		mTBar.addSeparator();
 		
 		mBtnViewImage = new JToggleButton(actViewImages);
-		actViewImages.putValue(Action.SMALL_ICON, mAut.getImageIcon("new.png"));
+		actViewImages.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/image.png"));
 		mTBar.add(mBtnViewImage);
 
 		mBtnViewNote = new JToggleButton(actViewNotes);
-		actViewNotes.putValue(Action.SMALL_ICON, mAut.getImageIcon("new.png"));
+		actViewNotes.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/txt.png"));
 		mTBar.add(mBtnViewNote);
 		
 		//bar.add(actViewOptions);

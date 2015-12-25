@@ -13,6 +13,7 @@ import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 import java.util.prefs.Preferences;
@@ -28,6 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -57,6 +59,7 @@ public class fNavigator extends JFrame
 	private JMenuItem _mnuFileAdd;
 	private JMenuItem _mnuFileSave;
 	private JMenuItem _mnuFileSaveAs;
+	private JMenuItem _mnuFileSaveAndCrypt;
 	private JMenuItem _mnuFilePrint;
 	private JMenuItem _mnuFileProperties;
 	private JMenuItem _mnuFileRefbook;
@@ -106,7 +109,7 @@ public class fNavigator extends JFrame
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		this.setIconImage(_aut.getImageInRscImg("autumn2.png"));
+		this.setIconImage(_aut.getImageInRscImg("icons/autumn2.png"));
 
 		/**
 		 * M E N U
@@ -130,6 +133,8 @@ public class fNavigator extends JFrame
 		_mnuFile.add(_mnuFileSave);
 		_mnuFileSaveAs = new JMenuItem(actSaveAs);
 		_mnuFile.add(_mnuFileSaveAs);
+		_mnuFileSaveAndCrypt = new JMenuItem(actSaveAndCrypt);
+		_mnuFile.add(_mnuFileSaveAndCrypt);
 		_mnuFile.addSeparator();
 		_mnuFilePrint = new JMenuItem();
 		_mnuFile.add(_mnuFilePrint);
@@ -158,22 +163,22 @@ public class fNavigator extends JFrame
 		add(bar, BorderLayout.NORTH);
 		//actCreate.putValue(Action.SMALL_ICON, CreateIcon("new.png", Start.TOOL_BAR_ICON_SIZE));
 		//bar.add(actCreate);
-		actLoad.putValue(Action.SMALL_ICON, _aut.getImageIcon("open.png"));
+		actLoad.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/open.png"));
 		actLoad.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.FileLoad"));
 		bar.add(actLoad);
-		actSave.putValue(Action.SMALL_ICON, _aut.getImageIcon("save.png"));
+		actSave.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/save.png"));
 		actSave.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.FileSave"));
 		bar.add(actSave);
 		bar.addSeparator();
-		actRecordNew.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
+		actRecordNew.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/new.png"));
 		actRecordNew.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.RecordNew"));
 		bar.add(actRecordNew);
-		actRecordDelete.putValue(Action.SMALL_ICON, _aut.getImageIcon("delete.png"));
+		actRecordDelete.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/delete.png"));
 		actRecordDelete.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.RecordDelete"));
 		bar.add(actRecordDelete);
 		bar.addSeparator();
-		actProperties.putValue(Action.SMALL_ICON, _aut.getImageIcon("configure.png"));
-		actRefbook.putValue(Action.SMALL_ICON, _aut.getImageIcon("refbook.png"));
+		actProperties.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/configure.png"));
+		actRefbook.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/refbook.png"));
 		_lblMode = new JLabel();
 		bar.add(_lblMode);
 		bar.addSeparator();
@@ -270,7 +275,7 @@ public class fNavigator extends JFrame
 	{
 		public ActionAbout()
 		{
-			putValue(Action.SMALL_ICON, _aut.getImageIcon("about.png"));
+			putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/about.png"));
 		}
 		public void actionPerformed(ActionEvent arg0) 
 		{
@@ -416,6 +421,7 @@ public class fNavigator extends JFrame
 	
 	private void _loadCurrenFileName()
 	{
+		_isVCard = false;
 		if (_currFileName.indexOf(".vcf") > 0)
 		{
 			if (_aut.getRegister() != null)
@@ -425,10 +431,30 @@ public class fNavigator extends JFrame
 			_isVCard = true;
 			
 		}
+		if (_currFileName.endsWith(tRegister.FILE_EXTENTION_CIPHER))
+		{
+			String dRes =_getPasswordDialog();
+			if (dRes != null && dRes.length() > 0)
+			{
+				tRegister reg = tRegister.LoadCipher(_currFileName, dRes);
+				if (reg != null)
+				{
+					_aut.setRegister(reg);
+				}
+				else
+				{
+					_sbiMain.setText(_aut.getString("Text.Error.DecryptFile"));
+					return;
+				}
+			}
+			else
+			{
+				return;
+			}
+		}
 		else
 		{
 			_aut.setRegister(tRegister.Load(_currFileName));
-			_isVCard = false;
 		}
 				
 		_sbiMain.setText(String.format(_aut.getString("Text.Message.Successfully.Load"), _currFileName));
@@ -447,6 +473,24 @@ public class fNavigator extends JFrame
 			setCurrentFileName(_getSavedFileName()); 
 			if (_currFileName != null)
 				_save();
+		}
+	};
+
+	Action actSaveAndCrypt = new AbstractAction()
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			if (_currFileName == null || _currFileName.length() > 0)
+				setCurrentFileName(_getSavedFileName()); 
+			
+			String dRes =_getPasswordDialog();
+			if (dRes != null && dRes.length() > 0)
+			{
+				String fn = FileNameTools.AddExtensionIfNone(_currFileName, tRegister.FILE_EXTENTION_CIPHER);
+				_save(fn, dRes);
+			}
+			//_sbiMain.setText(dRes);	
 		}
 	};
 	
@@ -477,13 +521,13 @@ public class fNavigator extends JFrame
 			final fBookParam frm = new fBookParam(bp);
 			frm.setAppPreferencePath(Autumn.PREFERENCE_PATH);
 			frm.setTitle(_aut.getString("BookParam.Title"));
-			frm.setIconImage(_aut.getImageIcon("configure.png").getImage());
+			frm.setIconImage(_aut.getImageIcon("icons/configure.png").getImage());
 	
 			frm.setEditable(true);
-			frm.actPageAdd.putValue(Action.SMALL_ICON, _aut.getImageIcon("page_add.png"));
-			frm.actPageEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("page_edit.png"));
-			frm.actPageRemove.putValue(Action.SMALL_ICON, _aut.getImageIcon("page_remove.png"));
-			frm.actParamsEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("params_edit.png"));
+			frm.actPageAdd.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/page_add.png"));
+			frm.actPageEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/page_edit.png"));
+			frm.actPageRemove.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/page_remove.png"));
+			frm.actParamsEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/params_edit.png"));
 		
 			frm.addWindowListener(new WindowAdapter() 
 			{
@@ -641,14 +685,44 @@ public class fNavigator extends JFrame
 	
 	private void _save()
 	{
+		_save (_currFileName, null);
+	}
+	private void _save(String aFN, String aKey)
+	{
 		if (_frm != null)
+		{
 			_frm.Save();
+		}
 
-		String strErr = _aut.getRegister().Save(_currFileName);
-		if (strErr == null)
-			_sbiMain.setText(String.format(_aut.getString("Text.Message.Successfully.Save"), _currFileName));
+		String strErr = null;
+		if (aKey != null && aKey.length() > 0)
+		{
+			strErr = _aut.getRegister().SaveCipher(aFN, aKey);
+		}
 		else
+		{
+			strErr = _aut.getRegister().Save(aFN);
+		}
+
+		if (strErr == null)
+		{
+			_sbiMain.setText(String.format(_aut.getString("Text.Message.Successfully.Save"), _currFileName));
+		}
+		else
+		{
 			_sbiMain.setText(String.format(_aut.getString("Text.Error"), strErr));
+		}
+	}
+	
+	private String _getPasswordDialog()
+	{
+		return JOptionPane.showInputDialog( 
+				fNavigator.this, 
+				_aut.getString("Label.DlgPassword.Password"),
+				_aut.getString("Titles.DlgPassword"),
+				JOptionPane.PLAIN_MESSAGE // .OK_CANCEL_OPTION
+				 //_aut.getImageIcon("icons/password.png")
+		); 
 	}
 	
 	private void _reloadParam()
@@ -674,6 +748,7 @@ public class fNavigator extends JFrame
 		_mnuFileAdd.setText( _aut.getString("Menu.Person.File.Add"));
 		_mnuFileSave.setText( _aut.getString("Menu.Person.File.Save"));
 		_mnuFileSaveAs.setText( _aut.getString("Menu.Person.File.SaveAs"));
+		_mnuFileSaveAndCrypt.setText( _aut.getString("Menu.Person.File.SaveAndCrypt"));
 		_mnuFilePrint.setText( _aut.getString("Menu.Person.File.Print"));
 		_mnuFileProperties.setText( _aut.getString("Menu.Person.File.Properties"));
 		_mnuFileRefbook.setText(_aut.getString("Menu.Person.File.Refbook"));

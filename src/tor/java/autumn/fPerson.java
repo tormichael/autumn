@@ -66,18 +66,18 @@ public class fPerson extends fObject
 		//_prs = null;
 	
 		mBtnSave.setAction(actSave);
-		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("save.png"));
+		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/save.png"));
 		
 		_btnViewFIO = new JToggleButton(actViewFIO);
-		actViewFIO.putValue(Action.SMALL_ICON, mAut.getImageIcon("new.png"));
+		actViewFIO.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/source_h.png"));
 		mTBar.add(_btnViewFIO, 5);
 
 		_btnViewPhone = new JToggleButton(actViewPhones);
-		actViewPhones.putValue(Action.SMALL_ICON, mAut.getImageIcon("new.png"));
+		actViewPhones.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/source_moc.png"));
 		mTBar.add(_btnViewPhone, 6);
 		
 		_btnViewAddress = new JToggleButton(actViewAddress);
-		actViewAddress.putValue(Action.SMALL_ICON, mAut.getImageIcon("new.png"));
+		actViewAddress.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/message.png"));
 		mTBar.add(_btnViewAddress, 7);
 		
 	}
