@@ -433,7 +433,7 @@ public class fNavigator extends JFrame
 		}
 		if (_currFileName.endsWith(tRegister.FILE_EXTENTION_CIPHER))
 		{
-			String dRes =_getPasswordDialog();
+			String dRes =_getPasswordDialog(_currFileName);
 			if (dRes != null && dRes.length() > 0)
 			{
 				tRegister reg = tRegister.LoadCipher(_currFileName, dRes);
@@ -484,7 +484,7 @@ public class fNavigator extends JFrame
 			if (_currFileName == null || _currFileName.length() > 0)
 				setCurrentFileName(_getSavedFileName()); 
 			
-			String dRes =_getPasswordDialog();
+			String dRes =_getPasswordDialog(_currFileName);
 			if (dRes != null && dRes.length() > 0)
 			{
 				String fn = FileNameTools.AddExtensionIfNone(_currFileName, tRegister.FILE_EXTENTION_CIPHER);
@@ -714,12 +714,12 @@ public class fNavigator extends JFrame
 		}
 	}
 	
-	private String _getPasswordDialog()
+	private String _getPasswordDialog(String aFileName)
 	{
 		return JOptionPane.showInputDialog( 
 				fNavigator.this, 
 				_aut.getString("Label.DlgPassword.Password"),
-				_aut.getString("Titles.DlgPassword"),
+				aFileName, // _aut.getString("Titles.DlgPassword"),
 				JOptionPane.PLAIN_MESSAGE // .OK_CANCEL_OPTION
 				 //_aut.getImageIcon("icons/password.png")
 		); 
