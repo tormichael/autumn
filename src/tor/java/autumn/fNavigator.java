@@ -46,6 +46,7 @@ import JCommonTools.CodeText;
 import JCommonTools.FileNameTools;
 import JCommonTools.Tools;
 import JCommonTools.Dialog.dAbout;
+import JCommonTools.Dialog.dPassword;
 import JCommonTools.Param.BookParam;
 import JCommonTools.Param.fBookParam;
 
@@ -433,7 +434,7 @@ public class fNavigator extends JFrame
 		}
 		if (_currFileName.endsWith(tRegister.FILE_EXTENTION_CIPHER))
 		{
-			String dRes =_getPasswordDialog(_currFileName);
+			String dRes =_getPasswordDialog(_currFileName, false);
 			if (dRes != null && dRes.length() > 0)
 			{
 				tRegister reg = tRegister.LoadCipher(_currFileName, dRes);
@@ -449,6 +450,7 @@ public class fNavigator extends JFrame
 			}
 			else
 			{
+				_sbiMain.setText(_aut.getString("Text.Error.DecryptFile"));
 				return;
 			}
 		}
@@ -484,7 +486,7 @@ public class fNavigator extends JFrame
 			if (_currFileName == null || _currFileName.length() > 0)
 				setCurrentFileName(_getSavedFileName()); 
 			
-			String dRes =_getPasswordDialog(_currFileName);
+			String dRes =_getPasswordDialog(_currFileName, true);
 			if (dRes != null && dRes.length() > 0)
 			{
 				String fn = FileNameTools.AddExtensionIfNone(_currFileName, tRegister.FILE_EXTENTION_CIPHER);
@@ -714,15 +716,20 @@ public class fNavigator extends JFrame
 		}
 	}
 	
-	private String _getPasswordDialog(String aFileName)
+	private String _getPasswordDialog(String aFileName, boolean aIsPutNewPassword)
 	{
-		return JOptionPane.showInputDialog( 
-				fNavigator.this, 
-				_aut.getString("Label.DlgPassword.Password"),
-				aFileName, // _aut.getString("Titles.DlgPassword"),
-				JOptionPane.PLAIN_MESSAGE // .OK_CANCEL_OPTION
-				 //_aut.getImageIcon("icons/password.png")
-		); 
+		dPassword dlg = new dPassword(_aut.getString("Titles.DlgPassword"), aIsPutNewPassword);
+		dlg.setVisible(true);
+		String ret = dlg.getPassword();
+		return ret;
+		
+//		return JOptionPane.showInputDialog( 
+//				fNavigator.this, 
+//				_aut.getString("Label.DlgPassword.Password"),
+//				aFileName, // _aut.getString("Titles.DlgPassword"),
+//				JOptionPane.PLAIN_MESSAGE // .OK_CANCEL_OPTION
+//				 //_aut.getImageIcon("icons/password.png")
+//		); 
 	}
 	
 	private void _reloadParam()
