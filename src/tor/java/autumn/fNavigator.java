@@ -218,6 +218,10 @@ public class fNavigator extends JFrame
 			public void windowClosing(WindowEvent e) 
 			{
 				SaveProgramPreference();
+				if (_frm != null)
+				{
+					_frm.Close();
+				}
 				super.windowClosing(e);
 			}
 		}); 
@@ -539,6 +543,8 @@ public class fNavigator extends JFrame
 					frm.removeWindowListener(this);
 					if (frm.getCurrentFileName() != null && frm.getCurrentFileName().length()>0) 
 						_aut.getRegister().setBookParamFileName(frm.getCurrentFileName());
+					
+					super.windowClosing(e);
 				};
 			});
 			

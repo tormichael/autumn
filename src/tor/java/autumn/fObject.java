@@ -68,7 +68,7 @@ public class fObject extends JFrame
 		mPrefPath = "fObject";
 		UpdateRegisterShow  = null;
 	
-		//setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setIconImage(mAut.getImageInRscImg("icons/autumn.png"));
 	
 		mALInF = new ArrayList<infBase>();
@@ -260,6 +260,13 @@ public class fObject extends JFrame
 			inf.Load(mObj);
 	}
 
+	public void Close ()
+	{
+		SaveProgramPreference();
+		setVisible(false);
+		
+	}
+	
 	public tObj Save()
 	{
 		if (mObj != null)
