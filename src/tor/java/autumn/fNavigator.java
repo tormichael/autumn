@@ -68,6 +68,8 @@ public class fNavigator extends JFrame
 	private JMenu _mnuRecord;
 	private JMenuItem _mnuRecordNew;
 	private JMenuItem _mnuRecordDelete;
+	private JMenu _mnuOptions;
+	private JMenuItem _mnuOptReplaceFLName;
 	private JMenu _mnuHelp;
 	private JMenuItem _mnuHelpAbout;
 	private JLabel _lblMode;
@@ -77,6 +79,7 @@ public class fNavigator extends JFrame
 	private JPanel _pnlNavigator;
 	private pNavMode _currNavMode;
 	
+	private tObj _currObj;
 	private fObject _frm;
 	private fObject _frmObject;
 	private fObject _frmPerson;
@@ -101,6 +104,7 @@ public class fNavigator extends JFrame
 	public fNavigator(Autumn aAut)
 	{
 		_aut = aAut;
+		_currObj = null;
 		_frm = null;
 		_frmObject = null;
 		_frmPerson = null;
@@ -153,7 +157,11 @@ public class fNavigator extends JFrame
 		_mnuRecord.add(_mnuRecordNew);
 		_mnuRecordDelete = new JMenuItem(actRecordDelete);
 		_mnuRecord.add(_mnuRecordDelete);
+		_mnuOptions = new JMenu();
+		mnuBar.add(_mnuOptions);
 		_mnuHelp = new JMenu();
+		_mnuOptReplaceFLName = new JMenuItem(actOptReplaceFLName);
+		_mnuOptions.add(_mnuOptReplaceFLName);
 		mnuBar.add(_mnuHelp);
 		_mnuHelpAbout = new JMenuItem(new ActionAbout());
 		_mnuHelp.add(_mnuHelpAbout);
@@ -332,7 +340,7 @@ public class fNavigator extends JFrame
 			if (_aut.getRegister() != null)
 				_aut.getRegister().ClearObjectsCollection();
 			
-			_currFileName = null;
+			setCurrentFileName(null);
 			_repaint();
 			_sbiMain.setText(_aut.getString("Text.Message.Successfully.New"));
 		}
@@ -436,7 +444,7 @@ public class fNavigator extends JFrame
 			_isVCard = true;
 			
 		}
-		if (_currFileName.endsWith(tRegister.FILE_EXTENTION_CIPHER))
+		else if (_currFileName.endsWith(tRegister.FILE_EXTENTION_CIPHER))
 		{
 			String dRes =_getPasswordDialog(_currFileName, false);
 			if (dRes != null && dRes.length() > 0)
@@ -449,12 +457,14 @@ public class fNavigator extends JFrame
 				else
 				{
 					_sbiMain.setText(_aut.getString("Text.Error.DecryptFile"));
+					setCurrentFileName(null);
 					return;
 				}
 			}
 			else
 			{
 				_sbiMain.setText(_aut.getString("Text.Error.DecryptFile"));
+				setCurrentFileName(null);
 				return;
 			}
 		}
@@ -610,8 +620,9 @@ public class fNavigator extends JFrame
 			}
 				
 			//if (!_frm.isVisible())
+			_currObj = (tObj) e.getSource();
 			_frm.setVisible(true);
-			_frm.Show((tObj) e.getSource());
+			_frm.Show(_currObj);
 		}
 	};
 	
@@ -672,7 +683,22 @@ public class fNavigator extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
-			
+		}
+	};
+
+	Action actOptReplaceFLName = new AbstractAction()
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			for (tObj to : _aut.getRegister().getObjColl())
+			{
+				if (to instanceof tPerson)
+				{
+					((tPerson) to).ReplaceFirstLastNameIf();
+				}
+			}
+			_frm.Show(_currObj);
 		}
 	};
 	
@@ -771,6 +797,8 @@ public class fNavigator extends JFrame
 		_mnuRecordDelete.setText(_aut.getString("Menu.Record.Delete"));
 		_mnuHelp.setText(_aut.getString("Menu.Help"));
 		_mnuHelpAbout.setText(_aut.getString("Menu.Help.About"));
+		_mnuOptions.setText(_aut.getString("Menu.Options"));
+		_mnuOptReplaceFLName.setText(_aut.getString("Menu.Options.ReplaceFLName"));
 		_lblMode.setText(_aut.getString("Label.Navigator.Mode"));
 		
 		_cboMode.removeAllItems();

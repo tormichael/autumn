@@ -13,12 +13,14 @@ import java.util.prefs.Preferences;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
@@ -30,6 +32,7 @@ import tor.java.autumn.IntFrame.infFIO;
 import tor.java.autumn.IntFrame.infImages;
 import tor.java.autumn.IntFrame.infNote;
 import tor.java.autumn.IntFrame.infPhones;
+import tor.java.thirteen.card.tObj;
 import tor.java.thirteen.card.tPerson;
 import JCommonTools.AsRegister;
 import JCommonTools.FileNameTools;
@@ -45,6 +48,7 @@ public class fPerson extends fObject
 	private JToggleButton 		_btnViewFIO;
 	private JToggleButton 		_btnViewPhone;
 	private JToggleButton 		_btnViewAddress;
+	private JButton _btnReplaceFLName;
 	
 	protected void setPerson(tPerson aPrs)
 	{
@@ -79,6 +83,11 @@ public class fPerson extends fObject
 		_btnViewAddress = new JToggleButton(actViewAddress);
 		actViewAddress.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/message.png"));
 		mTBar.add(_btnViewAddress, 7);
+
+		mTBar.add(new JSeparator());
+		_btnReplaceFLName = new JButton(actReplaceFLName);
+		actReplaceFLName.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/tar.png"));
+		mTBar.add(_btnReplaceFLName);
 		
 	}
 	
@@ -226,6 +235,17 @@ public class fPerson extends fObject
 			}
 			_frmAddress.setVisible(_btnViewAddress.isSelected());
 			mDesktop.repaint();
+		}
+	};
+	
+	Action actReplaceFLName = new AbstractAction()
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			getPerson().ReplaceFirstLastName();
+			if (_frmFIO != null)
+				_frmFIO.Load();
 		}
 	};
 	

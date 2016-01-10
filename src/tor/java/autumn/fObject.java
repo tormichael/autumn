@@ -46,15 +46,15 @@ public class fObject extends JFrame
 	protected JToggleButton			mBtnViewImage;
 	protected JToggleButton 			mBtnViewNote;
 	protected JDesktopPane				mDesktop;
-	protected JTextField				mTxtObjName;
-	protected ArrayList<infBase>		mALInF;
+	protected JTextField					mTxtObjName;
+	protected ArrayList<infBase>	mALInF;
 	
 	protected infImages					mFrmImages;
-	protected infNote					mFrmNote;
+	protected infNote						mFrmNote;
 
-	private JPanel						_pnl;
+	private JPanel								_pnl;
 	private JToggleButton 				_btnTransparency;
-	private Color						_defaultBackrounfColor;
+	private Color								_defaultBackrounfColor;
 	
 	public Action UpdateRegisterShow;
 	
