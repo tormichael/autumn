@@ -1,12 +1,18 @@
 package tor.java.autumn.IntFrame;
 
 import java.awt.GridBagLayout;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import JCommonTools.GBC;
 
@@ -20,6 +26,7 @@ public class infFIO extends infBase
 	private JTextField 	_txtFirstName;
 	private JTextField 	_txtPatronymicName;
 	private JTextField 	_txtLastName;
+	private JTextFieldUDateEditor _txtUDate;
 	private JDateChooser	_dtBirthday;
 
 	public infFIO(Autumn aAut, String aName, tPerson aPerson)
@@ -60,10 +67,15 @@ public class infFIO extends infBase
 		JLabel lblBirthday = new JLabel(mAut.getString("Label.Person.Birthday"));
 		gbl.setConstraints(lblBirthday, gbc.setGridXY(0,3).setGridSpan(1, 1).setWeight(0.0, 0.0));
 		pnlMain.add(lblBirthday);
-		_dtBirthday = new JDateChooser();
+		_txtUDate = new JTextFieldUDateEditor(); 
+		_dtBirthday = new JDateChooser(_txtUDate);
 		//_txtBirthday = new JTextField(); 
 		gbl.setConstraints(_dtBirthday, gbc.setGridXY(1,3).setGridSpan(1, 1).setWeight(0.3, 0.0));
 		pnlMain.add(_dtBirthday);
+		
+		//_dtBirthday.setDateFormatString("");
+
+		_dtBirthday;
 		
 		this.add(pnlMain);
 	}
@@ -77,7 +89,9 @@ public class infFIO extends infBase
 			_txtLastName.setText(prs.getLName());
 			_txtFirstName.setText(prs.getFName());
 			_txtPatronymicName.setText(prs.getPName());
-			_dtBirthday.setCalendar(prs.getDBCalendar());
+			//_dtBirthday.setCalendar(prs.getDBCalendar());
+			//_txtUDate.setDate(prs.getDBDate());
+			_txtUDate.setDate(prs.getBDay());
 		}
 	}
 	
@@ -89,7 +103,9 @@ public class infFIO extends infBase
 			prs.setLName(_txtLastName.getText());
 			prs.setFName(_txtFirstName.getText());
 			prs.setPName(_txtPatronymicName.getText());
-			prs.setBDDate(_dtBirthday.getDate());
+			//prs.setBDDate(_dtBirthday.getDate());
+			//prs.setBDDate(_txtUDate.getDate());
+			prs.setBDay(_txtUDate.getDateYYYMMDD());
 		}
 	}
 }
