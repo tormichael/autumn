@@ -75,7 +75,7 @@ public class infFIO extends infBase
 		
 		//_dtBirthday.setDateFormatString("");
 
-		_dtBirthday;
+		//_dtBirthday;
 		
 		this.add(pnlMain);
 	}

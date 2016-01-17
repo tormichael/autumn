@@ -210,8 +210,8 @@ public class PersonalVCard
 			aPrs.setBDDate(bd.getBirthday().getTime());
 			//_txtBirthday.setText(DisplayCalendar(vcard.getBirthDay().getBirthday()));
 		else
-			aPrs.setBDDate(Calendar.getInstance().getTime());
-			//_txtBirthday.setText(CC.STR_EMPTY);
+			aPrs.setBDay(null);
+			//aPrs.setBDDate(Calendar.getInstance().getTime());
 
 		// Photo:
 		List<PhotoType> itPhoto = aVCard.getPhotos();

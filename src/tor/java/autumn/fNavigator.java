@@ -341,6 +341,8 @@ public class fNavigator extends JFrame
 				_aut.getRegister().ClearObjectsCollection();
 			
 			setCurrentFileName(null);
+			_frm.setVisible(false);
+			_frm = null;
 			_repaint();
 			_sbiMain.setText(_aut.getString("Text.Message.Successfully.New"));
 		}
