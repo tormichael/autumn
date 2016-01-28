@@ -14,6 +14,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -32,6 +33,7 @@ public class pnlImage extends JPanel
 	private Autumn _aut;
 	private tBin	_bin;
 	private JTextField _txtNote;
+	private JComboBox<String> _cboType;
 	private jePhoto	_pnlImg;
 	private static String _lastPath = null;
 
@@ -45,14 +47,16 @@ public class pnlImage extends JPanel
 		
 		RemovePanel = null;
 		
-		JPanel pnl = new JPanel(new BorderLayout());
-		pnl.add(new JLabel(aAut.getString("Label.Image.Note")), BorderLayout.WEST);
-		_txtNote = new JTextField();
-		pnl.add(_txtNote, BorderLayout.CENTER);
-		this.add(pnl, BorderLayout.NORTH);
-
 		_pnlImg = new jePhoto();
 		this.add(_pnlImg, BorderLayout.CENTER);
+
+		JPanel pnl = new JPanel(new BorderLayout());
+		//pnl.add(new JLabel(aAut.getString("Label.Image.Note")), BorderLayout.WEST);
+		_txtNote = new JTextField();
+		pnl.add(_txtNote, BorderLayout.CENTER);
+		_cboType = new JComboBox<String>();
+		pnl.add(_cboType, BorderLayout.SOUTH);
+		this.add(pnl, BorderLayout.SOUTH);
 		
 		JPopupMenu pppImage = new JPopupMenu();
 		JMenuItem mnuLoadImage = new JMenuItem(actLoadImage);

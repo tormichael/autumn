@@ -113,6 +113,7 @@ public class fNavigator extends JFrame
 		_isVCard = false;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		this.setIconImage(_aut.getImageInRscImg("icons/autumn2.png"));
 
@@ -582,7 +583,8 @@ public class fNavigator extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
-			setVisible(false);
+			fNavigator.this.dispatchEvent(new WindowEvent(fNavigator.this, WindowEvent.WINDOW_CLOSING));
+			//System.exit(0);
 		}
 	};
 

@@ -19,6 +19,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
@@ -41,7 +43,9 @@ public class fPerson extends fObject
 {
 	//private tPerson				_prs;
 
-	private infFIO				_frmFIO;
+	private JMenuItem 			_mnuOptReplaceFLName;
+	
+	private infFIO					_frmFIO;
 	private infPhones			_frmPhones;
 	private infAddress			_frmAddress;
 	
@@ -69,99 +73,93 @@ public class fPerson extends fObject
 		mPrefPath = "fPerson";
 		//_prs = null;
 	
-		mBtnSave.setAction(actSave);
-		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/save.png"));
+		//_mnuFileSave.setAction(actSave);
+//		mBtnSave.setAction(actSave);
+//		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/save.png"));
 		
 		_btnViewFIO = new JToggleButton(actViewFIO);
 		actViewFIO.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/source_h.png"));
-		mTBar.add(_btnViewFIO, 5);
+		mTBar.add(_btnViewFIO, 0);
 
 		_btnViewPhone = new JToggleButton(actViewPhones);
 		actViewPhones.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/source_moc.png"));
-		mTBar.add(_btnViewPhone, 6);
+		mTBar.add(_btnViewPhone, 1);
 		
 		_btnViewAddress = new JToggleButton(actViewAddress);
 		actViewAddress.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/message.png"));
-		mTBar.add(_btnViewAddress, 7);
+		mTBar.add(_btnViewAddress, 2);
 
-		mTBar.add(new JSeparator());
-		_btnReplaceFLName = new JButton(actReplaceFLName);
-		actReplaceFLName.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/tar.png"));
-		mTBar.add(_btnReplaceFLName);
+		_mnuOptReplaceFLName = new JMenuItem(actReplaceFLName);
+		mMnuOption.add(_mnuOptReplaceFLName);
+//		mTBar.add(new JSeparator());
+//		_btnReplaceFLName = new JButton(actReplaceFLName);
+//		actReplaceFLName.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/tar.png"));
+//		mTBar.add(_btnReplaceFLName);
 		
 	}
-	
-	Action actLoad = new AbstractAction()
+
+	protected void loadFromFile()
 	{
-		@Override
-		public void actionPerformed(ActionEvent e){
-			
-			JFileChooser dlg = new JFileChooser();
-			if (mCurrDir != null && mCurrDir.length() > 0)
-				dlg.setCurrentDirectory(new File(mCurrDir));
-			dlg.addChoosableFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
-			dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
-			//dlg.setFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
-			dlg.setMultiSelectionEnabled(false);
-			if (dlg.showOpenDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
-			{
-				tPerson prs = null;
-				if (dlg.getSelectedFile().getName().indexOf(".vcf") > 0)
-				{
-					PersonalVCard pvc = new PersonalVCard(mAut);
-					prs = pvc.LoadOneVCard(dlg.getSelectedFile().getPath());
-				}
-				else
-				{
-					try
-					{ 
-						prs = tPerson.Load(dlg.getSelectedFile().getPath());
-					}
-					catch (Exception ex )
-					{
-						mAut.ShowError(ex.getMessage());
-					}
-				}
-				
-				if (prs != null)
-				{
-					if (mAut.getRegister() == null)
-						setPerson(prs);
-					else if (mAut.getRegister().ReplaceObject(mObj, prs))
-					{
-						setPerson(prs);
-						if (UpdateRegisterShow != null)
-							UpdateRegisterShow.actionPerformed(new ActionEvent(prs, 0, null));
-					}
-				}
-				Show(mObj);
-				mCurrDir = dlg.getSelectedFile().getParent();
-			}
-		};
-		
-	};
-	
-	Action actSave = new AbstractAction()
-	{
-		@Override
-		public void actionPerformed(ActionEvent e)
+		JFileChooser dlg = new JFileChooser();
+		if (mCurrDir != null && mCurrDir.length() > 0)
+			dlg.setCurrentDirectory(new File(mCurrDir));
+		dlg.addChoosableFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
+		dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
+		//dlg.setFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
+		dlg.setMultiSelectionEnabled(false);
+		if (dlg.showOpenDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
 		{
-			Save();
-			JFileChooser dlg = new JFileChooser();
-			if (mCurrDir != null && mCurrDir.length() > 0)
-				dlg.setCurrentDirectory(new File(mCurrDir));
-			dlg.setFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
-			dlg.setMultiSelectionEnabled(false);
-			if (dlg.showSaveDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
+			tPerson prs = null;
+			if (dlg.getSelectedFile().getName().indexOf(".vcf") > 0)
 			{
-				String err = getPerson().Save(FileNameTools.AddExtensionIfNone(dlg.getSelectedFile().getPath(), tPerson.FILE_EXTENTION));
-				if (err != null && err.length() > 0)
-					mAut.ShowError(err);
-				
-				mCurrDir = dlg.getSelectedFile().getParent();
+				PersonalVCard pvc = new PersonalVCard(mAut);
+				prs = pvc.LoadOneVCard(dlg.getSelectedFile().getPath());
 			}
+			else
+			{
+				try
+				{ 
+					prs = tPerson.Load(dlg.getSelectedFile().getPath());
+				}
+				catch (Exception ex )
+				{
+					mAut.ShowError(ex.getMessage());
+				}
+			}
+			
+			if (prs != null)
+			{
+				if (mAut.getRegister() == null)
+					setPerson(prs);
+				else if (mAut.getRegister().ReplaceObject(mObj, prs))
+				{
+					setPerson(prs);
+					if (UpdateRegisterShow != null)
+						UpdateRegisterShow.actionPerformed(new ActionEvent(prs, 0, null));
+				}
+			}
+			Show(mObj);
+			mCurrDir = dlg.getSelectedFile().getParent();
 		}
-	};
+	}
+	
+	protected void saveToFile()
+	{
+		super.saveToFile();
+		JFileChooser dlg = new JFileChooser();
+		if (mCurrDir != null && mCurrDir.length() > 0)
+			dlg.setCurrentDirectory(new File(mCurrDir));
+		dlg.setFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
+		dlg.setMultiSelectionEnabled(false);
+		if (dlg.showSaveDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
+		{
+			String err = getPerson().Save(FileNameTools.AddExtensionIfNone(dlg.getSelectedFile().getPath(), tPerson.FILE_EXTENTION));
+			if (err != null && err.length() > 0)
+				mAut.ShowError(err);
+			
+			mCurrDir = dlg.getSelectedFile().getParent();
+		}
+	}
 
 	Action actViewFIO = new AbstractAction() 
 	{
@@ -254,6 +252,7 @@ public class fPerson extends fObject
 		super.UpdateLanguage();
 		
 		setTitle(mAut.getString("Titles.wPerson"));
+		_mnuOptReplaceFLName.setText(mAut.getString("Menu.Options.ReplaceFLName"));
 	}
 	
 	protected void mLoadPreference(Preferences aNode)
