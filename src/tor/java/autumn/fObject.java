@@ -2,11 +2,13 @@ package tor.java.autumn;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
+
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -33,28 +35,28 @@ import JCommonTools.AsRegister;
 
 public class fObject extends JFrame 
 {
-	protected Autumn					mAut;
-	protected tObj						mObj;
+	protected Autumn						mAut;
+	protected tObj							mObj;
 
-	protected String 					mCurrDir;
+	protected String 						mCurrDir;
 	protected String						mPrefPath;
 
 	protected JMenuBar 				mMnuBar;	
 	protected JMenu 					mMnuFile;
-	protected JMenuItem 				mMnuFileLoad;
-	protected JMenuItem 				mMnuFileSave;
-	protected JMenuItem 				mMnuFileClose;
+	protected JMenuItem 			mMnuFileLoad;
+	protected JMenuItem 			mMnuFileSave;
+	protected JMenuItem 			mMnuFileClose;
 	protected JMenu 					mMnuView;
-	protected JMenuItem 				mMnuViewAddTab;
-	protected JMenuItem 				mMnuViewRenameTab;
-	protected JMenuItem 				mMnuViewDelTab;
+	protected JMenuItem 			mMnuViewAddTab;
+	protected JMenuItem 			mMnuViewRenameTab;
+	protected JMenuItem 			mMnuViewDelTab;
 	protected JMenu 					mMnuOption;
 	
-	protected JToolBar 						mTBar;
+	protected JToolBar 					mTBar;
 	protected JButton						mBtnSave;
-	protected JToggleButton				mBtnViewImage;
+	protected JToggleButton			mBtnViewImage;
 	protected JToggleButton 			mBtnViewNote;
-	protected JDesktopPane				mDesktop;
+	protected JDesktopPane			mDesktop;
 	protected JTextField					mTxtObjName;
 	protected ArrayList<infBase>	mALInF;
 	
@@ -446,6 +448,23 @@ public class fObject extends JFrame
 		node.putBoolean("isNoteShow", mBtnViewNote.isSelected());
 		if (mCurrDir != null && mCurrDir.length() > 0)
 			node.put("CurrentDir", mCurrDir);
+		
+		
+		for (Component cmp : _tp.getComponents())
+		{
+			if (cmp instanceof JDesktopPane)
+			{
+				JDesktopPane dp =(JDesktopPane) cmp;
+				for (Component comp : dp.getComponents())
+				{
+					if (comp instanceof infBase)
+					{
+						infBase ib = (infBase) comp;
+						
+					}
+				}
+			}
+		}
 		
 		mSavePreference(node);
 	}
