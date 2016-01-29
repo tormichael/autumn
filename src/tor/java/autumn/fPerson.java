@@ -41,6 +41,11 @@ import JCommonTools.FileNameTools;
 
 public class fPerson extends fObject 
 {
+	//public final static String FRM_FIO_NAME = "frmFIO";
+	//public final static String FRM_PHONES_NAME = "frmPhones";
+	//public final static String FRM_ADDRESS_NAME = "frmAddress";
+	//public final static String FRM__NAME = "frm";
+	
 	//private tPerson				_prs;
 
 	private JMenuItem 			_mnuOptReplaceFLName;
@@ -70,7 +75,7 @@ public class fPerson extends fObject
 	{
 		super(aAut);
 		
-		mPrefPath = "fPerson";
+		setPreferencePath("fPerson");
 		//_prs = null;
 	
 		//_mnuFileSave.setAction(actSave);
@@ -161,28 +166,27 @@ public class fPerson extends fObject
 		}
 	}
 
+//	protected infBase newInfBase (String aFrmName)
+//	{
+//		infBase ret = null;
+//		if (aFrmName.equals(FRM_FIO_NAME))
+//			ret = new infFIO(mAut, getPreferencePath(), getPerson());
+//		else if (aFrmName.equals(FRM_PHONES_NAME))
+//			ret = new infPhones(mAut, getPreferencePath(), getPerson());
+//		else if (aFrmName.equals(FRM_ADDRESS_NAME))
+//			ret = new infAddress(mAut, getPreferencePath(), getPerson());
+//		else
+//			ret = super.newInfBase(aFrmName);
+//		
+//		return ret;
+//	}
+	
 	Action actViewFIO = new AbstractAction() 
 	{
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			if (_frmFIO == null)
-			{
-				_frmFIO = new infFIO(mAut, "frmFIO", getPerson());
-				_frmFIO.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
- 				mALInF.add(_frmFIO);
- 				_frmFIO.Load();
-			}
-			if (_btnViewFIO.isSelected())
-			{
-				mDesktop.add(_frmFIO, JDesktopPane.PALETTE_LAYER);
-			}
-			else
-			{
-				mDesktop.remove(_frmFIO);
-			}
-			_frmFIO.setVisible(_btnViewFIO.isSelected());
-			mDesktop.repaint();
+			_frmFIO = (infFIO)showHideFrm(_frmFIO, infFIO.class.getName(), _btnViewFIO);
 		}
 	};
 	
@@ -191,23 +195,7 @@ public class fPerson extends fObject
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			if (_frmPhones == null)
-			{
-				_frmPhones = new infPhones(mAut, "frmPhones", getPerson());
-				_frmPhones.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
- 				mALInF.add(_frmPhones);
- 				_frmPhones.Load();
-			}
-			if (_btnViewPhone.isSelected())
-			{
-				mDesktop.add(_frmPhones, JDesktopPane.PALETTE_LAYER);
-			}
-			else
-			{
-				mDesktop.remove(_frmPhones);
-			}
-			_frmPhones.setVisible(_btnViewPhone.isSelected());
-			mDesktop.repaint();
+			_frmPhones = (infPhones)showHideFrm(_frmPhones, infPhones.class.getName(), _btnViewPhone);
 		}
 	};
 	
@@ -216,23 +204,7 @@ public class fPerson extends fObject
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			if (_frmAddress == null)
-			{
-				_frmAddress = new infAddress(mAut, "frmAddress", getPerson());
-				_frmAddress.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
- 				mALInF.add(_frmAddress);
- 				_frmAddress.Load();
-			}
-			if (_btnViewAddress.isSelected())
-			{
-				mDesktop.add(_frmAddress, JDesktopPane.PALETTE_LAYER);
-			}
-			else
-			{
-				mDesktop.remove(_frmAddress);
-			}
-			_frmAddress.setVisible(_btnViewAddress.isSelected());
-			mDesktop.repaint();
+			_frmAddress = (infAddress)showHideFrm(_frmAddress, infAddress.class.getName(), _btnViewAddress);
 		}
 	};
 	
@@ -259,20 +231,20 @@ public class fPerson extends fObject
 	{
 		super.mLoadPreference(aNode);
 		
-		if (aNode.getBoolean("isFIOShow", false))
-			_btnViewFIO.doClick();
-		if (aNode.getBoolean("isPhoneShow", false))
-			_btnViewPhone.doClick();
-		if (aNode.getBoolean("isAddressShow", false))
-			_btnViewAddress.doClick();
+//		if (aNode.getBoolean("isFIOShow", false))
+//			_btnViewFIO.doClick();
+//		if (aNode.getBoolean("isPhoneShow", false))
+//			_btnViewPhone.doClick();
+//		if (aNode.getBoolean("isAddressShow", false))
+//			_btnViewAddress.doClick();
 	}
 	
 	protected void mSavePreference(Preferences aNode)
 	{
 		super.mSavePreference(aNode);
 		
-		aNode.putBoolean("isFIOShow", _btnViewFIO.isSelected());
-		aNode.putBoolean("isPhoneShow", _btnViewPhone.isSelected());
-		aNode.putBoolean("isAddressShow", _btnViewAddress.isSelected());
+//		aNode.putBoolean("isFIOShow", _btnViewFIO.isSelected());
+//		aNode.putBoolean("isPhoneShow", _btnViewPhone.isSelected());
+//		aNode.putBoolean("isAddressShow", _btnViewAddress.isSelected());
 	}
 }

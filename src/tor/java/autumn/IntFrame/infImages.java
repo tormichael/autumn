@@ -21,9 +21,9 @@ public class infImages extends infBase
 	private JTabbedPane	_tp;
 	private boolean 		_isLockTabChange;
 	
-	public infImages(Autumn aAut, String aName, tObj aObj)
+	public infImages(Autumn aAut, String aPrefPath, tObj aObj)
 	{
-		super(aAut, aName, aObj);
+		super(aAut, aPrefPath, aObj);
 		
 		_tp = new JTabbedPane();
 		

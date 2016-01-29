@@ -8,6 +8,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.table.AbstractTableModel;
 
+import tor.java.thirteen.card.tObj;
 import tor.java.thirteen.card.tPerson;
 import tor.java.thirteen.card.tVTN;
 import JCommonTools.CC;
@@ -32,16 +33,16 @@ public class PhoneTableModel extends AbstractTableModel {
 		_modCboMode = aCBM;
 	}
 	
-	public PhoneTableModel(Autumn aut, tPerson aPerson)
+	public PhoneTableModel(Autumn aut, tObj aPerson)
 	{
 		_aut = aut;
 		Reconnect(aPerson);
 	}
 	
-	public void Reconnect(tPerson aPerson)
+	public void Reconnect(tObj aPerson)
 	{
-		if (aPerson != null)
-			_contacts = aPerson.getContactColl();
+		if (aPerson != null && aPerson instanceof tPerson)
+			_contacts = ((tPerson)aPerson).getContactColl();
 		else
 			_contacts = null;
 	}

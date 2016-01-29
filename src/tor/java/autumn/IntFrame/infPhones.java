@@ -43,6 +43,7 @@ import JCommonTools.RefBook.fRefBook;
 import JCommonTools.RefBook.rbNode;
 import tor.java.autumn.Autumn;
 import tor.java.autumn.PhoneTableModel;
+import tor.java.thirteen.card.tObj;
 import tor.java.thirteen.card.tPerson;
 
 public class infPhones extends infBase 
@@ -52,9 +53,9 @@ public class infPhones extends infBase
 	private JComboBox<rbNode> _cboType;
 	private JComboBox<rbNode> _cboMode;
 	
-	public infPhones(Autumn aAut, String aName, tPerson aPerson)
+	public infPhones(Autumn aAut, String aPrefPath, tObj aPerson)
 	{
-		super(aAut, aName, aPerson);
+		super(aAut, aPrefPath, aPerson);
 		
 		_tmPhone = new PhoneTableModel(aAut, aPerson);
 		_tabConnection = new JTable(_tmPhone);

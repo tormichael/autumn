@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
@@ -27,6 +28,7 @@ import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import tor.java.autumn.IntFrame.infAddress;
 import tor.java.autumn.IntFrame.infBase;
 import tor.java.autumn.IntFrame.infImages;
 import tor.java.autumn.IntFrame.infNote;
@@ -35,34 +37,52 @@ import JCommonTools.AsRegister;
 
 public class fObject extends JFrame 
 {
-	protected Autumn						mAut;
-	protected tObj							mObj;
+	//public final static String FRM_BASE_NAME = "frmBase";
+	//public final static String FRM_IMAGE_NAME = "frmImages";
+	//public final static String FRM_NOTE_NAME = "frmNote";
 
-	protected String 						mCurrDir;
-	protected String						mPrefPath;
+	protected Autumn					mAut;
+	protected tObj						mObj;
+
+	protected String 					mCurrDir;
+	private String							_prefPath;
 
 	protected JMenuBar 				mMnuBar;	
 	protected JMenu 					mMnuFile;
-	protected JMenuItem 			mMnuFileLoad;
-	protected JMenuItem 			mMnuFileSave;
-	protected JMenuItem 			mMnuFileClose;
+	protected JMenuItem 				mMnuFileLoad;
+	protected JMenuItem 				mMnuFileSave;
+	protected JMenuItem 				mMnuFileClose;
 	protected JMenu 					mMnuView;
-	protected JMenuItem 			mMnuViewAddTab;
-	protected JMenuItem 			mMnuViewRenameTab;
-	protected JMenuItem 			mMnuViewDelTab;
+	protected JMenuItem 				mMnuViewAddTab;
+	protected JMenuItem 				mMnuViewRenameTab;
+	protected JMenuItem 				mMnuViewDelTab;
 	protected JMenu 					mMnuOption;
 	
-	protected JToolBar 					mTBar;
+	protected JToolBar 						mTBar;
 	protected JButton						mBtnSave;
-	protected JToggleButton			mBtnViewImage;
+	protected JToggleButton				mBtnViewImage;
 	protected JToggleButton 			mBtnViewNote;
-	protected JDesktopPane			mDesktop;
+	protected JDesktopPane				mDesktop;
 	protected JTextField					mTxtObjName;
 	protected ArrayList<infBase>	mALInF;
 	
 	protected infImages					mFrmImages;
 	protected infNote						mFrmNote;
+	
+	public tObj	getObject()
+	{
+		return mObj;
+	}
 
+	public void setPreferencePath (String aPrefPath)
+	{
+		_prefPath = Autumn.PREFERENCE_PATH+"/"+ aPrefPath;
+	}
+	public String getPreferencePath()
+	{
+		return _prefPath;
+	}
+	
 	private JTabbedPane					_tp;
 	private JPanel								_pnl;
 	private JToggleButton 				_btnTransparency;
@@ -77,7 +97,7 @@ public class fObject extends JFrame
 		mAut = aAut;
 		mObj = null;
 		mCurrDir = null;
-		mPrefPath = "fObject";
+		setPreferencePath("fObject");
 		UpdateRegisterShow  = null;
 	
 		//setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -253,28 +273,63 @@ public class fObject extends JFrame
 //		}
 //	};
 	
+	protected infBase newInfBase (String aFrmName)
+	{
+		infBase ret = null; 
+//		if (aFrmName.equals(FRM_IMAGE_NAME))
+//			ret = new infImages(mAut, getPreferencePath(), mObj);
+//		else if (aFrmName.equals(FRM_NOTE_NAME))
+//			ret = new infNote(mAut, getPreferencePath(), mObj);
+//		else
+//			ret = new infBase(mAut, getPreferencePath(), mObj);
+
+		try
+		{
+			Constructor ctor =  Class.forName(aFrmName).getConstructor(Autumn.class, String.class, tObj.class);
+			ctor.setAccessible(true);
+			Object obj = ctor.newInstance(mAut, getPreferencePath(), getObject());
+			if (obj instanceof infBase)
+				ret = (infBase) obj;
+		}
+		catch (Exception ex)
+		{
+			
+		}
+		return ret;
+	}
+	
+	protected infBase showHideFrm(infBase aFrm, String aFrmName, JToggleButton aBtn)
+	{
+		if (aFrm == null)
+		{
+			aFrm = newInfBase(aFrmName);
+			aFrm.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
+			aFrm.setVisible(true);
+			mALInF.add(aFrm);
+			aFrm.Load();
+		}
+		
+		if (aBtn.isSelected())
+		{
+			mDesktop.add(aFrm, JDesktopPane.PALETTE_LAYER);
+		}
+		else
+		{
+			mDesktop.remove(aFrm);
+		}
+		
+		//aFrm.setVisible(aBtn.isSelected());
+		mDesktop.repaint();
+		
+		return aFrm;
+	}
+	
 	Action actViewImages = new AbstractAction() 
 	{
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			if (mFrmImages == null)
-			{
-				mFrmImages = new infImages(mAut, "frmImages", mObj);
-				mFrmImages.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
- 				mALInF.add(mFrmImages);
- 				mFrmImages.Load();
-			}
-			if (mBtnViewImage.isSelected())
-			{
-				mDesktop.add(mFrmImages, JDesktopPane.PALETTE_LAYER);
-			}
-			else
-			{
-				mDesktop.remove(mFrmImages);
-			}
-			mFrmImages.setVisible(mBtnViewImage.isSelected());
-			mDesktop.repaint();	
+			mFrmImages = (infImages)showHideFrm(mFrmImages, infImages.class.getName(), mBtnViewImage);
 		}
 	};
 	
@@ -283,23 +338,7 @@ public class fObject extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent arg0) 
 		{
-			if (mFrmNote == null)
-			{
-				mFrmNote = new infNote(mAut, "frmNote", mObj);
-				mFrmNote.putClientProperty("JInternalFrame.isPalette", Boolean.TRUE);
- 				mALInF.add(mFrmNote);
- 				mFrmNote.Load();
-			}
-			if (mBtnViewNote.isSelected())
-			{
-				mDesktop.add(mFrmNote, JDesktopPane.PALETTE_LAYER);
-			}
-			else
-			{
-				mDesktop.remove(mFrmNote);
-			}
-			mFrmNote.setVisible(mBtnViewNote.isSelected());
-			mDesktop.repaint();
+			mFrmNote = (infNote)showHideFrm(mFrmNote, infNote.class.getName(), mBtnViewNote);
 		}
 	};
 	
@@ -423,13 +462,13 @@ public class fObject extends JFrame
 	
 	private void LoadProgramPreference()
 	{
-		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/"+mPrefPath);
+		Preferences node = Preferences.userRoot().node(getPreferencePath());
 		AsRegister.LoadFrameStateSizeLocation(node, this);
 		//TableTools.SetColumnsWidthFromString(_tabOp, node.get("TabColWidth_Operation", CC.STR_EMPTY));
-		if (node.getBoolean("isImageShow", false))
-			mBtnViewImage.doClick();
-		if (node.getBoolean("isNoteShow", false))
-			mBtnViewNote.doClick();
+//		if (node.getBoolean("isImageShow", false))
+//			mBtnViewImage.doClick();
+//		if (node.getBoolean("isNoteShow", false))
+//			mBtnViewNote.doClick();
 		mCurrDir = node.get("CurrentDir", null);
 		
 		mLoadPreference(node);
@@ -441,11 +480,11 @@ public class fObject extends JFrame
 	
 	private void SaveProgramPreference()
 	{
-		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/"+mPrefPath);
+		Preferences node = Preferences.userRoot().node(getPreferencePath());
 		AsRegister.SaveFrameStateSizeLocation(node, this);
 		//node.put("TabColWidth_Operation", TableTools.GetColumnsWidthAsString(_tabOp));
-		node.putBoolean("isImageShow", mBtnViewImage.isSelected());
-		node.putBoolean("isNoteShow", mBtnViewNote.isSelected());
+//		node.putBoolean("isImageShow", mBtnViewImage.isSelected());
+//		node.putBoolean("isNoteShow", mBtnViewNote.isSelected());
 		if (mCurrDir != null && mCurrDir.length() > 0)
 			node.put("CurrentDir", mCurrDir);
 		

@@ -31,6 +31,7 @@ import JCommonTools.RefBook.fRefBook;
 import JCommonTools.RefBook.rbNode;
 import tor.java.autumn.Autumn;
 import tor.java.thirteen.card.tAdr;
+import tor.java.thirteen.card.tObj;
 import tor.java.thirteen.card.tPerson;
 
 public class infAddress extends infBase 
@@ -49,17 +50,17 @@ public class infAddress extends infBase
 	
 	private int _prevAdrInd;
 	
-	public infAddress(Autumn aAut, String aName, tPerson aPerson)
+	public infAddress(Autumn aAut, String aPrefPath, tObj aPerson)
 	{
-		super (aAut, aName, aPerson);
+		super (aAut, aPrefPath, aPerson);
 		
 		_prevAdrInd = -1;
 		
 		DefaultComboBoxModel<rbNode> cbmType = new DefaultComboBoxModel<rbNode>();
 		fRefBook.LoadComboModel(cbmType, aAut.getRefbook().getNodeAddressType(), true);
 		_cboType = new JComboBox<rbNode>(cbmType);
-		if(aPerson != null)
-			_tabMod = new tmAddress(aAut, aPerson.getAddrColl(), cbmType);
+		if(aPerson != null && aPerson instanceof tPerson)
+			_tabMod = new tmAddress(aAut, ((tPerson)aPerson).getAddrColl(), cbmType);
 		else
 			_tabMod = new tmAddress(aAut, null, cbmType);
 		_tab =  new JTable(_tabMod);

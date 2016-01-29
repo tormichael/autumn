@@ -19,6 +19,7 @@ import JCommonTools.GBC;
 import com.toedter.calendar.JDateChooser;
 
 import tor.java.autumn.Autumn;
+import tor.java.thirteen.card.tObj;
 import tor.java.thirteen.card.tPerson;
 
 public class infFIO extends infBase 
@@ -29,9 +30,9 @@ public class infFIO extends infBase
 	private JTextFieldUDateEditor _txtUDate;
 	private JDateChooser	_dtBirthday;
 
-	public infFIO(Autumn aAut, String aName, tPerson aPerson)
+	public infFIO(Autumn aAut, String aPrefPath, tObj aPerson)
 	{
-		super(aAut, aName, aPerson);
+		super(aAut, aPrefPath, aPerson);
 		mObj = aPerson;
 		
 		GridBagLayout gbl = new GridBagLayout();

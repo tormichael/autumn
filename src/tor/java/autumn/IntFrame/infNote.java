@@ -11,9 +11,9 @@ public class infNote extends infBase
 {
 	private JTextArea 		_txtNote;
 
-	public infNote(Autumn aAut, String aName, tObj aObj)
+	public infNote(Autumn aAut, String aPrefPath, tObj aObj)
 	{
-		super(aAut, aName, aObj);
+		super(aAut, aPrefPath, aObj);
 		
 		_txtNote = new JTextArea();
 		this.add(new JScrollPane(_txtNote));
