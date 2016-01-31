@@ -170,7 +170,11 @@ public class infAddress extends infBase
 	private void _getData(tAdr aAdr)
 	{
 		aAdr.setIndex(_txfIndex.getText());
-		aAdr.setCountry(((rbNode)_cboCountry.getSelectedItem()).getId());
+		rbNode nd = (rbNode)_cboCountry.getSelectedItem();
+		if (nd != null)
+			aAdr.setCountry(nd.getId());
+		else
+			aAdr.setCountry(0);
 		aAdr.setLocality(_txfLocality.getText());
 		aAdr.setRegion(_txfRegion.getText());
 		aAdr.setHouseStreet(_txaAddress.getText());

@@ -34,6 +34,7 @@ import tor.java.autumn.IntFrame.infImages;
 import tor.java.autumn.IntFrame.infNote;
 import tor.java.thirteen.card.tObj;
 import JCommonTools.AsRegister;
+import JCommonTools.CC;
 
 public class fObject extends JFrame 
 {
@@ -488,21 +489,30 @@ public class fObject extends JFrame
 		if (mCurrDir != null && mCurrDir.length() > 0)
 			node.put("CurrentDir", mCurrDir);
 		
-		
+		int tabIndex =0;
+		String tabNames = CC.STR_EMPTY;
 		for (Component cmp : _tp.getComponents())
 		{
 			if (cmp instanceof JDesktopPane)
 			{
+				tabNames += _tp.getTitleAt(tabIndex) + ";";
 				JDesktopPane dp =(JDesktopPane) cmp;
 				for (Component comp : dp.getComponents())
 				{
 					if (comp instanceof infBase)
 					{
 						infBase ib = (infBase) comp;
-						
+						ib.SavePreference(tabIndex);
 					}
 				}
+				tabIndex ++;
 			}
+		}
+		
+		if (tabNames.length() > 1)
+		{
+			tabNames = tabNames.substring(0, tabNames.length() -1);
+			node.put("TabNames", tabNames);
 		}
 		
 		mSavePreference(node);

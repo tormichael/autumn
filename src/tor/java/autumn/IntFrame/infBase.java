@@ -17,16 +17,17 @@ import tor.java.thirteen.card.tObj;
 
 public class infBase extends JInternalFrame 
 {
-	protected Autumn	mAut;
-	protected String	mPrefPath;
-	protected String	mName;
-	protected tObj mObj;
+	protected Autumn		mAut;
+	protected String		mPrefPath;
+	protected String		mName;
+	protected tObj 			mObj;
+	protected int				tabIndex;
 
 	public infBase(Autumn aAut, String aPrefPath, tObj aObj)
 	{
 		super("", true, false, false, false);
 		mAut = aAut;
-		mPrefPath = aPrefPath;
+		mPrefPath = null;
 		
 		mName = this.getClass().getName();
 		int ind = mName.lastIndexOf(".");
@@ -34,16 +35,8 @@ public class infBase extends JInternalFrame
 			mName = mName.substring(ind+1);
 		mObj = aObj;
 		
-		if (mPrefPath != null && mPrefPath.length() > 0)
-		{
-			mPrefPath += "/"+mName;
-			Preferences node = Preferences.userRoot().node(mPrefPath);
-			
-			this.setBounds(
-				node.getInt("infX", 150), node.getInt("infY", 150), 
-				node.getInt("infWidth", 100), node.getInt("infHeight", 100));
-		}
-		else
+		LoadPreference(aPrefPath);
+		if (mPrefPath == null)
 		{
 			this.setBounds(150, 150, 100, 100);
 		}
@@ -71,19 +64,42 @@ public class infBase extends JInternalFrame
 	
 	public void Save()
 	{
-		if (mPrefPath != null && mPrefPath.length() > 0)
-		{
-			Preferences node = Preferences.userRoot().node(mPrefPath+"/"+mName);
-			node.putInt("infX", this.getX());
-			node.putInt("infY", this.getY());
-			node.putInt("infWidth", this.getWidth());
-			node.putInt("infHeight", this.getHeight());
-		}		
+		//SavePreference();
 		mSave();
 	}
 	
 	protected void mSave()
 	{
+		
+	}
+	
+	public void LoadPreference(String aPrefPath)
+	{
+		mPrefPath = aPrefPath;
+		if (mPrefPath != null && mPrefPath.length() > 0)
+		{
+			mPrefPath += "/"+mName;
+			Preferences node = Preferences.userRoot().node(mPrefPath);
+			
+			this.setBounds(
+				node.getInt("infX", 150), node.getInt("infY", 150), 
+				node.getInt("infWidth", 100), node.getInt("infHeight", 100)
+			);
+			tabIndex = node.getInt("tabIndex", 0);
+		}
+	}
+	
+	public void SavePreference(int indexTab)
+	{
+		if (mPrefPath != null && mPrefPath.length() > 0)
+		{
+			Preferences node = Preferences.userRoot().node(mPrefPath);
+			node.putInt("infX", this.getX());
+			node.putInt("infY", this.getY());
+			node.putInt("infWidth", this.getWidth());
+			node.putInt("infHeight", this.getHeight());
+			node.putInt("tabIndex", indexTab);
+		}
 		
 	}
 }
