@@ -195,7 +195,7 @@ public class infAddress extends infBase
 			_setData(null);
 		
 		_tab.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/"+mName);
+		Preferences node = Preferences.userRoot().node(mPrefPath);
 		TableTools.SetColumnsWidthFromString(_tab, node.get("TabColWidth_Address", CC.STR_EMPTY));
 		_spn.setDividerLocation(node.getInt("SplitAddress", 200));
 	}
@@ -205,7 +205,7 @@ public class infAddress extends infBase
 		ArrayList<tAdr> aadr = ((tPerson)mObj).getAddrColl();
 		if (_prevAdrInd >= 0 && _prevAdrInd < aadr.size())
 			_getData(aadr.get(_prevAdrInd));	
-		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/"+mName);
+		Preferences node = Preferences.userRoot().node(mPrefPath);
 		node.put("TabColWidth_Address", TableTools.GetColumnsWidthAsString(_tab));
 		node.putInt("SplitAddress", _spn.getDividerLocation());
 	}

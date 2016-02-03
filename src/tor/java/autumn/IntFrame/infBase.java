@@ -19,20 +19,31 @@ public class infBase extends JInternalFrame
 {
 	protected Autumn		mAut;
 	protected String		mPrefPath;
-	protected String		mName;
 	protected tObj 			mObj;
 	protected int				tabIndex;
 
+	
+	public static String	getClassNameOnly(Class aClass )
+	{
+		String clName = aClass.getName();
+		int ind = clName.lastIndexOf(".");
+		if (ind >= 0)
+			clName = clName.substring(ind+1);
+		
+		return clName;
+	}
+	
+	public String	getClassNameOnly()
+	{
+		return getClassNameOnly(this.getClass());
+	}
+	
 	public infBase(Autumn aAut, String aPrefPath, tObj aObj)
 	{
 		super("", true, false, false, false);
 		mAut = aAut;
 		mPrefPath = null;
 		
-		mName = this.getClass().getName();
-		int ind = mName.lastIndexOf(".");
-		if (ind >= 0)
-			mName = mName.substring(ind+1);
 		mObj = aObj;
 		
 		LoadPreference(aPrefPath);
@@ -78,7 +89,7 @@ public class infBase extends JInternalFrame
 		mPrefPath = aPrefPath;
 		if (mPrefPath != null && mPrefPath.length() > 0)
 		{
-			mPrefPath += "/"+mName;
+			mPrefPath += "/"+getClassNameOnly();
 			Preferences node = Preferences.userRoot().node(mPrefPath);
 			
 			this.setBounds(

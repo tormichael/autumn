@@ -356,11 +356,17 @@ public class fObject extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			JDesktopPane pnl = new JDesktopPane(); 
-			_tp.add(pnl, GetTabbleName());
-			_tp.setSelectedComponent(pnl);
+			addNewTab(GetTabbleName());
 		}
 	};
+	
+	protected void addNewTab(String aName)
+	{
+		JDesktopPane pnl = new JDesktopPane(); 
+		_tp.add(pnl, aName);
+		_tp.setSelectedComponent(pnl);
+	}
+	
 	Action actViewRenameTab = new AbstractAction() 
 	{
 		@Override
@@ -471,8 +477,54 @@ public class fObject extends JFrame
 //		if (node.getBoolean("isNoteShow", false))
 //			mBtnViewNote.doClick();
 		mCurrDir = node.get("CurrentDir", null);
+		String tn = node.get("TabNames", null);
+
+		try
+		{
+			int ii=0;
+			for (String ndn : node.keys())
+			{
+				if (node.nodeExists(getPreferencePath()+"/"+ndn))
+				{
+					if (node.getInt("tabIndex", 0)==ii )
+						mCreatInfXXX(ndn);
+				}
+			}
 		
+			if (tn != null && tn.length() > 0)
+			{
+				String ss[] = tn.split(";", -1);
+				for (ii++; ii < ss.length; ii++)
+				{
+					addNewTab(ss[ii]);				
+					for (String ndn : node.keys())
+					{
+						if (node.nodeExists(getPreferencePath()+"/"+ndn))
+						{
+							if (node.getInt("tabIndex", 0)==ii )
+								mCreatInfXXX(ndn);
+						}
+					}
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			
+		}
 		mLoadPreference(node);
+	}
+	
+	protected void mCreatInfXXX(String aName)
+	{
+		if (aName.equals(infBase.getClassNameOnly(infImages.class)))
+		{
+			mBtnViewImage.doClick();
+		}
+		else if (aName.equals(infBase.getClassNameOnly(infNote.class)))
+		{
+			mBtnViewNote.doClick();
+		}
 	}
 	
 	protected void mLoadPreference(Preferences aNode)

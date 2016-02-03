@@ -50,14 +50,14 @@ public class fPerson extends fObject
 
 	private JMenuItem 			_mnuOptReplaceFLName;
 	
-	private infFIO					_frmFIO;
-	private infPhones			_frmPhones;
-	private infAddress			_frmAddress;
+	private infFIO						_frmFIO;
+	private infPhones				_frmPhones;
+	private infAddress				_frmAddress;
 	
 	private JToggleButton 		_btnViewFIO;
 	private JToggleButton 		_btnViewPhone;
 	private JToggleButton 		_btnViewAddress;
-	private JButton _btnReplaceFLName;
+	private JButton 					_btnReplaceFLName;
 	
 	protected void setPerson(tPerson aPrs)
 	{

@@ -79,7 +79,7 @@ public class infPhones extends infBase
 		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		_tabConnection.getColumnModel().getColumn(2).setCellRenderer(renderer);
 		
-		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/"+mName);
+		Preferences node = Preferences.userRoot().node(mPrefPath);
 		TableTools.SetColumnsWidthFromString(_tabConnection, node.get("TabColWidth_Connection", CC.STR_EMPTY));
 	}	
 	
@@ -91,7 +91,7 @@ public class infPhones extends infBase
 	
 	protected void mSave()
 	{
-		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/"+mName);
+		Preferences node = Preferences.userRoot().node(mPrefPath);
 		node.put("TabColWidth_Connection", TableTools.GetColumnsWidthAsString(_tabConnection));
 	}
 
