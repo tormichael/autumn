@@ -165,21 +165,26 @@ public class fPerson extends fObject
 			mCurrDir = dlg.getSelectedFile().getParent();
 		}
 	}
-
-//	protected infBase newInfBase (String aFrmName)
-//	{
-//		infBase ret = null;
-//		if (aFrmName.equals(FRM_FIO_NAME))
-//			ret = new infFIO(mAut, getPreferencePath(), getPerson());
-//		else if (aFrmName.equals(FRM_PHONES_NAME))
-//			ret = new infPhones(mAut, getPreferencePath(), getPerson());
-//		else if (aFrmName.equals(FRM_ADDRESS_NAME))
-//			ret = new infAddress(mAut, getPreferencePath(), getPerson());
-//		else
-//			ret = super.newInfBase(aFrmName);
-//		
-//		return ret;
-//	}
+	
+	protected void mCreatInfXXX(String aName)
+	{
+		if (aName.equals(infBase.getClassNameOnly(infFIO.class)))
+		{
+			_btnViewFIO.doClick();
+		}
+		else if (aName.equals(infBase.getClassNameOnly(infAddress.class)))
+		{
+			_btnViewAddress.doClick();
+		}
+		else if (aName.equals(infBase.getClassNameOnly(infPhones.class)))
+		{
+			_btnViewPhone.doClick();
+		}
+		else
+		{
+			super.mCreatInfXXX(aName);
+		}
+	}
 	
 	Action actViewFIO = new AbstractAction() 
 	{

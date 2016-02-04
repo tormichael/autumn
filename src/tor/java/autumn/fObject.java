@@ -28,6 +28,8 @@ import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import com.sun.corba.se.impl.orbutil.graph.Node;
+
 import tor.java.autumn.IntFrame.infAddress;
 import tor.java.autumn.IntFrame.infBase;
 import tor.java.autumn.IntFrame.infImages;
@@ -35,6 +37,7 @@ import tor.java.autumn.IntFrame.infNote;
 import tor.java.thirteen.card.tObj;
 import JCommonTools.AsRegister;
 import JCommonTools.CC;
+import JCommonTools.Convert;
 
 public class fObject extends JFrame 
 {
@@ -481,37 +484,55 @@ public class fObject extends JFrame
 
 		try
 		{
-			int ii=0;
-			for (String ndn : node.keys())
-			{
-				if (node.nodeExists(getPreferencePath()+"/"+ndn))
-				{
-					if (node.getInt("tabIndex", 0)==ii )
-						mCreatInfXXX(ndn);
-				}
-			}
-		
+			String ss[] = null;
 			if (tn != null && tn.length() > 0)
 			{
-				String ss[] = tn.split(";", -1);
-				for (ii++; ii < ss.length; ii++)
+				ss = tn.split(";", -1);
+			}
+			else
+			{
+				ss = new String[]{CC.STR_EMPTY};
+			}
+			
+
+			for (int ii=0; ii < ss.length; ii++)
+			{
+				if (ii > 0)
+					addNewTab(ss[ii]);
+				
+				for (String ndn : node.keys())
 				{
-					addNewTab(ss[ii]);				
-					for (String ndn : node.keys())
+					if (ndn.indexOf("tbnm") == 0)
 					{
-						if (node.nodeExists(getPreferencePath()+"/"+ndn))
+						int ci = Convert.ToIntegerOrZero(ndn.substring(4));
+						if (ci == ii)
 						{
-							if (node.getInt("tabIndex", 0)==ii )
-								mCreatInfXXX(ndn);
+							String tt[] =  node.get(String.format("tbnm%1$02d", ii), CC.STR_EMPTY).split(";", -1);
+							for (int jj=0; jj < tt.length; jj++)
+								mCreatInfXXX(tt[jj]);
 						}
 					}
 				}
+//				for (String ndn : node.childrenNames())
+//				{
+//					if (node.nodeExists(getPreferencePath()+"/"+ndn))
+//					{
+//						Preferences nd = Preferences.userRoot().node(getPreferencePath()+"/"+ndn);
+//						if (nd.getInt("tabIndex", 0)==ii )
+//							mCreatInfXXX(ndn);
+//					}
+//				}
+				
 			}
 		}
 		catch (Exception ex)
 		{
 			
 		}
+		
+		if (_tp.getComponentCount() > 1)
+			_tp.setSelectedIndex(0);
+		
 		mLoadPreference(node);
 	}
 	
@@ -547,6 +568,7 @@ public class fObject extends JFrame
 		{
 			if (cmp instanceof JDesktopPane)
 			{
+				String tbNm = CC.STR_EMPTY;
 				tabNames += _tp.getTitleAt(tabIndex) + ";";
 				JDesktopPane dp =(JDesktopPane) cmp;
 				for (Component comp : dp.getComponents())
@@ -554,8 +576,14 @@ public class fObject extends JFrame
 					if (comp instanceof infBase)
 					{
 						infBase ib = (infBase) comp;
+						tbNm += ib.getClassNameOnly() + ";";
 						ib.SavePreference(tabIndex);
 					}
+				}
+				if (tbNm.length() > 0)
+				{
+					tbNm = tbNm.substring(0, tbNm.length() -1);
+					node.put(String.format("tbnm%1$02d", tabIndex), tbNm);
 				}
 				tabIndex ++;
 			}
