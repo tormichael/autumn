@@ -141,21 +141,6 @@ public class fObject extends JFrame
 		actLoad.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/open.png"));
 		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/save.png"));
 		
-		//mTBar.add(actLoad);
-		
-		//mBtnSave = new JButton();
-		//mBtnSave.setIcon(mAut.getImageIcon("save.png"));
-		//mTBar.add(mBtnSave);
-		
-		//actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("save.png"));
-		//mTBar.add(actSave);
-		
-//		mTBar.addSeparator();
-//		_btnTransparency = new JToggleButton(actTransparency);
-//		//actViewFIO.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-//		mTBar.add(_btnTransparency);
-//		mTBar.addSeparator();
-		
 		mBtnViewImage = new JToggleButton(actViewImages);
 		actViewImages.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/image.png"));
 		mTBar.add(mBtnViewImage);
@@ -164,9 +149,6 @@ public class fObject extends JFrame
 		actViewNotes.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/txt.png"));
 		mTBar.add(mBtnViewNote);
 		
-		//bar.add(actViewOptions);
-		//actViewOptions.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
-
 		_pnl = new JPanel(new BorderLayout());
 		
 			JPanel pnlObj = new JPanel(new BorderLayout());
@@ -177,7 +159,6 @@ public class fObject extends JFrame
 			
 			_tp = new JTabbedPane();
 			mDesktop = new JDesktopPane();
-			//_pnl.add(mDesktop, BorderLayout.CENTER);
 			_tp.add(mDesktop, mAut.getString("TabPanel.Person.Main"));
 			
 			_pnl.add(_tp, BorderLayout.CENTER);
@@ -280,13 +261,6 @@ public class fObject extends JFrame
 	protected infBase newInfBase (String aFrmName)
 	{
 		infBase ret = null; 
-//		if (aFrmName.equals(FRM_IMAGE_NAME))
-//			ret = new infImages(mAut, getPreferencePath(), mObj);
-//		else if (aFrmName.equals(FRM_NOTE_NAME))
-//			ret = new infNote(mAut, getPreferencePath(), mObj);
-//		else
-//			ret = new infBase(mAut, getPreferencePath(), mObj);
-
 		try
 		{
 			Constructor ctor =  Class.forName(aFrmName).getConstructor(Autumn.class, String.class, tObj.class);
@@ -419,8 +393,6 @@ public class fObject extends JFrame
 
 	public void Close ()
 	{
-		//SaveProgramPreference();
-		//setVisible(false);
 		fObject.this.dispatchEvent(new WindowEvent(fObject.this, WindowEvent.WINDOW_CLOSING));
 	}
 	
@@ -454,8 +426,6 @@ public class fObject extends JFrame
 	
 	protected void UpdateLanguage()
 	{
-		//setTitle(_aut.getString("Titles.wObject"));
-		
 		mMnuFile.setText(mAut.getString("Menu.Person.File"));
 		mMnuFileLoad.setText(mAut.getString("Menu.Person.File.Load"));
 		mMnuFileSave.setText(mAut.getString("Menu.Person.File.Save"));
@@ -465,20 +435,12 @@ public class fObject extends JFrame
 		mMnuViewRenameTab.setText(mAut.getString("Menu.Config.RenameTab"));
 		mMnuViewDelTab.setText(mAut.getString("Menu.Config.DelTab"));
 		mMnuOption.setText(mAut.getString("Menu.Options"));
-		//actLoad.putValue(Action.SHORT_DESCRIPTION , mAut.getString("ToolsBar.ShortDescription.FileLoad"));
-		//actSave.putValue(Action.SHORT_DESCRIPTION , mAut.getString("ToolsBar.ShortDescription.FileSave"));
-		
 	}
 	
 	private void LoadProgramPreference()
 	{
 		Preferences node = Preferences.userRoot().node(getPreferencePath());
 		AsRegister.LoadFrameStateSizeLocation(node, this);
-		//TableTools.SetColumnsWidthFromString(_tabOp, node.get("TabColWidth_Operation", CC.STR_EMPTY));
-//		if (node.getBoolean("isImageShow", false))
-//			mBtnViewImage.doClick();
-//		if (node.getBoolean("isNoteShow", false))
-//			mBtnViewNote.doClick();
 		mCurrDir = node.get("CurrentDir", null);
 		String tn = node.get("TabNames", null);
 
@@ -556,9 +518,6 @@ public class fObject extends JFrame
 	{
 		Preferences node = Preferences.userRoot().node(getPreferencePath());
 		AsRegister.SaveFrameStateSizeLocation(node, this);
-		//node.put("TabColWidth_Operation", TableTools.GetColumnsWidthAsString(_tabOp));
-//		node.putBoolean("isImageShow", mBtnViewImage.isSelected());
-//		node.putBoolean("isNoteShow", mBtnViewNote.isSelected());
 		if (mCurrDir != null && mCurrDir.length() > 0)
 			node.put("CurrentDir", mCurrDir);
 		

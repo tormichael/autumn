@@ -114,38 +114,45 @@ public class fPerson extends fObject
 		dlg.setMultiSelectionEnabled(false);
 		if (dlg.showOpenDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
 		{
-			tPerson prs = null;
-			if (dlg.getSelectedFile().getName().indexOf(".vcf") > 0)
-			{
-				PersonalVCard pvc = new PersonalVCard(mAut);
-				prs = pvc.LoadOneVCard(dlg.getSelectedFile().getPath());
-			}
-			else
-			{
-				try
-				{ 
-					prs = tPerson.Load(dlg.getSelectedFile().getPath());
-				}
-				catch (Exception ex )
-				{
-					mAut.ShowError(ex.getMessage());
-				}
-			}
-			
-			if (prs != null)
-			{
-				if (mAut.getRegister() == null)
-					setPerson(prs);
-				else if (mAut.getRegister().ReplaceObject(mObj, prs))
-				{
-					setPerson(prs);
-					if (UpdateRegisterShow != null)
-						UpdateRegisterShow.actionPerformed(new ActionEvent(prs, 0, null));
-				}
-			}
-			Show(mObj);
+			LoadFromFile(dlg.getSelectedFile().getName());
 			mCurrDir = dlg.getSelectedFile().getParent();
 		}
+	}
+	
+	public void LoadFromFile(String aFileName)
+	{
+		tPerson prs = null;
+		if (aFileName.indexOf(".vcf") > 0)
+		{
+			PersonalVCard pvc = new PersonalVCard(mAut);
+			prs = pvc.LoadOneVCard(aFileName);
+		}
+		else
+		{
+			try
+			{ 
+				prs = tPerson.Load(aFileName);
+			}
+			catch (Exception ex )
+			{
+				mAut.ShowError(ex.getMessage());
+			}
+		}
+		
+		if (prs != null)
+		{
+			if (mAut.getRegister() == null)
+			{
+				setPerson(prs);
+			}
+			else if (mAut.getRegister().ReplaceObject(mObj, prs))
+			{
+				setPerson(prs);
+				if (UpdateRegisterShow != null)
+					UpdateRegisterShow.actionPerformed(new ActionEvent(prs, 0, null));
+			}
+		}
+		Show(mObj);
 	}
 	
 	protected void saveToFile()

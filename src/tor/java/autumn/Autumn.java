@@ -81,13 +81,22 @@ public class Autumn
 		//wPerson prsn = new wPerson(new Autumn());
 		//fPerson prsn = new fPerson(new Autumn());
 		
-		//if (args != null && args.length > 0)
-		//	prsn.setFileName(args[0]);
+		Autumn aut = new Autumn();
 		
-		//prsn.setVisible(true);
-		
-		fNavigator nav = new fNavigator(new Autumn());
-		nav.setVisible(true);
+		if (args != null && args.length > 0)
+		{
+			if (args[0].endsWith(tPerson.FILE_EXTENTION))
+			{
+				fPerson fp = new fPerson(aut);
+				fp.LoadFromFile(args[0]);
+				fp.setVisible(true);
+			}
+		}
+		else
+		{
+			fNavigator nav = new fNavigator(aut);
+			nav.setVisible(true);
+		}
 	}
 	
 	public Autumn()
