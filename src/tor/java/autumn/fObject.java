@@ -6,6 +6,7 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.prefs.Preferences;
@@ -48,13 +49,15 @@ public class fObject extends JFrame
 	protected Autumn					mAut;
 	protected tObj						mObj;
 
-	protected String 					mCurrDir;
+	//protected String 					mCurrDir;
+	protected File							mCurrFile;
 	private String							_prefPath;
 
 	protected JMenuBar 				mMnuBar;	
 	protected JMenu 					mMnuFile;
 	protected JMenuItem 				mMnuFileLoad;
 	protected JMenuItem 				mMnuFileSave;
+	protected JMenuItem 				mMnuFileSaveAs;
 	protected JMenuItem 				mMnuFileClose;
 	protected JMenu 					mMnuView;
 	protected JMenuItem 				mMnuViewAddTab;
@@ -100,7 +103,8 @@ public class fObject extends JFrame
 		
 		mAut = aAut;
 		mObj = null;
-		mCurrDir = null;
+		//mCurrDir = null;
+		mCurrFile = null;
 		setPreferencePath("fObject");
 		UpdateRegisterShow  = null;
 	
@@ -117,6 +121,9 @@ public class fObject extends JFrame
 		mMnuFile.add(mMnuFileLoad);
 		mMnuFileSave = new JMenuItem(actSave);
 		mMnuFile.add(mMnuFileSave);
+		mMnuFileSaveAs = new JMenuItem(actSaveAs);
+		mMnuFile.add(mMnuFileSaveAs);
+		mMnuFile.addSeparator();
 		mMnuFileClose = new JMenuItem(actClose);
 		mMnuFile.add(mMnuFileClose);
 		mMnuView = new JMenu();
@@ -208,6 +215,15 @@ public class fObject extends JFrame
 	};
 	
 	Action actSave = new AbstractAction()
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			saveToFile();
+		}
+	};
+
+	Action actSaveAs = new AbstractAction()
 	{
 		@Override
 		public void actionPerformed(ActionEvent e)
@@ -384,11 +400,14 @@ public class fObject extends JFrame
 	{
 		mObj = aObj;
 		
-		mTxtObjName.setText(mObj.getName());
-		mDesktop.setToolTipText(Autumn.Calendar2String(mObj.getLastModified()));
-	
-		for (infBase inf : mALInF)
-			inf.Load(mObj);
+		if (mObj != null)
+		{
+			mTxtObjName.setText(mObj.getName());
+			mDesktop.setToolTipText(Autumn.Calendar2String(mObj.getLastModified()));
+		
+			for (infBase inf : mALInF)
+				inf.Load(mObj);
+		}
 	}
 
 	public void Close ()
@@ -429,6 +448,7 @@ public class fObject extends JFrame
 		mMnuFile.setText(mAut.getString("Menu.Person.File"));
 		mMnuFileLoad.setText(mAut.getString("Menu.Person.File.Load"));
 		mMnuFileSave.setText(mAut.getString("Menu.Person.File.Save"));
+		mMnuFileSaveAs.setText(mAut.getString("Menu.Person.File.SaveAs"));
 		mMnuFileClose.setText(mAut.getString("Menu.Person.File.Close"));
 		mMnuView.setText(mAut.getString("Menu.Config"));
 		mMnuViewAddTab.setText(mAut.getString("Menu.Config.AddTab"));
@@ -441,7 +461,12 @@ public class fObject extends JFrame
 	{
 		Preferences node = Preferences.userRoot().node(getPreferencePath());
 		AsRegister.LoadFrameStateSizeLocation(node, this);
-		mCurrDir = node.get("CurrentDir", null);
+		
+		String currDir = node.get("CurrentDir", null);
+		if (currDir != null && currDir.length()>0)
+		{
+			mCurrFile = new File(currDir, CC.STR_EMPTY);
+		}
 		String tn = node.get("TabNames", null);
 
 		try
@@ -518,8 +543,8 @@ public class fObject extends JFrame
 	{
 		Preferences node = Preferences.userRoot().node(getPreferencePath());
 		AsRegister.SaveFrameStateSizeLocation(node, this);
-		if (mCurrDir != null && mCurrDir.length() > 0)
-			node.put("CurrentDir", mCurrDir);
+		if (mCurrFile != null && mCurrFile.getParent() !=null && mCurrFile.getParent().length() > 0)
+			node.put("CurrentDir", mCurrFile.getParent());
 		
 		int tabIndex =0;
 		String tabNames = CC.STR_EMPTY;

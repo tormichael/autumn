@@ -12,11 +12,11 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 import JCommonTools.CodeText;
 import JCommonTools.Tools;
 import JCommonTools.RefBook.RefBook;
-
 import tor.java.thirteen.card.tPerson;
 import tor.java.thirteen.card.tRegister;
 
@@ -85,9 +85,12 @@ public class Autumn
 		
 		if (args != null && args.length > 0)
 		{
-			if (args[0].endsWith(tPerson.FILE_EXTENTION))
+			if (args[0].endsWith(tPerson.FILE_EXTENTION)
+				|| args[0].endsWith(tPerson.FILE_EXTENTION_CIPHER)
+				|| args[0].endsWith(PersonalVCard.FILE_EXTENTION))
 			{
 				fPerson fp = new fPerson(aut);
+				fp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 				fp.LoadFromFile(args[0]);
 				fp.setVisible(true);
 			}

@@ -48,6 +48,8 @@ import JCommonTools.RefBook.rbNode;
 
 public class PersonalVCard 
 {
+	public final static String FILE_EXTENTION = "vcf";
+	
 	private Autumn			_aut;
 	//private VCardImpl 		_vcard;
 	//VCard				_vcard;

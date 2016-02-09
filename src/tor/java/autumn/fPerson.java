@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.prefs.Preferences;
@@ -36,8 +37,10 @@ import tor.java.autumn.IntFrame.infNote;
 import tor.java.autumn.IntFrame.infPhones;
 import tor.java.thirteen.card.tObj;
 import tor.java.thirteen.card.tPerson;
+import tor.java.thirteen.card.tRegister;
 import JCommonTools.AsRegister;
 import JCommonTools.FileNameTools;
+import JCommonTools.Dialog.dPassword;
 
 public class fPerson extends fObject 
 {
@@ -106,52 +109,68 @@ public class fPerson extends fObject
 	protected void loadFromFile()
 	{
 		JFileChooser dlg = new JFileChooser();
-		if (mCurrDir != null && mCurrDir.length() > 0)
-			dlg.setCurrentDirectory(new File(mCurrDir));
+		if (mCurrFile != null && mCurrFile.getParent() !=null && mCurrFile.getParent().length() > 0)
+			dlg.setCurrentDirectory(new File(mCurrFile.getParent()));
 		dlg.addChoosableFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
-		dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
+		dlg.addChoosableFileFilter(new FileNameExtensionFilter("vCard", PersonalVCard.FILE_EXTENTION));
 		//dlg.setFileFilter(new FileNameExtensionFilter("vCard", "vcf"));
 		dlg.setMultiSelectionEnabled(false);
 		if (dlg.showOpenDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
 		{
-			LoadFromFile(dlg.getSelectedFile().getName());
-			mCurrDir = dlg.getSelectedFile().getParent();
+			LoadFromFile(dlg.getSelectedFile().getPath());
 		}
 	}
 	
 	public void LoadFromFile(String aFileName)
 	{
 		tPerson prs = null;
-		if (aFileName.indexOf(".vcf") > 0)
-		{
-			PersonalVCard pvc = new PersonalVCard(mAut);
-			prs = pvc.LoadOneVCard(aFileName);
-		}
-		else
-		{
-			try
-			{ 
-				prs = tPerson.Load(aFileName);
-			}
-			catch (Exception ex )
+		mCurrFile = new File(aFileName);
+		try
+		{ 
+			if (aFileName.endsWith(PersonalVCard.FILE_EXTENTION))
 			{
-				mAut.ShowError(ex.getMessage());
+				PersonalVCard pvc = new PersonalVCard(mAut);
+				prs = pvc.LoadOneVCard(aFileName);
 			}
+			else if (aFileName.endsWith(tPerson.FILE_EXTENTION_CIPHER))
+			{
+				dPassword dlgPwd = new dPassword(mAut.getString("Titles.DlgPassword"), false);
+				dlgPwd.setVisible(true);
+				String dRes = dlgPwd.getPassword();
+				if (dRes != null && dRes.length() > 0)
+				{
+					prs = tPerson.LoadCipher(aFileName, dRes);
+				}
+			}
+			else
+			{
+					prs = tPerson.Load(aFileName);
+			}
+		}
+		catch (Exception ex )
+		{
+			mAut.ShowError(ex.getMessage());
 		}
 		
 		if (prs != null)
 		{
-			if (mAut.getRegister() == null)
-			{
-				setPerson(prs);
-			}
-			else if (mAut.getRegister().ReplaceObject(mObj, prs))
+//			if (mAut.getRegister() == null)
+//			{
+//				setPerson(prs);
+//			}
+//			else 
+			if (mAut.getRegister().ReplaceObject(mObj, prs))
 			{
 				setPerson(prs);
 				if (UpdateRegisterShow != null)
 					UpdateRegisterShow.actionPerformed(new ActionEvent(prs, 0, null));
 			}
+			else
+			{
+				setPerson(prs);
+			}
 		}
+
 		Show(mObj);
 	}
 	
@@ -159,17 +178,44 @@ public class fPerson extends fObject
 	{
 		super.saveToFile();
 		JFileChooser dlg = new JFileChooser();
-		if (mCurrDir != null && mCurrDir.length() > 0)
-			dlg.setCurrentDirectory(new File(mCurrDir));
-		dlg.setFileFilter(new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION));
+		if (mCurrFile != null && mCurrFile.getParent() !=null && mCurrFile.getParent().length() > 0)
+			dlg.setCurrentDirectory(mCurrFile.getParentFile());
+		FileNameExtensionFilter perFilter = new FileNameExtensionFilter("Person", tPerson.FILE_EXTENTION); 
+		FileNameExtensionFilter pesFilter = new FileNameExtensionFilter("Person with crypto", tPerson.FILE_EXTENTION_CIPHER);
+		FileNameExtensionFilter vcfFilter = new FileNameExtensionFilter("vCard", PersonalVCard.FILE_EXTENTION);
+		dlg.addChoosableFileFilter(perFilter);
+		dlg.addChoosableFileFilter(pesFilter);
+		dlg.addChoosableFileFilter(vcfFilter);
+		dlg.setFileFilter(perFilter);
 		dlg.setMultiSelectionEnabled(false);
 		if (dlg.showSaveDialog(fPerson.this) == JFileChooser.APPROVE_OPTION)
 		{
-			String err = getPerson().Save(FileNameTools.AddExtensionIfNone(dlg.getSelectedFile().getPath(), tPerson.FILE_EXTENTION));
+			File cf = dlg.getSelectedFile();
+			String err = null;
+			//if (cf.getName().endsWith(tPerson.FILE_EXTENTION_CIPHER))
+			if (dlg.getFileFilter().accept(new File("file."+tPerson.FILE_EXTENTION_CIPHER)))
+			{
+				dPassword dlgPwd = new dPassword(mAut.getString("Titles.DlgPassword"), true);
+				dlgPwd.setVisible(true);
+				String dRes = dlgPwd.getPassword();
+				if (dRes != null && dRes.length() > 0)
+				{
+					String fn = FileNameTools.AddExtensionIfNone(cf.getPath(), tPerson.FILE_EXTENTION_CIPHER);
+					err = getPerson().SaveCipher(fn, dRes);
+				}
+			}
+			else if (cf.getName().endsWith(PersonalVCard.FILE_EXTENTION))
+			{
+			}
+			else
+			{
+				err = getPerson().Save(FileNameTools.AddExtensionIfNone(dlg.getSelectedFile().getPath(), tPerson.FILE_EXTENTION));
+			}
+
 			if (err != null && err.length() > 0)
 				mAut.ShowError(err);
 			
-			mCurrDir = dlg.getSelectedFile().getParent();
+			mCurrFile = cf;
 		}
 	}
 	
