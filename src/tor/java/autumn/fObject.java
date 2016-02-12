@@ -228,7 +228,7 @@ public class fObject extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			saveToFile();
+			saveToFileAs();
 		}
 	};
 
@@ -435,6 +435,11 @@ public class fObject extends JFrame
 	{
 		Save();
 	}
+
+	protected void saveToFileAs()
+	{
+		Save();
+	}
 	
 	protected void enableDo()
 	{
@@ -463,7 +468,7 @@ public class fObject extends JFrame
 		AsRegister.LoadFrameStateSizeLocation(node, this);
 		
 		String currDir = node.get("CurrentDir", null);
-		if (currDir != null && currDir.length()>0)
+		if (currDir != null && currDir.length()>0 && mCurrFile == null)
 		{
 			mCurrFile = new File(currDir, CC.STR_EMPTY);
 		}

@@ -1,5 +1,6 @@
 package tor.java.autumn;
 
+import java.awt.Component;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -13,6 +14,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import JCommonTools.CodeText;
 import JCommonTools.Tools;
@@ -218,8 +220,8 @@ public class Autumn
 				, aCal, aCal, aCal, aCal, aCal, aCal, aCal).toString();
 	}
 
-	public void ShowError(String aText)
+	public void ShowError(Component aCmpParent, String aText)
 	{
-		
+		JOptionPane.showConfirmDialog(aCmpParent, aText);
 	}
 }
