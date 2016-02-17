@@ -38,6 +38,7 @@ import tor.java.autumn.pNavMode.pNavMode;
 import tor.java.autumn.pNavMode.pNavModeAlphabet;
 import tor.java.autumn.pNavMode.pNavModeList;
 import tor.java.thirteen.card.tObj;
+import tor.java.thirteen.card.tOrg;
 import tor.java.thirteen.card.tPerson;
 import tor.java.thirteen.card.tRegister;
 import JCommonTools.AsRegister;
@@ -83,6 +84,7 @@ public class fNavigator extends JFrame
 	private fObject _frm;
 	private fObject _frmObject;
 	private fObject _frmPerson;
+	private fObject _frmOrg;
 	
 	private String _currFileName;
 	private String _lastAddFileName;
@@ -609,6 +611,15 @@ public class fNavigator extends JFrame
 				}
 				_frm = _frmPerson;
 			}
+			else if (e.getSource() instanceof tOrg)
+			{
+				if (_frmOrg == null)
+				{
+					_frmOrg= new fOrg(_aut);
+					_frmOrg.UpdateRegisterShow = actRefreshNavMode;
+				}
+				_frm = _frmOrg;
+			}
 			else if (e.getSource() instanceof tObj)
 			{
 				if (_frmObject == null)
@@ -659,16 +670,17 @@ public class fNavigator extends JFrame
 		{
 			dNewObj dlg = (dNewObj) e.getSource();
 			tObj obj = null;
-			switch(dlg.getObjectType())
-			{
-				case 0:
+			if (dlg.getObjectType() == tObj.getType())
+			{	
 					obj = new tObj();
-					break;
-				case 1:
+			}
+			else if (dlg.getObjectType() == tPerson.getType())
+			{
 					obj = new tPerson();
-					break;
-				default:
-					break;
+			}
+			else if (dlg.getObjectType() == tOrg.getType())
+			{
+					obj = new tOrg();
 			}
 			
 			if (obj != null)

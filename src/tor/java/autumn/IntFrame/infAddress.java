@@ -75,14 +75,14 @@ public class infAddress extends infBase
 		JLabel lbl = new JLabel(mAut.getString("Label.Address.Index"));
 		gbl.setConstraints(lbl, new GBC(0,0).setIns(2).setAnchor(GBC.EAST));
 		pnlAdr.add(lbl);
-		_txfIndex = new JTextField(10);
+		_txfIndex = new JTextField(8);
 		_txfIndex.setMinimumSize(new Dimension(_txfIndex.getPreferredSize().width, _txfIndex.getPreferredSize().height));
-		gbl.setConstraints(_txfIndex, new GBC(1,0).setIns(2).setFill(GBC.HORIZONTAL));
+		gbl.setConstraints(_txfIndex, new GBC(1,0).setIns(2)); //.setFill(GBC.HORIZONTAL));
 		pnlAdr.add(_txfIndex);
 		DefaultComboBoxModel<rbNode> cbmCountry = new DefaultComboBoxModel<rbNode>();
 		fRefBook.LoadComboModel(cbmCountry, aAut.getRefbook().getNodeCountry(), true);
 		_cboCountry = new JComboBox<rbNode>(cbmCountry);
-		gbl.setConstraints(_cboCountry, new GBC(2,0).setIns(2).setFill(GBC.HORIZONTAL).setAnchor(GBC.EAST).setWeight(1., 0.));
+		gbl.setConstraints(_cboCountry, new GBC(2,0).setIns(2).setFill(GBC.HORIZONTAL).setAnchor(GBC.EAST).setWeight(0.3, 0.));
 		pnlAdr.add(_cboCountry);
 		lbl = new JLabel(mAut.getString("Label.Address.Location"));
 		gbl.setConstraints(lbl, new GBC(0,1).setIns(2).setAnchor(GBC.EAST));

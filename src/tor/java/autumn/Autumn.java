@@ -19,6 +19,8 @@ import javax.swing.JOptionPane;
 import JCommonTools.CodeText;
 import JCommonTools.Tools;
 import JCommonTools.RefBook.RefBook;
+import tor.java.thirteen.card.tObj;
+import tor.java.thirteen.card.tOrg;
 import tor.java.thirteen.card.tPerson;
 import tor.java.thirteen.card.tRegister;
 
@@ -39,8 +41,8 @@ public class Autumn
 	
 	public final static int TOOL_BAR_ICON_SIZE = 24;
 
-	public final static int OBJ_TYPE_ABSTRACT = 0;
-	public final static int OBJ_TYPE_PERSON = 1;
+	//public final static int OBJ_TYPE_ABSTRACT = 0;
+	//public final static int OBJ_TYPE_PERSON = 1;
 	
 	public ResourceBundle get_bnd()
 	{
@@ -116,8 +118,9 @@ public class Autumn
 	private void initObjTypeArray()
 	{
 		_arrObjType = new ArrayList<CodeText>();
-		_arrObjType.add(new CodeText(OBJ_TYPE_ABSTRACT, getString("Text.TypeName.Object")));
-		_arrObjType.add(new CodeText(OBJ_TYPE_PERSON, getString("Text.TypeName.Person")));
+		_arrObjType.add(new CodeText(tObj.getType(), getString("Text.TypeName.Object")));
+		_arrObjType.add(new CodeText(tPerson.getType(), getString("Text.TypeName.Person")));
+		_arrObjType.add(new CodeText(tOrg.getType(), getString("Text.TypeName.Org")));
 	}
 	
 	public static String StringFromUTF8(String aTxt){

@@ -138,6 +138,7 @@ public class fPerson extends fObject
 			else if (aFileName.endsWith(tPerson.FILE_EXTENTION_CIPHER))
 			{
 				dPassword dlgPwd = new dPassword(mAut.getString("Titles.DlgPassword"), false);
+				dlgPwd.setFileName(aFileName);
 				dlgPwd.setVisible(true);
 				String dRes = dlgPwd.getPassword();
 				if (dRes != null && dRes.length() > 0)
