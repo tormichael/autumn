@@ -175,22 +175,22 @@ public class fNavigator extends JFrame
 		add(bar, BorderLayout.NORTH);
 		//actCreate.putValue(Action.SMALL_ICON, CreateIcon("new.png", Start.TOOL_BAR_ICON_SIZE));
 		//bar.add(actCreate);
-		actLoad.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/open.png"));
+		actLoad.putValue(Action.SMALL_ICON, _aut.getImageIcon("open.png"));
 		actLoad.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.FileLoad"));
 		bar.add(actLoad);
-		actSave.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/save.png"));
+		actSave.putValue(Action.SMALL_ICON, _aut.getImageIcon("save.png"));
 		actSave.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.FileSave"));
 		bar.add(actSave);
 		bar.addSeparator();
-		actRecordNew.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/new.png"));
+		actRecordNew.putValue(Action.SMALL_ICON, _aut.getImageIcon("new.png"));
 		actRecordNew.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.RecordNew"));
 		bar.add(actRecordNew);
-		actRecordDelete.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/delete.png"));
+		actRecordDelete.putValue(Action.SMALL_ICON, _aut.getImageIcon("delete.png"));
 		actRecordDelete.putValue(Action.SHORT_DESCRIPTION , _aut.getString("ToolsBar.ShortDescription.RecordDelete"));
 		bar.add(actRecordDelete);
 		bar.addSeparator();
-		actProperties.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/configure.png"));
-		actRefbook.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/refbook.png"));
+		actProperties.putValue(Action.SMALL_ICON, _aut.getImageIcon("configure.png"));
+		actRefbook.putValue(Action.SMALL_ICON, _aut.getImageIcon("refbook.png"));
 		_lblMode = new JLabel();
 		bar.add(_lblMode);
 		bar.addSeparator();
@@ -291,7 +291,7 @@ public class fNavigator extends JFrame
 	{
 		public ActionAbout()
 		{
-			putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/about.png"));
+			putValue(Action.SMALL_ICON, _aut.getImageIcon("about.png"));
 		}
 		public void actionPerformed(ActionEvent arg0) 
 		{
@@ -542,13 +542,13 @@ public class fNavigator extends JFrame
 			final fBookParam frm = new fBookParam(bp);
 			frm.setAppPreferencePath(Autumn.PREFERENCE_PATH);
 			frm.setTitle(_aut.getString("BookParam.Title"));
-			frm.setIconImage(_aut.getImageIcon("icons/configure.png").getImage());
+			frm.setIconImage(_aut.getImageIcon("configure.png").getImage());
 	
 			frm.setEditable(true);
-			frm.actPageAdd.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/page_add.png"));
-			frm.actPageEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/page_edit.png"));
-			frm.actPageRemove.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/page_remove.png"));
-			frm.actParamsEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("icons/params_edit.png"));
+			frm.actPageAdd.putValue(Action.SMALL_ICON, _aut.getImageIcon("page_add.png"));
+			frm.actPageEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("page_edit.png"));
+			frm.actPageRemove.putValue(Action.SMALL_ICON, _aut.getImageIcon("page_remove.png"));
+			frm.actParamsEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("params_edit.png"));
 		
 			frm.addWindowListener(new WindowAdapter() 
 			{
@@ -776,7 +776,7 @@ public class fNavigator extends JFrame
 //				_aut.getString("Label.DlgPassword.Password"),
 //				aFileName, // _aut.getString("Titles.DlgPassword"),
 //				JOptionPane.PLAIN_MESSAGE // .OK_CANCEL_OPTION
-//				 //_aut.getImageIcon("icons/password.png")
+//				 //_aut.getImageIcon("password.png")
 //		); 
 	}
 	

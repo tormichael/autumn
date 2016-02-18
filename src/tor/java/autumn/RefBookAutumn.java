@@ -17,11 +17,14 @@ import JCommonTools.RefBook.rbNode;
 public class RefBookAutumn
 {
 	public final static String RB_DEFAUL_FILENAME = "autumn.rfb";
+	
 	public final static String RB_ALIAS_VTN_TYPE = "vtn_type";
 	public final static String RB_ALIAS_VTN_TYPE_EMAIL = "EMAIL";
 	public final static String RB_ALIAS_VTN_MODE = "vtn_mode";
 	public final static String RB_ALIAS_ADDRESS_TYPE = "address_type";
 	public final static String RB_ALIAS_COUNTRY = "country";
+	public final static String RB_ALIAS_OWNERSHIP = "ownership";
+	public final static String RB_ALIAS_CODE_ID = "CODE_ID";
 	
 	private RefBook _rb;
 	private Autumn _aut;
@@ -32,6 +35,8 @@ public class RefBookAutumn
 	private rbNode _rbnContactMode;
 	private rbNode _rbnAddressType;
 	private rbNode _rbnCountry;
+	private rbNode _rbnOwnership;
+	private rbNode _rbnCodeID;
 	
 	public RefBook getRB()
 	{
@@ -70,6 +75,20 @@ public class RefBookAutumn
 
 		return _rbnCountry;
 	}
+	public rbNode getNodeOwnership()
+	{
+		if (_rbnOwnership == null)
+			_rbnOwnership = _rb.getRefBookNode().findByAlias(RB_ALIAS_OWNERSHIP);		
+
+		return _rbnOwnership;
+	}
+	public rbNode getNodeCodeID()
+	{
+		if (_rbnCodeID == null)
+			_rbnCodeID = _rb.getRefBookNode().findByAlias(RB_ALIAS_CODE_ID);		
+
+		return _rbnCodeID;
+	}
 //	public rbNode getNodeXXX()
 //	{
 //		if (_rbnXXX == null)
@@ -95,6 +114,10 @@ public class RefBookAutumn
 	{
 		_rbnContactType = null;
 		_rbnContactMode = null;
+		_rbnAddressType = null;
+		_rbnCountry = null;
+		_rbnOwnership = null;
+		_rbnCodeID = null;
 	}
 
 	public void LoadDefault()

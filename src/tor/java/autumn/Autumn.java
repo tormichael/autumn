@@ -32,7 +32,7 @@ public class Autumn
 	private RefBookAutumn	_rfb;
 	
 	public final static String FN_RESOURCE_TEXT = "autumnText";
-	public final static String FD_RESOURCE_ICONS = "img/";
+	public final static String FD_RESOURCE_ICONS = "img/icons/";
 	public final static String FD_RESOURCE_IMAGE = "img/";
 	public final static String FD_RESOURCE_IMAGE_AUTUMN = "img/autumn/";
 	

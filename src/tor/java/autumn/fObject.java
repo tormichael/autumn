@@ -145,15 +145,15 @@ public class fObject extends JFrame
 		//actCreate.putValue(Action.SMALL_ICON, CreateIcon("new.png", Start.TOOL_BAR_ICON_SIZE));
 		//bar.add(actCreate);
 
-		actLoad.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/open.png"));
-		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/save.png"));
+		actLoad.putValue(Action.SMALL_ICON, mAut.getImageIcon("open.png"));
+		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("save.png"));
 		
 		mBtnViewImage = new JToggleButton(actViewImages);
-		actViewImages.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/image.png"));
+		actViewImages.putValue(Action.SMALL_ICON, mAut.getImageIcon("pages/image.png"));
 		mTBar.add(mBtnViewImage);
 
 		mBtnViewNote = new JToggleButton(actViewNotes);
-		actViewNotes.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/txt.png"));
+		actViewNotes.putValue(Action.SMALL_ICON, mAut.getImageIcon("pages/txt.png"));
 		mTBar.add(mBtnViewNote);
 		
 		_pnl = new JPanel(new BorderLayout());

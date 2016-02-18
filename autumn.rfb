@@ -112,6 +112,50 @@
                 <Nodes>
                     <Node>
                         <Nodes/>
+                        <alias>ИНН</alias>
+                        <id>6110</id>
+                        <name>Индивидуальный номер налогоплательщика</name>
+                    </Node>
+                    <Node>
+                        <Nodes/>
+                        <alias>СНИЛС</alias>
+                        <id>6120</id>
+                        <name>Страховой номер индивидуального лицевого счёта</name>
+                    </Node>
+                </Nodes>
+                <alias>code_id</alias>
+                <id>6000</id>
+                <name>Коды и идентификаторы</name>
+            </Node>
+            <Node>
+                <Nodes>
+                    <Node>
+                        <Nodes/>
+                        <alias>частная</alias>
+                        <id>8110</id>
+                        <name>Частная собственность</name>
+                    </Node>
+                    <Node>
+                        <Nodes/>
+                        <alias>ПАО</alias>
+                        <id>8120</id>
+                        <name>Публичное акционерное общество</name>
+                    </Node>
+                    <Node>
+                        <Nodes/>
+                        <alias>ЗАО</alias>
+                        <id>8130</id>
+                        <name>Закрытое акционерное общество</name>
+                    </Node>
+                </Nodes>
+                <alias>ownership</alias>
+                <id>8100</id>
+                <name>Форма собственности</name>
+            </Node>
+            <Node>
+                <Nodes>
+                    <Node>
+                        <Nodes/>
                         <alias>UA</alias>
                         <id>3804</id>
                         <name>Украина</name>
@@ -132,7 +176,7 @@
                         <Nodes/>
                         <alias>US</alias>
                         <id>3840</id>
-                        <name>Соединенные Штаты Америки</name>
+                        <name>США</name>
                     </Node>
                     <Node>
                         <Nodes/>

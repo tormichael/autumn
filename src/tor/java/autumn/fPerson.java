@@ -83,25 +83,25 @@ public class fPerson extends fObject
 	
 		//_mnuFileSave.setAction(actSave);
 //		mBtnSave.setAction(actSave);
-//		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/save.png"));
+//		actSave.putValue(Action.SMALL_ICON, mAut.getImageIcon("save.png"));
 		
 		_btnViewFIO = new JToggleButton(actViewFIO);
-		actViewFIO.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/source_h.png"));
+		actViewFIO.putValue(Action.SMALL_ICON, mAut.getImageIcon("pages/source_h.png"));
 		mTBar.add(_btnViewFIO, 0);
 
 		_btnViewPhone = new JToggleButton(actViewPhones);
-		actViewPhones.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/source_moc.png"));
+		actViewPhones.putValue(Action.SMALL_ICON, mAut.getImageIcon("pages/source_moc.png"));
 		mTBar.add(_btnViewPhone, 1);
 		
 		_btnViewAddress = new JToggleButton(actViewAddress);
-		actViewAddress.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/message.png"));
+		actViewAddress.putValue(Action.SMALL_ICON, mAut.getImageIcon("pages/message.png"));
 		mTBar.add(_btnViewAddress, 2);
 
 		_mnuOptReplaceFLName = new JMenuItem(actReplaceFLName);
 		mMnuOption.add(_mnuOptReplaceFLName);
 //		mTBar.add(new JSeparator());
 //		_btnReplaceFLName = new JButton(actReplaceFLName);
-//		actReplaceFLName.putValue(Action.SMALL_ICON, mAut.getImageIcon("icons/pages/tar.png"));
+//		actReplaceFLName.putValue(Action.SMALL_ICON, mAut.getImageIcon("pages/tar.png"));
 //		mTBar.add(_btnReplaceFLName);
 		
 	}
@@ -312,24 +312,13 @@ public class fPerson extends fObject
 		_mnuOptReplaceFLName.setText(mAut.getString("Menu.Options.ReplaceFLName"));
 	}
 	
-	protected void mLoadPreference(Preferences aNode)
-	{
-		super.mLoadPreference(aNode);
-		
-//		if (aNode.getBoolean("isFIOShow", false))
-//			_btnViewFIO.doClick();
-//		if (aNode.getBoolean("isPhoneShow", false))
-//			_btnViewPhone.doClick();
-//		if (aNode.getBoolean("isAddressShow", false))
-//			_btnViewAddress.doClick();
-	}
-	
-	protected void mSavePreference(Preferences aNode)
-	{
-		super.mSavePreference(aNode);
-		
-//		aNode.putBoolean("isFIOShow", _btnViewFIO.isSelected());
-//		aNode.putBoolean("isPhoneShow", _btnViewPhone.isSelected());
-//		aNode.putBoolean("isAddressShow", _btnViewAddress.isSelected());
-	}
+//	protected void mLoadPreference(Preferences aNode)
+//	{
+//		super.mLoadPreference(aNode);
+//	}
+//	
+//	protected void mSavePreference(Preferences aNode)
+//	{
+//		super.mSavePreference(aNode);
+//	}
 }
