@@ -15,6 +15,7 @@ import java.io.File;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Calendar;
 import java.util.Random;
 import java.util.prefs.Preferences;
 
@@ -493,7 +494,10 @@ public class fNavigator extends JFrame
 		{
 			setCurrentFileName(_getSavedFileName()); 
 			if (_currFileName != null)
+			{
+				_aut.getRegister().setDateCreated(Calendar.getInstance().getTime());
 				_save();
+			}
 		}
 	};
 
@@ -533,13 +537,13 @@ public class fNavigator extends JFrame
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			BookParam bp = BookParam.Load(_aut.getRegister().getBookParamFileName());
-			if (bp == null)
-			{
-				bp = new BookParam();
-				bp.getBookPage().setPrefsNode(Autumn.PREFERENCE_PATH);
-			}
-			final fBookParam frm = new fBookParam(bp);
+//			BookParam bp = BookParam.Load(_aut.getRegister().getBookParamFileName());
+//			if (bp == null)
+//			{
+//				bp = new BookParam();
+//				bp.getBookPage().setPrefsNode(Autumn.PREFERENCE_PATH);
+//			}
+			final fBookParam frm = new fBookParam(_aut.getBookParam());
 			frm.setAppPreferencePath(Autumn.PREFERENCE_PATH);
 			frm.setTitle(_aut.getString("BookParam.Title"));
 			frm.setIconImage(_aut.getImageIcon("configure.png").getImage());
@@ -550,18 +554,18 @@ public class fNavigator extends JFrame
 			frm.actPageRemove.putValue(Action.SMALL_ICON, _aut.getImageIcon("page_remove.png"));
 			frm.actParamsEdit.putValue(Action.SMALL_ICON, _aut.getImageIcon("params_edit.png"));
 		
-			frm.addWindowListener(new WindowAdapter() 
-			{
-				@Override
-				public void windowClosing(WindowEvent e) 
-				{
-					frm.removeWindowListener(this);
-					if (frm.getCurrentFileName() != null && frm.getCurrentFileName().length()>0) 
-						_aut.getRegister().setBookParamFileName(frm.getCurrentFileName());
-					
-					super.windowClosing(e);
-				};
-			});
+//			frm.addWindowListener(new WindowAdapter() 
+//			{
+//				@Override
+//				public void windowClosing(WindowEvent e) 
+//				{
+//					frm.removeWindowListener(this);
+//					if (frm.getCurrentFileName() != null && frm.getCurrentFileName().length()>0) 
+//						_aut.getRegister().setBookParamFileName(frm.getCurrentFileName());
+//					
+//					super.windowClosing(e);
+//				};
+//			});
 			
 			frm.setVisible(true);
 			if (frm.IsOk())

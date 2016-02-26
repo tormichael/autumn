@@ -2,12 +2,18 @@ package tor.java.autumn;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.Window;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.prefs.Preferences;
@@ -27,6 +33,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import tor.java.autumn.IntFrame.infAddress;
@@ -38,6 +45,7 @@ import tor.java.autumn.IntFrame.infPhones;
 import tor.java.thirteen.card.tObj;
 import tor.java.thirteen.card.tPerson;
 import tor.java.thirteen.card.tRegister;
+import tor.java.thirteen.parser.PaPerson;
 import JCommonTools.AsRegister;
 import JCommonTools.FileNameTools;
 import JCommonTools.Dialog.dPassword;
@@ -52,6 +60,7 @@ public class fPerson extends fObject
 	//private tPerson				_prs;
 
 	private JMenuItem 			_mnuOptReplaceFLName;
+	private JMenuItem 			_mnuOptPastFLName;
 	
 	private infFIO						_frmFIO;
 	private infPhones				_frmPhones;
@@ -60,7 +69,7 @@ public class fPerson extends fObject
 	private JToggleButton 		_btnViewFIO;
 	private JToggleButton 		_btnViewPhone;
 	private JToggleButton 		_btnViewAddress;
-	private JButton 					_btnReplaceFLName;
+	//private JButton 					_btnReplaceFLName;
 	
 	protected void setPerson(tPerson aPrs)
 	{
@@ -99,6 +108,10 @@ public class fPerson extends fObject
 
 		_mnuOptReplaceFLName = new JMenuItem(actReplaceFLName);
 		mMnuOption.add(_mnuOptReplaceFLName);
+		_mnuOptPastFLName = new JMenuItem(actPastFLName);
+		mMnuOption.add(_mnuOptPastFLName);
+		_mnuOptPastFLName.setAccelerator(KeyStroke.getKeyStroke("ctrl 2"));
+		
 //		mTBar.add(new JSeparator());
 //		_btnReplaceFLName = new JButton(actReplaceFLName);
 //		actReplaceFLName.putValue(Action.SMALL_ICON, mAut.getImageIcon("pages/tar.png"));
@@ -303,6 +316,37 @@ public class fPerson extends fObject
 				_frmFIO.Load();
 		}
 	};
+
+	Action actPastFLName = new AbstractAction()
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			String fio = null;
+			Transferable transferable = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
+			if (transferable != null && transferable.isDataFlavorSupported(DataFlavor.stringFlavor))
+			{
+				try
+				{
+					fio =(String) transferable.getTransferData(DataFlavor.stringFlavor);
+				}
+				catch (Exception ex)
+				{
+					ex.printStackTrace();
+				}
+			}
+			if (fio != null)
+			{
+				PaPerson pp = new PaPerson(PaPerson.FMT_F_I_O);
+				pp.Run(fio);
+				getPerson().setLName(pp.getPerson().getLName());
+				getPerson().setFName(pp.getPerson().getFName());
+				getPerson().setPName(pp.getPerson().getPName());
+				if (_frmFIO != null)
+					_frmFIO.Load();
+			}
+		}
+	};
 	
 	protected void UpdateLanguage()
 	{
@@ -310,6 +354,7 @@ public class fPerson extends fObject
 		
 		setTitle(mAut.getString("Titles.wPerson"));
 		_mnuOptReplaceFLName.setText(mAut.getString("Menu.Options.ReplaceFLName"));
+		_mnuOptPastFLName.setText(mAut.getString("Menu.Options.PastFLName"));
 	}
 	
 //	protected void mLoadPreference(Preferences aNode)

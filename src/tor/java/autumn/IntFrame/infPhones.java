@@ -1,50 +1,29 @@
 package tor.java.autumn.IntFrame;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.text.RuleBasedCollator;
+import java.util.ArrayList;
 import java.util.prefs.Preferences;
 
-import javax.swing.CellRendererPane;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultCellEditor;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
-import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.PopupMenuEvent;
-import javax.swing.event.PopupMenuListener;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
 import JCommonTools.CC;
 import JCommonTools.TableTools;
 import JCommonTools.RefBook.RBComboBoxCellEdit;
-import JCommonTools.RefBook.RefBook;
 import JCommonTools.RefBook.fRefBook;
 import JCommonTools.RefBook.rbNode;
 import tor.java.autumn.Autumn;
 import tor.java.autumn.PhoneTableModel;
 import tor.java.thirteen.card.tObj;
 import tor.java.thirteen.card.tPerson;
+import tor.java.thirteen.card.tVTN;
 
 public class infPhones extends infBase 
 {
@@ -81,6 +60,12 @@ public class infPhones extends infBase
 		
 		Preferences node = Preferences.userRoot().node(mPrefPath);
 		TableTools.SetColumnsWidthFromString(_tabConnection, node.get("TabColWidth_Connection", CC.STR_EMPTY));
+	
+		JPopupMenu pum = new JPopupMenu();
+		JMenuItem pumiDel = new JMenuItem(actTabRowDelete);
+		pumiDel.setText(mAut.getString("PopupMenu.intPhones.Delete"));
+		pum.add(pumiDel);
+		_tabConnection.setComponentPopupMenu(pum);
 	}	
 	
 	public void Load()
@@ -95,4 +80,22 @@ public class infPhones extends infBase
 		node.put("TabColWidth_Connection", TableTools.GetColumnsWidthAsString(_tabConnection));
 	}
 
+	Action actTabRowDelete = new AbstractAction() 
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			if (_tabConnection.getSelectedRowCount() >= 1)
+			{
+				ArrayList<tVTN> cnts = ((tPerson)mObj).getContactColl();
+				int[] iSelRow = _tabConnection.getSelectedRows(); 
+				for(int ii=iSelRow.length-1; ii >= 0; ii--)
+				{
+					cnts.remove(iSelRow[ii]);
+				}
+				_tabConnection.updateUI();
+			}
+		}
+	};
+	
 }

@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 
 import JCommonTools.CodeText;
 import JCommonTools.Tools;
+import JCommonTools.Param.BookParam;
 import JCommonTools.RefBook.RefBook;
 import tor.java.thirteen.card.tObj;
 import tor.java.thirteen.card.tOrg;
@@ -30,11 +31,21 @@ public class Autumn
 	private ArrayList<CodeText>	_arrObjType;
 	private ResourceBundle 	_bnd;
 	private RefBookAutumn	_rfb;
+	private BookParam 			_bp;
 	
 	public final static String FN_RESOURCE_TEXT = "autumnText";
 	public final static String FD_RESOURCE_ICONS = "img/icons/";
 	public final static String FD_RESOURCE_IMAGE = "img/";
 	public final static String FD_RESOURCE_IMAGE_AUTUMN = "img/autumn/";
+
+	public final static String ARGS_HELP = "help";
+	public final static String ARGS_HELP_S = "h";
+	public final static String ARGS_PARAM = "parameter";
+	public final static String ARGS_PARAM_S = "prm";
+	public final static String ARGS_PERSON = "person";
+	public final static String ARGS_PERSON_S = "prs";
+	public final static String ARGS_ORG = "organization";
+	public final static String ARGS_ORG_S = "org";
 	
 	public final static String PREFERENCE_PATH = "/autumn";
 	public final static String PARAM_DEFAUL_FN = "autumn.bpr";
@@ -61,7 +72,19 @@ public class Autumn
 	public void setRegister(tRegister aReg)
 	{
 		_ore = aReg;
-		_rfb.Load(_ore.getRefBookFileName());
+		if (_ore.getRefBookFileName() != null && _ore.getRefBookFileName().length() > 0)
+			_rfb.Load(_ore.getRefBookFileName());
+		else
+			_rfb.LoadDefault();
+	}
+	
+	public BookParam getBookParam()
+	{
+		return _bp;
+	}
+	public void setBookParam(BookParam aBP)
+	{
+		_bp = aBP;
 	}
 	
 	public RefBookAutumn getRefbook()
@@ -79,39 +102,105 @@ public class Autumn
 	}
 	/**
 	 * @param args
+	 * 		-h [--help] 					= this text  
+	 * 		-prm [--parameter] filename  = set parameters file
+	 * 		-prs [--person] <filename> = open personal form only with file <filename> if exist 
+	 * 		-org [--organization] <filename>	= open organization form only with file <filename> if exist
 	 */
 	public static void main (String[] args) 
 	{
-		//wPerson prsn = new wPerson(new Autumn());
-		//fPerson prsn = new fPerson(new Autumn());
-		
 		Autumn aut = new Autumn();
 		
-		if (args != null && args.length > 0)
+		boolean isHelp = false;
+		JFrame frm = null;
+		for (int ii = 0; ii < args.length; ii++)
 		{
-			if (args[0].endsWith(tPerson.FILE_EXTENTION)
-				|| args[0].endsWith(tPerson.FILE_EXTENTION_CIPHER)
-				|| args[0].endsWith(PersonalVCard.FILE_EXTENTION))
+			if (args[ii].equals(ARGS_HELP) || args[ii].equals(ARGS_HELP_S))
+			{
+				isHelp = true;
+				break;
+			}
+			else if (args[ii].equals(ARGS_PARAM) || args[ii].equals(ARGS_PARAM_S))
+			{
+				ii++;
+				if (ii < args.length)
+				{
+					aut.setBookParam(BookParam.Load(args[ii]));
+				}
+				else
+				{
+					isHelp = true;
+					break;
+				}
+			}
+			else if (args[ii].equals(ARGS_PERSON) || args[ii].equals(ARGS_PERSON_S))
 			{
 				fPerson fp = new fPerson(aut);
 				fp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-				fp.LoadFromFile(args[0]);
-				fp.setVisible(true);
+				ii++;
+				if (ii < args.length)
+				{
+					if (args[ii].endsWith(tPerson.FILE_EXTENTION)
+					|| args[ii].endsWith(tPerson.FILE_EXTENTION_CIPHER)
+					|| args[ii].endsWith(PersonalVCard.FILE_EXTENTION))
+					{
+						fp.LoadFromFile(args[ii]);
+					}
+				}
+				frm = fp;
+			}
+			else if (args[ii].equals(ARGS_ORG) || args[ii].equals(ARGS_ORG_S))
+			{
+				fOrg org = new fOrg(aut);
+				org.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//				ii++;
+//				if (ii < args.length)
+//				{
+//					if (args[ii].endsWith(tPerson.FILE_EXTENTION)
+//					|| args[ii].endsWith(tPerson.FILE_EXTENTION_CIPHER)
+//					|| args[ii].endsWith(PersonalVCard.FILE_EXTENTION))
+//					{
+//						org.LoadFromFile(args[ii]);
+//					}
+//				}
+				frm = org;
+			}
+			else
+			{
+				isHelp = true;
+				break;
 			}
 		}
-		else
+		
+		if (isHelp)
 		{
-			fNavigator nav = new fNavigator(aut);
-			nav.setVisible(true);
+			System.out.println(String.format(aut.getString("Text.Args.help"), 
+					ARGS_HELP_S, ARGS_HELP,
+					ARGS_PARAM_S, ARGS_PARAM,
+					ARGS_PERSON_S, ARGS_PERSON,
+					ARGS_ORG_S, ARGS_ORG
+				) 
+			);
 		}
+		else if (frm == null)
+		{
+			frm = new fNavigator(aut);
+		}
+		
+		if (aut.getBookParam() == null)
+		{
+			aut.setBookParam(BookParam.Load(PARAM_DEFAUL_FN));
+		}
+		
+		frm.setVisible(true);
 	}
 	
 	public Autumn()
 	{
-		_ore = new tRegister();
-		_bnd = ResourceBundle.getBundle(Autumn.FN_RESOURCE_TEXT, Locale.getDefault());
 		_rfb = new RefBookAutumn(this);
-		_rfb.LoadDefault();
+		_bp = null; //new BookParam();
+		setRegister(new tRegister());
+		_bnd = ResourceBundle.getBundle(Autumn.FN_RESOURCE_TEXT, Locale.getDefault());
 		initObjTypeArray();
 	}
 	

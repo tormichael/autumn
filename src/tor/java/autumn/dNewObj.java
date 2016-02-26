@@ -18,9 +18,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+
 //import sun.awt.HorizBagLayout;
 import tor.java.thirteen.card.tObj;
-
 import JCommonTools.AsRegister;
 import JCommonTools.CC;
 import JCommonTools.CodeText;
@@ -60,7 +60,7 @@ public class dNewObj extends JDialog
 		this.setTitle(_aut.getString("Titles.dNewObj"));
 		this.setModal(true);
 		//this.setModalityType(ModalityType.TOOLKIT_MODAL);
-		this.setSize(450, 180);
+		this.setSize(350, 180);
 		
 		GridBagLayout gbl = new GridBagLayout();
 		JPanel pnl =new JPanel(gbl);
@@ -117,7 +117,8 @@ public class dNewObj extends JDialog
 			if (_actOk != null)
 			{
 				_actOk.actionPerformed(new ActionEvent(dNewObj.this, 0, CC.STR_EMPTY));
-				setVisible(false);
+				//setVisible(false);
+				dNewObj.this.dispatchEvent(new WindowEvent(dNewObj.this, WindowEvent.WINDOW_CLOSING));
 			}
 			else
 			{
@@ -141,6 +142,15 @@ public class dNewObj extends JDialog
 		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/dNewObj");
 		AsRegister.LoadWindowLocation(node, this);
 		AsRegister.LoadWindowSize(node, this);
+		int lastTypeCode = node.getInt("LastType", tObj.getType());
+		for (int ii=0; ii < _cboType.getModel().getSize(); ii++ )
+		{
+			if (_cboType.getModel().getElementAt(ii).getCode() == lastTypeCode)
+			{
+				_cboType.getModel().setSelectedItem(_cboType.getModel().getElementAt(ii));
+				break;
+			}
+		}
 	}
 
 	private void SaveProgramPreference()
@@ -148,5 +158,11 @@ public class dNewObj extends JDialog
 		Preferences node = Preferences.userRoot().node(Autumn.PREFERENCE_PATH+"/dNewObj");
 		AsRegister.SaveWindowLocation(node, this);
 		AsRegister.SaveWindowSize(node, this);
+		CodeText ct = (CodeText)_cboType.getSelectedItem();
+		if (ct != null)
+		{
+			node.putInt("LastType", ct.getCode());
+		}
 	}
+		
 }

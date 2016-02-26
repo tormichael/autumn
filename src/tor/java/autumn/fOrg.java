@@ -9,15 +9,16 @@ import javax.swing.JToggleButton;
 import tor.java.autumn.IntFrame.infAddress;
 import tor.java.autumn.IntFrame.infBase;
 import tor.java.autumn.IntFrame.infFIO;
+import tor.java.autumn.IntFrame.infOrg;
 import tor.java.autumn.IntFrame.infPhones;
 
 public class fOrg extends fObject 
 {
-	//private infFIO						_frmFIO;
+	private infOrg						_frmOrg;
 	private infPhones				_frmPhones;
 	private infAddress				_frmAddress;
 	
-	//private JToggleButton 		_btnViewFIO;
+	private JToggleButton 		_btnViewOrg;
 	private JToggleButton 		_btnViewPhone;
 	private JToggleButton 		_btnViewAddress;
 
@@ -27,9 +28,9 @@ public class fOrg extends fObject
 		
 		setPreferencePath("fOrg");
 
-		//_btnViewFIO = new JToggleButton(actViewFIO);
-		//actViewFIO.putValue(Action.SMALL_ICON, mAut.getImageIcon("pages/source_h.png"));
-		//mTBar.add(_btnViewFIO, 0);
+		_btnViewOrg = new JToggleButton(actViewOrg);
+		actViewOrg.putValue(Action.SMALL_ICON, mAut.getImageIcon("pages/source_h.png"));
+		mTBar.add(_btnViewOrg, 0);
 
 		_btnViewPhone = new JToggleButton(actViewPhones);
 		actViewPhones.putValue(Action.SMALL_ICON, mAut.getImageIcon("pages/source_moc.png"));
@@ -42,9 +43,9 @@ public class fOrg extends fObject
 
 	protected void mCreatInfXXX(String aName)
 	{
-		if (aName.equals(infBase.getClassNameOnly(infFIO.class)))
+		if (aName.equals(infBase.getClassNameOnly(infOrg.class)))
 		{
-			//_btnViewFIO.doClick();
+			_btnViewOrg.doClick();
 		}
 		else if (aName.equals(infBase.getClassNameOnly(infAddress.class)))
 		{
@@ -60,14 +61,14 @@ public class fOrg extends fObject
 		}
 	}
 	
-//	Action actViewFIO = new AbstractAction() 
-//	{
-//		@Override
-//		public void actionPerformed(ActionEvent arg0) 
-//		{
-//			_frmFIO = (infFIO)showHideFrm(_frmFIO, infFIO.class.getName(), _btnViewFIO);
-//		}
-//	};
+	Action actViewOrg = new AbstractAction() 
+	{
+		@Override
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			_frmOrg = (infOrg)showHideFrm(_frmOrg, infOrg.class.getName(), _btnViewOrg);
+		}
+	};
 	
 	Action actViewPhones = new AbstractAction() 
 	{
